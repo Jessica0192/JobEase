@@ -5,3 +5,5 @@
 .idea
 # Byte-compiled / optimized / DLL files
 __pycache__/
+# Environment variables for database connection
+.env

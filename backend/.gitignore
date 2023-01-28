@@ -1,4 +1,7 @@
 # Default ignored files
 /venv/*
 .DS_Store
+# Skip the Intellij's project specific settings files
 .idea
+# Byte-compiled / optimized / DLL files
+__pycache__/

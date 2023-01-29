@@ -9,6 +9,7 @@ load_dotenv(dotenv_path=env_path)
 class Settings:
     PROJECT_NAME: str = "JobEase"
     PROJECT_VERSION: str = "1.0.0"
+    PROJECT_DESCRIPTION: str = "Job application management system"
 
     MYSQL_USER: str = os.getenv("MYSQL_USER")
     MYSQL_PASSWORD: str = os.getenv("MYSQL_PASSWORD")

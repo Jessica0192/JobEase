@@ -83,6 +83,19 @@
   </div>
 </template>
 
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js'></script>
+<script>
+    axios({
+        url: 'https://cors-proxy.org/api/',
+        method: 'get',
+        headers: {
+            'cors-proxy-url' : 'https://google.com/' // 이 부분을 이용하는 서버 URL로 변경
+        },
+    }).then((res) => {
+        console.log(res.data);
+    })
+</script>
+
 <script>
 export default {
   name: 'HelloWorld',

@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import axios from 'axios'
 
 Vue.config.productionTip = false
 
@@ -17,15 +16,5 @@ new Vue({
   },
   router,
   components: { App },
-  template: '<App/>',
-  mounted () {
-    axios
-      .get('http://localhost:8000/hello/jessica')
-      .then(response => {
-        (this.info = response)
-        console.log(response)
-      }, (error) => {
-        console.log(error)
-      })
-  }
+  template: '<App/>'
 })

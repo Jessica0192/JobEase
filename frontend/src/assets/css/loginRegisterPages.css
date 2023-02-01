@@ -11,30 +11,26 @@ p {
 .form-group {
   margin-bottom: 20px;
 }
-.login-page {
+.login-page,
+.register-page{
   text-align: center;
   align-items: center;
   height: 100vh;
 }
-.login-page .wallpaper-login {
-  height: 100%;
-  width: 100%;
-}
 .login-page .fade-enter-active,
-.login-page .fade-leave-active {
+.login-page .fade-leave-active,
+.register-page .fade-enter-active,
+.register-page .fade-leave-active{
   transition: opacity 0.5s;
 }
 .login-page .fade-enter,
-.login-page .fade-leave-to {
+.login-page .fade-leave-to,
+.register-page .fade-enter,
+.register-page .fade-leave-to{
   opacity: 0;
 }
-.login-page .wallpaper-register {
-  height: 100%;
-  position: relative;
-  width: 100%;
-  z-index: -1;
-}
-.login-page h1 {
+.login-page h1,
+.register-page h1{
   margin-bottom: 1.5rem;
 }
 .error {

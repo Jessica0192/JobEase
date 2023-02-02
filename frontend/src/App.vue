@@ -1,13 +1,22 @@
 <template>
-  <div id="app">
-    <h1>JobEase</h1>
+<div>
+  <Sidebar/>
+  <div id="app" :style="{ 'margin-left': sidebarWidth }">
+    <!-- <h1>JobEase</h1> -->
     <router-view/>
   </div>
+</div>
 </template>
 
 <script>
+import Sidebar from '@/components/sidebar/Sidebar.vue'
+import { sidebarWidth } from '@/components/sidebar/state'
 export default {
-  name: 'App'
+  name: 'App',
+  components: { Sidebar },
+  setup () {
+    return { sidebarWidth }
+  }
 }
 </script>
 
@@ -18,6 +27,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 30px;
-  text-align: left;
+  text-align: center;
 }
 </style>

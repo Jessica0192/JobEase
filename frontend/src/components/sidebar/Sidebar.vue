@@ -10,12 +10,12 @@
     </span>
     <span v-else>
         <SidebarLink to="/dashboard" icon="fas fa-home">Dashboard</SidebarLink>
-        <SidebarLink to="/jobRecords" icon="fas fa-chart-bar">Job Records</SidebarLink>
-        <SidebarLink to="/calendar" icon="fas fa-users">Calendar</SidebarLink>
-        <SidebarLink to="/resources" icon="fas fa-image">Resources</SidebarLink>
+        <SidebarLink to="/jobRecords" icon="fas fa-th-list">Job Records</SidebarLink>
+        <SidebarLink to="/calendar" icon="fas fa-calendar-alt">Calendar</SidebarLink>
+        <SidebarLink to="/resources" icon="fas fa-window-restore">Resources</SidebarLink>
         <SidebarLink to="/portfolios" icon="fas fa-columns">Portfolios</SidebarLink>
-        <SidebarLink to="/resumeBuilder" icon="fas fa-columns">Resume Builder</SidebarLink>
-        <SidebarLink to="/communityBlog" icon="fas fa-columns">Community Blog</SidebarLink>
+        <SidebarLink to="/resumeBuilder" icon="fas fa-tools">Resume Builder</SidebarLink>
+        <SidebarLink to="/communityBlog" icon="fas fa-link">Community Blog</SidebarLink>
     </span>
 
     <span class="collapse-icon" :class="{ 'rotate-180': collapsed}" @click="toggleSidebar">

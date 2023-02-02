@@ -1,9 +1,15 @@
 // this is a javascript file for Register.vue page
+
+import {api} from '../services/UserApi.js'
+import router from '../router'
+
 export default {
   name: 'Register',
   // these are properties used in this file
   data: () => ({
     msg: [],
+    firstNameReg: '',
+    lastNameReg: '',
     userNameReg: '',
     emailReg: '',
     passwordReg: '',
@@ -25,16 +31,40 @@ export default {
   },
   // have multiple methods
   methods: {
+    initForm () {
+      this.emailReg = ''
+      this.userNameReg = ''
+      this.passwordReg = ''
+      this.confirmReg = ''
+    },
     // this is going to be called when 'Register' button is pressed
-    doRegister (e) {
+    async doRegister (e) {
       if (this.emailReg === '' || this.passwordReg === '' || this.confirmReg === '') {
         this.emptyFields = true
       } else if (!this.disabled.every(i => i === false)) {
-        alert('Please fill out all the fields in correct format')
         e.preventDefault()
       } else {
-        // call Api-endpoint and if status code is 200 navigate back to login page
-        alert('You are now registered')
+        try {
+          e.preventDefault()
+          // create data in json format
+          const userData = {
+            first_name: this.firstNameReg,
+            last_name: this.lastNameReg,
+            email: this.emailReg,
+            username: this.userNameReg,
+            password: this.passwordReg
+          }
+          // API call
+          await api.createUser('create_user', JSON.stringify(userData)).then(res => {
+            console.log(res)
+            if (res.status === 200) {
+              this.initForm()
+              router.push('Login')
+            }
+          })
+        } catch (exception) {
+          console.log(exception)
+        }
       }
     },
     // this is going to be called from 'watch' and validates email input format

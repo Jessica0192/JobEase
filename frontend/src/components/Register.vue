@@ -12,7 +12,9 @@
                <div class="card register" v-bind:class="{ error: emptyFields }">
                   <h2>Sign Up</h2>
                   <form class="form-group" data-url_root="/login">
-                    <input v-model="userNameReg" id="userName" type="text" class="form-control" placeholder="User Name" required>
+                    <input v-model="firstNameReg" id="firstName" type="text" class="form-control" placeholder="First Name" required>
+                    <input v-model="lastNameReg" id="lastName" type="text" class="form-control" placeholder="Last Name" required>
+                     <input v-model="userNameReg" id="userName" type="text" class="form-control" placeholder="User Name" required>
                      <input v-model="emailReg" id="email" type="email" class="form-control" placeholder="Email" required>
                      <span style="color:darkred;font-size:4mm" v-if="msg.email">{{msg.email}}</span>
                      <input v-model="passwordReg" id="password" type="password" class="form-control" placeholder="Password" required>

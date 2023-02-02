@@ -3,7 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 
+export const AXIOS = axios
+export const API_URL = 'http://localhost:8000'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

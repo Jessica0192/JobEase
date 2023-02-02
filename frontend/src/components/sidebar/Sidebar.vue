@@ -1,6 +1,8 @@
 <template>
+  <!-- Create a sidebar menu on the left side of the screen -->
   <div class="sidebar" :style="{ width: sidebarWidth }">
     <div class="header">
+      <!-- To display different title based on sidebar is collapsed or not -->
       <span v-if="collapsed">
       </span>
       <span v-else>JobEase</span>
@@ -8,6 +10,7 @@
 
     <span v-if="collapsed">
     </span>
+     <!-- Display the sidebar items when it is open and navigate user based on their selection -->
     <span v-else>
         <SidebarLink to="/dashboard" icon="fas fa-home">Dashboard</SidebarLink>
         <SidebarLink to="/jobRecords" icon="fas fa-th-list">Job Records</SidebarLink>
@@ -18,7 +21,10 @@
         <SidebarLink to="/communityBlog" icon="fas fa-link">Community Blog</SidebarLink>
     </span>
 
+    <!-- To rotate the collapse icon -->
+    <!-- To call the toggle function on click -->
     <span class="collapse-icon" :class="{ 'rotate-180': collapsed}" @click="toggleSidebar">
+      <!-- To add toggle icon -->
         <i class="fas fa-angle-double-left" />
     </span>
   </div>
@@ -31,6 +37,7 @@ import { collapsed, toggleSidebar, sidebarWidth } from './state'
 export default {
   props: {},
   components: { SidebarLink },
+  // Set the width of the sidebar
   setup () {
     return { collapsed, toggleSidebar, sidebarWidth }
   }
@@ -38,6 +45,7 @@ export default {
 </script>
 
 <style>
+/* Global CSS section */
 :root {
   --sidebar-bg-color: #D3D3D3;
   --sidebar-item-hover: #808080;
@@ -68,6 +76,7 @@ export default {
       padding: 0.5em;
       margin-bottom: 0px;
 
+      /* For the smooth transition of the sidebar */
       transition: 0.3s ease;
 
       display: flex;

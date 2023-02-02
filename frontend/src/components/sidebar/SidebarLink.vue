@@ -19,11 +19,15 @@ import { collapsed } from './state'
 
 export default {
   props: {
+    // To navigate user to the URL
     to: { type: String, required: true },
+    // To display an icon beside the URL link
     icon: { type: String, required: true }
   },
   setup (props) {
     const route = new Router()
+    // To check if the link is active. It returns an object that has path property
+    // If this path equal to "to" path passed in, then this rout is active
     const isActive = computed(() => route.path === props.to)
     return { isActive, collapsed }
   }
@@ -31,10 +35,13 @@ export default {
 </script>
 
 <style scoped>
+/* For better transition effect */
+/* When we collapse the sidebar slot is actually getting removed */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.1s;
 }
+/* This is for better start and finish animation */
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
@@ -63,8 +70,5 @@ export default {
   flex-shrink: 0;
   width: 25px;
   margin-right: 10px;
-}
-.active {
-  background-color: lightblue;
 }
 </style>

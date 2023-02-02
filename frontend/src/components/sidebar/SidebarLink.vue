@@ -12,7 +12,7 @@
 
 <script>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import Router from 'vue-router'
 import { collapsed } from './state'
 
 export default {
@@ -21,7 +21,7 @@ export default {
     icon: { type: String, required: true }
   },
   setup (props) {
-    const route = useRoute()
+    const route = new Router()
     const isActive = computed(() => route.path === props.to)
     return { isActive, collapsed }
   }

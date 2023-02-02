@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar" :style="{ width: sidebarWidth }">
-    <h1>
+    <div class="header">
       <span v-if="collapsed">
       </span>
       <span v-else>JobEase</span>
-    </h1>
+    </div>
 
     <span v-if="collapsed">
     </span>
@@ -39,44 +39,57 @@ export default {
 
 <style>
 :root {
-    --sidebar-bg-color: #D3D3D3;
-    --sidebar-item-hover: #808080;
-    --sidebar-item-active: #000000;
+  --sidebar-bg-color: #D3D3D3;
+  --sidebar-item-hover: #808080;
+  --sidebar-item-active: #316fcd;
 }
 </style>
 
 <style scoped>
+    .header {
+      text-align: center;
+      font-weight: bold;
+      font-size: 40px;
+      margin-top: 40px;
+      margin-bottom: 30px;
+      color: darkblue;
+    }
+
     .sidebar{
-        color: #000000;
-        background-color: #D3D3D3;
+      color: #000000;
+      background-color: #D3D3D3;
 
-        float: left;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        padding: 0.5em;
+      float: left;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      padding: 0.5em;
+      margin-bottom: 0px;
 
-        transition: 0.3s ease;
+      transition: 0.3s ease;
 
-        display: flex;
-        flex-direction: column;
+      display: flex;
+      flex-direction: column;
     }
 
     .sidebar h1 {
-        height: 2.5em;
+      height: 2.5em;
     }
 
     .collapse-icon {
-        position: absolute;
-        top: 0;
-        padding: 0.75;
-        transition: 0.2s linear;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0.75;
+      transition: 0.2s linear;
+      margin-right: 10px;
+      margin-top: 10px;
     }
 
     .rotate-180 {
-        transform: rotate(180deg);
-        transition: 0.2s linear;
+      transform: rotate(180deg);
+      transition: 0.2s linear;
     }
 </style>

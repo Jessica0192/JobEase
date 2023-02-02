@@ -35,6 +35,8 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
+    // To not see the sidebar in login page
+    meta: {sidebar: false},
     component: Login
 
   },

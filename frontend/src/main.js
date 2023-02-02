@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+// To have access to icons for our UI
 import '@fortawesome/fontawesome-free/js/all'
 
 Vue.config.productionTip = false

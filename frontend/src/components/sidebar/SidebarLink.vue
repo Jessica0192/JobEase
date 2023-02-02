@@ -1,9 +1,11 @@
 
 <template>
-  <router-link :to="to" class="link" :class="{ active: isActive }">
+  <!-- creates a clickable link for navigating between different routes in the application. -->
+  <router-link :to="to" class="link" v-bind:class="{ active: isActive }">
     <i class="icon" :class="icon" />
     <transition name="fade">
       <span v-if="!collapsed">
+        <!-- a placeholder for content in Sidebar.vue component -->
         <slot />
       </span>
     </transition>
@@ -61,5 +63,8 @@ export default {
   flex-shrink: 0;
   width: 25px;
   margin-right: 10px;
+}
+.active {
+  background-color: lightblue;
 }
 </style>

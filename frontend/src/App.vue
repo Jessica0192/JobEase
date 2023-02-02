@@ -1,6 +1,7 @@
 <template>
 <div>
-  <Sidebar/>
+  <!-- <Sidebar/> -->
+  <Sidebar v-if="shouldShowSidebar"></Sidebar>
   <div id="app" :style="{ 'margin-left': sidebarWidth }">
     <!-- <h1>JobEase</h1> -->
     <router-view/>
@@ -16,6 +17,11 @@ export default {
   components: { Sidebar },
   setup () {
     return { sidebarWidth }
+  },
+  computed: {
+    shouldShowSidebar () {
+      return this.$route.meta.sidebar !== false
+    }
   }
 }
 </script>

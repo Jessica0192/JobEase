@@ -11,7 +11,7 @@
             <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
                <div class="card register" v-bind:class="{ error: emptyFields }">
                   <h2>Sign Up</h2>
-                  <form class="form-group" data-url_root="/login">
+                  <form class="form-group" data-url_root="/login" @submit.prevent="doRegister">
                     <input v-model="firstNameReg" id="firstName" type="text" class="form-control" placeholder="First Name" required>
                     <input v-model="lastNameReg" id="lastName" type="text" class="form-control" placeholder="Last Name" required>
                      <input v-model="userNameReg" id="userName" type="text" class="form-control" placeholder="User Name" required>
@@ -21,7 +21,7 @@
                      <span style="color:darkred;font-size: 4mm" v-if="msg.password">{{msg.password}}</span>
                      <input v-model="confirmReg" id="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" required>
                      <span style="color:darkred;font-size:4mm" v-if="msg.confirmPassword">{{msg.confirmPassword}}</span>
-                     <input type="submit" class="btn btn-primary" @click="doRegister">
+                     <input type="submit" class="btn btn-primary">
                      <p>Already have an account? <a href="/login" @click="emptyFields = false">Sign in here</a>
                      </p>
                   </form>

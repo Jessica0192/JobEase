@@ -1,16 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+// import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import Home from '@/components/Home'
 
 Vue.use(Router)
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'HelloWorld',
+  //   component: HelloWorld,
+  //   meta: {
+  //     needsAuth: true
+  //   }
+  // },
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld
+    name: 'Home',
+    component: Home,
+    meta: {
+      needsAuth: true
+    }
   },
   {
     path: '/login',
@@ -29,6 +41,18 @@ const routes = [
 const router = new Router({
   mode: 'history',
   routes
+})
+
+router.beforeResolve((to, from, next, param) => {
+  if (to.meta.needsAuth) {
+    if (to.query.userLoggedIn) {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()
+  }
 })
 
 // To export our router

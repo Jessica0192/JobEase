@@ -39,13 +39,14 @@ export default {
     },
     // this is going to be called when 'Register' button is pressed
     async doRegister (e) {
-      if (this.emailReg === '' || this.passwordReg === '' || this.confirmReg === '') {
+      if (this.firstNameReg === '' || this.lastNameReg === '' ||
+        this.emailReg === '' || this.passwordReg === '' || this.confirmReg === '') {
         this.emptyFields = true
       } else if (!this.disabled.every(i => i === false)) {
-        e.preventDefault()
+        alert('Please provide inputs in correct format')
+        // e.preventDefault()
       } else {
         try {
-          e.preventDefault()
           // create data in json format
           const userData = {
             first_name: this.firstNameReg,

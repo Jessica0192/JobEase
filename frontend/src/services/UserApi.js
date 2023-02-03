@@ -6,13 +6,16 @@ import { API_URL, API } from './config'
 // these are the api calls specific to User
 export const api = {
   getUserByID (args, param) {
-    return service.get(`${API_URL}${API.user(args)}`, param)
+    return service.get(`${API.user(args)}`, param)
   },
   getAllUsers (args) {
-    return service.get(`${API_URL}${API.user(args)}`)
+    return service.get(`${API.user(args)}`)
   },
   createUser (args, param) {
-    return service.post(`${API_URL}${API.user(args)}`, param)
+    return service.post(`${API.user(args)}`, param)
+  },
+  logInUser (args, param) {
+    return service.post(`${API.user(args)}`, param)
   }
   // setUser (args) {
   //   return service.post(`${API_URL}${API.user(args)}`)
@@ -24,7 +27,7 @@ export const api = {
 
 export const testApi = {
   getTests () {
-    return service.get(`${API_URL}${API.tests}`)
+    return service.get(`${API.tests}`)
   },
   /* Register Test
    * @param { Object } args
@@ -33,6 +36,6 @@ export const testApi = {
    * @param { string } args.args3
    */
   setTest (args) {
-    return service.post(`${API_URL}${API.test(args)}`)
+    return service.post(`${API.test(args)}`)
   }
 }

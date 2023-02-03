@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // Provide basic information according to the project settings.
 const service = axios.create({
-  // baseURL,
+  baseURL: 'http://localhost:8000/'
   // timeout,
   // withCredentials,
 })
@@ -18,10 +18,24 @@ service.interceptors.request.use(
 )
 
 // Include the necessary processing in the response.
-service.interceptors.response.use(
-  (res) => { return res },
-  (error) => Promise.reject(error)
-)
+let refresh = false
+service.interceptors.response.use(resp => resp, async error => {
+  if (error.response.status === 401 && !refresh) {
+    refresh = true
+    const {status, data} = await service.post('refresh', {}, {
+      withCredentials: true
+    })
+
+    if (status === 200) {
+      service.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
+      return service(error.config)
+    }
+  }
+  refresh = false
+  return error
+})
+// (res) => { return res },
+// (error) => Promise.reject(error)
 
 // these are the default methods when calling api call
 export default {

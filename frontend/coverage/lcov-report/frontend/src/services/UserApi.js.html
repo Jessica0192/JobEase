@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for frontend/src/services/UserApi.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">frontend/src/services</a> UserApi.js
+    </h1>
+    <div class='clearfix'>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// this file contains api calls for User Entity
+&nbsp;
+<span class="cstat-no" title="statement not covered" >import service from './service'</span>
+<span class="cstat-no" title="statement not covered" >import { API } from './config'</span>
+&nbsp;
+// these are the api calls specific to User
+export const api = <span class="cstat-no" title="statement not covered" >{</span>
+  getUserByID<span class="fstat-no" title="function not covered" > (</span>args, param) {
+<span class="cstat-no" title="statement not covered" >    return service.get(`${API.user(args)}`, param)</span>
+  },
+  getAllUsers<span class="fstat-no" title="function not covered" > (</span>args) {
+<span class="cstat-no" title="statement not covered" >    return service.get(`${API.user(args)}`)</span>
+  },
+  createUser<span class="fstat-no" title="function not covered" > (</span>args, param) {
+<span class="cstat-no" title="statement not covered" >    return service.post(`${API.user(args)}`, param)</span>
+  },
+  logInUser<span class="fstat-no" title="function not covered" > (</span>args, param) {
+<span class="cstat-no" title="statement not covered" >    return service.post(`${API.user(args)}`, param)</span>
+  }
+  // setUser (args) {
+  //   return service.post(`${API_URL}${API.user(args)}`)
+  // },
+  // updateUser (args, param) {
+  //   return service.put(`${API_URL}${API.user(args)}`, param)
+  // }
+}<span class="cstat-no" title="statement not covered" ></span>
+&nbsp;
+export const testApi = <span class="cstat-no" title="statement not covered" >{</span>
+  getTests<span class="fstat-no" title="function not covered" > () </span>{
+<span class="cstat-no" title="statement not covered" >    return service.get(`${API.tests}`)</span>
+  },
+  /* Register Test
+   * @param { Object } args
+   * @param { string } args.args1
+   * @param { string } args.args2
+   * @param { string } args.args3
+   */
+  setTest<span class="fstat-no" title="function not covered" > (</span>args) {
+<span class="cstat-no" title="statement not covered" >    return service.post(`${API.test(args)}`)</span>
+  }
+}<span class="cstat-no" title="statement not covered" ></span>
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Feb 04 2023 19:07:09 GMT-0500 (Eastern Standard Time)
+</div>
+</div>
+<script src="..\..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\..\sorter.js"></script>
+</body>
+</html>

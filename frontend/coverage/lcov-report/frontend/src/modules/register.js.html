@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for frontend/src/modules/register.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\..\index.html">All files</a> / <a href="index.html">frontend/src/modules</a> register.js
+    </h1>
+    <div class='clearfix'>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// this is a javascript file for Register.vue page
+&nbsp;
+<span class="cstat-no" title="statement not covered" >import {api} from '../services/UserApi.js'</span>
+<span class="cstat-no" title="statement not covered" >import router from '../router'</span>
+&nbsp;
+export default <span class="cstat-no" title="statement not covered" >{</span>
+  name: 'Register',
+  // these are properties used in this file
+  data: <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; ({</span></span>
+    msg: [],
+    firstNameReg: '',
+    lastNameReg: '',
+    userNameReg: '',
+    emailReg: '',
+    passwordReg: '',
+    confirmReg: '',
+    disabled: [true, true, true],
+    emptyFields: false
+    // prevRoute: null
+  }), // the watch property to observe changes in specific data properties and trigger input validation functions.
+  watch: {
+    emailReg<span class="fstat-no" title="function not covered" > (</span>value) {
+<span class="cstat-no" title="statement not covered" >      this.validateEmail(value)</span>
+    },
+    passwordReg<span class="fstat-no" title="function not covered" > (</span>value) {
+<span class="cstat-no" title="statement not covered" >      this.validatePassword(value)</span>
+    },
+    confirmReg<span class="fstat-no" title="function not covered" > (</span>value) {
+<span class="cstat-no" title="statement not covered" >      this.validateConfirmPassword(value)</span>
+    }
+  },
+  // have multiple methods
+  methods: {
+    initForm<span class="fstat-no" title="function not covered" > () </span>{
+<span class="cstat-no" title="statement not covered" >      this.emailReg = ''</span>
+<span class="cstat-no" title="statement not covered" >      this.userNameReg = ''</span>
+<span class="cstat-no" title="statement not covered" >      this.passwordReg = ''</span>
+<span class="cstat-no" title="statement not covered" >      this.confirmReg = ''</span>
+    },
+    // this is going to be called when 'Register' button is pressed
+    async doRegister<span class="fstat-no" title="function not covered" > (</span>e) <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >{</span></span></span></span>
+      if (this.firstNameReg === '' || this.lastNameReg === '' ||
+        this.emailReg === '' || this.passwordReg === '' || this.confirmReg === ''<span class="cstat-no" title="statement not covered" >) {</span>
+<span class="cstat-no" title="statement not covered" >        this.emptyFields = true<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span></span></span>
+      } else if (!this.disabled.every(<span class="fstat-no" title="function not covered" >i<span class="cstat-no" title="statement not covered" > =&gt; i === false)<span class="cstat-no" title="statement not covered" ></span>) {</span></span>
+<span class="cstat-no" title="statement not covered" >        alert('Please provide inputs in correct format')</span>
+<span class="cstat-no" title="statement not covered" >        // e.preventDefault()</span>
+      } else {
+        try {
+          // create data in json format
+          const <span class="cstat-no" title="statement not covered" >userData = {</span>
+            first_name: this.firstNameReg,
+            last_name: this.lastNameReg,
+            email: this.emailReg,
+            username: this.userNameReg,
+            password: this.passwordReg
+          }
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" >          // API call</span></span>
+          await api.createUser('create_user', JSON.stringify(userData)).then(<span class="fstat-no" title="function not covered" >res =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            console.log(res)</span>
+<span class="cstat-no" title="statement not covered" >            if (res.status === 200) {</span>
+<span class="cstat-no" title="statement not covered" >              this.initForm()</span>
+<span class="cstat-no" title="statement not covered" >              router.push('Login')</span>
+            }
+          })<span class="cstat-no" title="statement not covered" ></span>
+        } catch (exception) {
+<span class="cstat-no" title="statement not covered" >          console.log(exception)<span class="cstat-no" title="statement not covered" ></span></span>
+        }
+      }
+    },
+    // this is going to be called from 'watch' and validates email input format
+    validateEmail<span class="fstat-no" title="function not covered" > (</span>value) {
+      // eslint-disable-next-line no-useless-escape
+<span class="cstat-no" title="statement not covered" >      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {</span>
+<span class="cstat-no" title="statement not covered" >        this.msg['email'] = ''</span>
+<span class="cstat-no" title="statement not covered" >        this.disabled = [false, this.disabled[1], this.disabled[2]]</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.msg['email'] = 'Invalid Email Address'</span>
+<span class="cstat-no" title="statement not covered" >        this.disabled = [true, this.disabled[1], this.disabled[2]]</span>
+      }
+    },
+    // this is going to be called from 'watch' and validates password input length
+    validatePassword<span class="fstat-no" title="function not covered" > (</span>value) {
+      let difference = <span class="cstat-no" title="statement not covered" >8 - value.length</span>
+<span class="cstat-no" title="statement not covered" >      if (value.length &lt; 8) {</span>
+<span class="cstat-no" title="statement not covered" >        this.msg['password'] = 'Must be 8 characters! ' + difference + ' characters left'</span>
+<span class="cstat-no" title="statement not covered" >        this.disabled = [this.disabled[0], true, this.disabled[2]]</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.msg['password'] = ''</span>
+<span class="cstat-no" title="statement not covered" >        this.disabled = [this.disabled[0], false, this.disabled[2]]</span>
+      }
+    },
+    // this is going to be called from 'watch' and validates confirm password input is equal to password input
+    validateConfirmPassword<span class="fstat-no" title="function not covered" > (</span>value) {
+<span class="cstat-no" title="statement not covered" >      if (this.passwordReg !== value) {</span>
+<span class="cstat-no" title="statement not covered" >        this.msg['confirmPassword'] = 'Passwords are different'</span>
+<span class="cstat-no" title="statement not covered" >        this.disabled = [this.disabled[0], this.disabled[1], true]</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.msg['confirmPassword'] = ''</span>
+<span class="cstat-no" title="statement not covered" >        this.disabled = [this.disabled[0], this.disabled[1], false]</span>
+      }
+    }
+  }
+}<span class="cstat-no" title="statement not covered" ></span>
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Feb 04 2023 19:07:09 GMT-0500 (Eastern Standard Time)
+</div>
+</div>
+<script src="..\..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\..\sorter.js"></script>
+</body>
+</html>

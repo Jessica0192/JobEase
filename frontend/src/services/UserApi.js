@@ -1,7 +1,7 @@
 // this file contains api calls for User Entity
 
 import service from './service'
-import { API_URL, API } from './config'
+import { API } from './config'
 
 // these are the api calls specific to User
 export const api = {

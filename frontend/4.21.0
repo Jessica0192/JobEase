@@ -1,0 +1,10 @@
++ browserslist@4.21.5
++ vuex@4.1.0
++ vue@3.0.1
+added 11 packages from 3 contributors, removed 4 packages, updated 4 packages and audited 1901 packages in 16.749s
+
+93 packages are looking for funding
+  run `npm fund` for details
+
+found 132 vulnerabilities (34 low, 64 moderate, 31 high, 3 critical)
+  run `npm audit fix` to fix them, or `npm audit` for details

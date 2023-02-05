@@ -1,7 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from db.models.user import User
-from pydantic_schemas.user import UserCreate
+from db.models.user_model import User
+from pydantic_schemas import user_schema
 from core.hashing import Hasher
 
 
@@ -17,7 +17,7 @@ def get_user_by_username(db: Session, username: str):
     return db.query(User).filter(User.username == username).first()
 
 
-def create_user(db: Session, user: UserCreate):
+def create_user(db: Session, user: user_schema.UserCreate):
     try:
         db_user = User(first_name=user.first_name,
                        last_name=user.last_name,
@@ -34,12 +34,3 @@ def create_user(db: Session, user: UserCreate):
         print("\nHandled Exception: Trying to create a new user with duplicate username or email\n"
               "Error Args:" + str(error.args))
         return None
-
-
-def authenticate_user(db: Session, username: str, password: str):
-    user = get_user_by_username(db=db, username=username)
-    if user is None:
-        return False
-    if not Hasher.verify_password(password, user.hashed_password):
-        return False
-    return user

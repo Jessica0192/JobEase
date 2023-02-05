@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import SidebarLink from './SideBarLink.vue'
-import { collapsed, doLogout, toggleSidebar, sidebarWidth } from './state'
-// import router from '@/router'
+import SidebarLink from './SidebarLink'
+import {collapsed, toggleSidebar, sidebarWidth, doLogout} from './state'
+
 export default {
   methods: {doLogout},
   props: {},
@@ -70,9 +70,11 @@ export default {
       margin-bottom: 30px;
       color: darkblue;
     }
+
     .sidebar{
       color: #000000;
       background-color: #D3D3D3;
+
       float: left;
       position: fixed;
       z-index: 1;
@@ -81,14 +83,18 @@ export default {
       bottom: 0;
       padding: 0.5em;
       margin-bottom: 0px;
+
       /* For the smooth transition of the sidebar */
       transition: 0.3s ease;
+
       display: flex;
       flex-direction: column;
     }
+
     .sidebar h1 {
       height: 2.5em;
     }
+
     .collapse-icon {
       position: absolute;
       top: 0;
@@ -98,10 +104,12 @@ export default {
       margin-right: 10px;
       margin-top: 10px;
     }
+
     .rotate-180 {
       transform: rotate(180deg);
       transition: 0.2s linear;
     }
+
     /* CSS */
     .button-54 {
       font-family: "Open Sans", sans-serif;
@@ -119,13 +127,11 @@ export default {
       -webkit-user-select: none;
       touch-action: manipulation;
     }
-
     .button-54:active {
       box-shadow: 0px 0px 0px 0px;
       top: 5px;
       left: 5px;
     }
-
     @media (min-width: 768px) {
       .button-54 {
         padding: 0.25em 0.75em;

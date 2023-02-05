@@ -1,18 +1,19 @@
 <template>
-  <div>
-    <!-- <Sidebar/> -->
-    <Sidebar v-if="shouldShowSidebar"></Sidebar>
-    <!-- To make sure we are giving the page the proper width it has to use -->
-    <div id="app" :style="{ 'margin-left': sidebarWidth }">
-      <!-- <h1>JobEase</h1> -->
-      <router-view/>
-    </div>
+<div>
+  <!-- <Sidebar/> -->
+  <Sidebar v-if="shouldShowSidebar"></Sidebar>
+  <!-- To make sure we are giving the page the proper width it has to use -->
+  <div id="app" :style="{ 'margin-left': sidebarWidth }">
+    <!-- <h1>JobEase</h1> -->
+    <router-view/>
   </div>
+</div>
 </template>
 
 <script>
 import Sidebar from '@/components/sidebar/SideBar.vue'
 import { sidebarWidth } from '@/components/sidebar/state'
+
 export default {
   name: 'App',
   components: { Sidebar },

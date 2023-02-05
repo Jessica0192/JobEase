@@ -1,10 +1,10 @@
-// this is a javascript file for Register.vue page
+// this is a javascript file for RegisterView.vue page
 
 import {api} from '../services/UserApi.js'
 import router from '../router'
 
 export default {
-  name: 'Register',
+  name: 'RegisterPage',
   // these are properties used in this file
   data: () => ({
     msg: [],
@@ -38,7 +38,7 @@ export default {
       this.confirmReg = ''
     },
     // this is going to be called when 'Register' button is pressed
-    async doRegister (e) {
+    async doRegister () {
       if (this.firstNameReg === '' || this.lastNameReg === '' ||
         this.emailReg === '' || this.passwordReg === '' || this.confirmReg === '') {
         this.emptyFields = true

@@ -1,10 +1,11 @@
-// this is a javascript file for Login.vue page
+// this is a javascript file for LoginView.vue page
 
 import router from '../router'
+import store from '@/store'
 // import {api} from '../services/UserApi'
 
 export default {
-  name: 'Login',
+  name: 'LoginPage',
   // these are properties used in this file
   data: () => ({
     msg: [],
@@ -15,7 +16,7 @@ export default {
   // have multiple methods
   methods: {
     // this is going to be called when 'Login' button is pressed
-    async doLogin (e) {
+    async doLogin () {
       if (this.userNameLogin === '' || this.passwordLogin === '') {
         this.emptyFields = true
       } else {
@@ -30,8 +31,8 @@ export default {
         // })
         // event.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
         alert('You are now logged in')
-        // eslint-disable-next-line standard/object-curly-even-spacing
-        await router.push({ name: 'location.index', query: { userLoggedIn: true }})
+        store.dispatch('setUserLoggedIn', true)
+        await router.push({ name: 'Dashboard'})
       }
     }
   }

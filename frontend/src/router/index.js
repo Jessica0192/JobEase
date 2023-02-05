@@ -1,11 +1,17 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 // import HelloWorld from '@/components/HelloWorld'
-import Login from '../components/Login'
-import Register from '@/components/Register'
-import Home from '@/components/Home'
-
-Vue.use(Router)
+import Login from '../views/LoginView.vue'
+import Register from '@/views/RegisterView.vue'
+import Home from '@/views/HomeView.vue'
+import Sidebar from '../components/sidebar/SideBar.vue'
+import Dashboard from '../views/DashboardView.vue'
+import JobRecords from '../views/JobRecordsView.vue'
+import Calendar from '../views/CalendarView.vue'
+import Resources from '../views/ResourcesView.vue'
+import Portfolios from '../views/PortfoliosView.vue'
+import ResumeBuilder from '../views/ResumeBuilderView'
+import CommunityBlog from '../views/CommunityBlogView'
+import store from '@/store'
 
 const routes = [
   // {
@@ -27,25 +33,104 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {
+      sidebar: false
+    }
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: Register,
+    meta: {
+      sidebar: false
+    }
+  },
+  {
+    path: '/sidebar',
+    name: 'Sidebar',
+    component: Sidebar,
+    meta: {
+      sidebar: false
+    }
+  },
+  {
+    path: '/sidebar',
+    name: 'Sidebar',
+    component: Sidebar
+
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: {
+      needsAuth: true
+    }
+  },
+  {
+    path: '/jobRecords',
+    name: 'JobRecords',
+    component: JobRecords,
+    meta: {
+      needsAuth: true
+    }
+  },
+  {
+    path: '/calendar',
+    name: 'Calendar',
+    component: Calendar,
+    meta: {
+      needsAuth: true
+    }
+  },
+  {
+    path: '/resources',
+    name: 'Resources',
+    component: Resources,
+    meta: {
+      needsAuth: true
+    }
+  },
+  {
+    path: '/portfolios',
+    name: 'Portfolios',
+    component: Portfolios,
+    meta: {
+      needsAuth: true
+    }
+
+  },
+  {
+    path: '/resumeBuilder',
+    name: 'ResumeBuilder',
+    component: ResumeBuilder,
+    meta: {
+      needsAuth: true
+    }
+  },
+  {
+    path: '/communityBlog',
+    name: 'CommunityBlog',
+    component: CommunityBlog,
+    meta: {
+      needsAuth: true
+    }
+
   }
 ]
 
 // Create a history that a user can go back to and construct a router object for Vue, respectively.
 // To create our router
-const router = new Router({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 
-router.beforeResolve((to, from, next, param) => {
+router.beforeResolve((to, from, next) => {
+  console.log(to.params.userLoggedIn)
   if (to.meta.needsAuth) {
-    if (to.query.userLoggedIn) {
+    if (store.getters.getUserLoggedIn) {
       next()
     } else {
       next('/login')

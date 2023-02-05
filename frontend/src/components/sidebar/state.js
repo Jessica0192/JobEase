@@ -17,7 +17,10 @@ export const sidebarWidth = computed(
   () => `${collapsed.value ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH}px`
 )
 
+// this function will be called when "logout" button is pressed.
+// The button sit inside the bottom of Sidebar
 export async function doLogout(){
-  store.dispatch('setUserLoggedIn', false)
+  // set isUserLoggedIn store object to true to not allow navigating to different pages
+  await store.dispatch('setUserLoggedIn', false)
   await router.push({ name: 'Login'})
 }

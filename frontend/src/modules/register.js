@@ -17,7 +17,8 @@ export default {
     disabled: [true, true, true],
     emptyFields: false
     // prevRoute: null
-  }), // the watch property to observe changes in specific data properties and trigger input validation functions.
+  }),
+  // the watch property to observe changes in specific data properties and trigger input validation functions.
   watch: {
     emailReg (value) {
       this.validateEmail(value)
@@ -44,10 +45,9 @@ export default {
         this.emptyFields = true
       } else if (!this.disabled.every(i => i === false)) {
         alert('Please provide inputs in correct format')
-        // e.preventDefault()
       } else {
         try {
-          // create data in json format
+          // create user data in json format
           const userData = {
             first_name: this.firstNameReg,
             last_name: this.lastNameReg,

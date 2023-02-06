@@ -31,4 +31,3 @@ async def create_new_user(user: user_schema.UserCreate, db: Session = Depends(ge
     if db_user is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="User already exists")
     return db_user
-

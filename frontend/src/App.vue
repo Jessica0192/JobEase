@@ -11,8 +11,9 @@
 </template>
 
 <script>
-import Sidebar from '@/components/sidebar/Sidebar.vue'
+import Sidebar from '@/components/sidebar/SideBar.vue'
 import { sidebarWidth } from '@/components/sidebar/state'
+
 export default {
   name: 'App',
   components: { Sidebar },

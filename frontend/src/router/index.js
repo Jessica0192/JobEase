@@ -1,44 +1,58 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Login from '@/components/Login'
-import Sidebar from '../components/sidebar/Sidebar.vue'
-import Dashboard from '../views/Dashboard.vue'
-import JobRecords from '../views/JobRecords.vue'
-import Calendar from '../views/Calendar.vue'
-import Resources from '../views/Resources.vue'
-import Portfolios from '../views/Portfolios.vue'
-import ResumeBuilder from '../views/ResumeBuilder'
-import CommunityBlog from '../views/CommunityBlog'
-
-Vue.use(Router)
-
-// **This is the default code for this file
-// export default new Router({
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'HelloWorld',
-//       component: HelloWorld
-//     }
-//   ]
-// })
-// **End of the code
+import { createRouter, createWebHistory } from 'vue-router'
+// import HelloWorld from '@/components/HelloWorld'
+import Login from '../views/LoginView.vue'
+import Register from '@/views/RegisterView.vue'
+import Home from '@/views/HomeView.vue'
+import Sidebar from '../components/sidebar/SideBar.vue'
+import Dashboard from '../views/DashboardView.vue'
+import JobRecords from '../views/JobRecordsView.vue'
+import Calendar from '../views/CalendarView.vue'
+import Resources from '../views/ResourcesView.vue'
+import Portfolios from '../views/PortfoliosView.vue'
+import ResumeBuilder from '../views/ResumeBuilderView'
+import CommunityBlog from '../views/CommunityBlogView'
+import store from '@/store'
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'HelloWorld',
+  //   component: HelloWorld,
+  //   meta: {
+  //     needsAuth: true
+  //   }
+  // },
   {
-    // Should remove later
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld
+    name: 'Home',
+    component: Home,
+    meta: {
+      needsAuth: true
+    }
   },
   {
     path: '/login',
     name: 'Login',
-    // To not see the sidebar in login page
-    meta: {sidebar: false},
-    component: Login
-
+    component: Login,
+    meta: {
+      sidebar: false
+    }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: {
+      sidebar: false
+    }
+  },
+  {
+    path: '/sidebar',
+    name: 'Sidebar',
+    component: Sidebar,
+    meta: {
+      sidebar: false
+    }
   },
   {
     path: '/sidebar',
@@ -49,51 +63,81 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard
-
+    component: Dashboard,
+    meta: {
+      needsAuth: true
+    }
   },
   {
     path: '/jobRecords',
     name: 'JobRecords',
-    component: JobRecords
-
+    component: JobRecords,
+    meta: {
+      needsAuth: true
+    }
   },
   {
     path: '/calendar',
     name: 'Calendar',
-    component: Calendar
-
+    component: Calendar,
+    meta: {
+      needsAuth: true
+    }
   },
   {
     path: '/resources',
     name: 'Resources',
-    component: Resources
+    component: Resources,
+    meta: {
+      needsAuth: true
+    }
   },
   {
     path: '/portfolios',
     name: 'Portfolios',
-    component: Portfolios
+    component: Portfolios,
+    meta: {
+      needsAuth: true
+    }
 
   },
   {
     path: '/resumeBuilder',
     name: 'ResumeBuilder',
-    component: ResumeBuilder
-
+    component: ResumeBuilder,
+    meta: {
+      needsAuth: true
+    }
   },
   {
     path: '/communityBlog',
     name: 'CommunityBlog',
-    component: CommunityBlog
+    component: CommunityBlog,
+    meta: {
+      needsAuth: true
+    }
 
   }
 ]
 
 // Create a history that a user can go back to and construct a router object for Vue, respectively.
 // To create our router
-const router = new Router({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeResolve((to, from, next) => {
+  console.log(to.params.userLoggedIn)
+  if (to.meta.needsAuth) {
+    if (store.getters.getUserLoggedIn) {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()
+  }
 })
 
 // To export our router

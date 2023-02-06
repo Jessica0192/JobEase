@@ -5,7 +5,7 @@
     <i class="icon" :class="icon" />
     <transition name="fade">
       <span v-if="!collapsed">
-        <!-- a placeholder for content in SideBar.vue component -->
+        <!-- a placeholder for content in Sidebar.vue component -->
         <slot />
       </span>
     </transition>
@@ -14,9 +14,9 @@
 
 <script>
 import { computed } from 'vue'
+// import { Router } from 'vue-router'
 import { collapsed } from './state'
 import router from '@/router'
-
 export default {
   props: {
     // To navigate user to the URL
@@ -25,6 +25,7 @@ export default {
     icon: { type: String, required: true }
   },
   setup (props) {
+    // const router = new Router()
     // To check if the link is active. It returns an object that has path property
     // If this path equal to "to" path passed in, then this rout is active
     const isActive = computed(() => router.path === props.to)

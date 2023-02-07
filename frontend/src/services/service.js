@@ -11,7 +11,9 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     config.headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      // 'Authorization': `Bearer ${this.$store.state.token}`,
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
     return config
   }

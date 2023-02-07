@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import SidebarLink from './SidebarLink'
+import SidebarLink from './SidebarLink.vue'
 import {collapsed, toggleSidebar, sidebarWidth, doLogout} from './state'
 
 export default {

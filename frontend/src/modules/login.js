@@ -34,7 +34,9 @@ export default {
         alert('You are now logged in')
 
         // set isUserLoggedIn store object to true to allow navigating to different pages
-        await store.dispatch('setUserLoggedIn', true)
+        const token = 'your-token'
+        const user = { name: 'John Doe' }
+        await store.dispatch('login', { token, user })
         await router.push({ name: 'Dashboard'})
       }
     }

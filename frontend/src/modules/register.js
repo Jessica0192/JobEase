@@ -56,7 +56,7 @@ export default {
             password: this.passwordReg
           }
           // API call
-          await api.createUser('create_user', JSON.stringify(userData)).then(res => {
+          await api.createUser(JSON.stringify(userData)).then(res => {
             console.log(res)
             if (res.status === 200) {
               this.initForm()

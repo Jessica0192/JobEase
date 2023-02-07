@@ -5,7 +5,7 @@
     <i class="icon" :class="icon" />
     <transition name="fade">
       <span v-if="!collapsed">
-        <!-- a placeholder for content in SideBar.vue component -->
+        <!-- a placeholder for content in Sidebar.vue component -->
         <slot />
       </span>
     </transition>
@@ -16,7 +16,6 @@
 import { computed } from 'vue'
 import { collapsed } from './state'
 import router from '@/router'
-
 export default {
   props: {
     // To navigate user to the URL

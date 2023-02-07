@@ -21,6 +21,6 @@ export const sidebarWidth = computed(
 // The button sit inside the bottom of Sidebar
 export async function doLogout(){
   // set isUserLoggedIn store object to true to not allow navigating to different pages
-  await store.dispatch('setUserLoggedIn', false)
+  await store.dispatch('logout', `${localStorage.getItem('token')}`, store.getters.getUser )
   await router.push({ name: 'Login'})
 }

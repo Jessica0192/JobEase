@@ -128,9 +128,9 @@ const router = createRouter({
 })
 
 router.beforeResolve((to, from, next) => {
-  console.log(to.params.userLoggedIn)
+  console.log(store.getters.getUserLoggedIn)
   if (to.meta.needsAuth) {
-    if (store.getters.getUserLoggedIn) {
+    if (localStorage.getItem('token')) {
       next()
     } else {
       next('/login')

@@ -2,7 +2,8 @@ export const API_URL = 'http://localhost:8000/' // Application for easy retrieva
 
 export const API = {
   // user api
-  user: (args) => `users/${args}`
+  user: (args) => `users/${args}`,
+  jobRecord: (args) => `jobRecords/${args}`
 }
 
 export const ETC_API = {

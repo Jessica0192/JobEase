@@ -8,7 +8,7 @@ from core.config import settings
 
 # import model's MetaData object here
 from db.db_setup import Base
-from db.models import user
+from db.models import user_model
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

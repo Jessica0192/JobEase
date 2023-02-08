@@ -3,11 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import settings
 from db.db_setup import engine
-from db.models import user
-from api import users
+from db.models import user_model
+from api import user_router, auth_router
+
 
 # Bind models
-user.Base.metadata.create_all(bind=engine)
+user_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title=settings.PROJECT_NAME,
               description=settings.PROJECT_DESCRIPTION,
@@ -26,7 +27,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(users.router)
+app.include_router(user_router.router)
+app.include_router(auth_router.router)
 
 
 @app.get("/")

@@ -7,3 +7,5 @@
 __pycache__/
 # Environment variables for database connection
 .env
+# Pytest cache files
+.pytest_cache

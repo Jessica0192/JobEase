@@ -1,9 +1,7 @@
 <template>
 <div id="app">
    <div class="register-page">
-      <div class="container">
-         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
+            <div>
                <div class="card register" v-bind:class="{ error: emptyFields }">
                   <h2>Sign Up</h2>
                   <form class="form-group" data-url_root="/login" @submit.prevent="doRegister">
@@ -20,8 +18,6 @@
                      <p>Already have an account? <a href="/login" @click="emptyFields = false">Sign in here</a>
                      </p>
                   </form>
-               </div>
-            </div>
          </div>
       </div>
    </div>

@@ -1,9 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
 import Login from '../views/LoginView.vue'
 import Register from '@/views/RegisterView.vue'
-import Home from '@/views/HomeView.vue'
-import Sidebar from '../components/sidebar/SideBar.vue'
 import Dashboard from '../views/DashboardView.vue'
 import JobRecords from '../views/JobRecordsView.vue'
 import Calendar from '../views/CalendarView.vue'
@@ -11,21 +8,12 @@ import Resources from '../views/ResourcesView.vue'
 import Portfolios from '../views/PortfoliosView.vue'
 import ResumeBuilder from '../views/ResumeBuilderView'
 import CommunityBlog from '../views/CommunityBlogView'
-import store from '@/store'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'HelloWorld',
-  //   component: HelloWorld,
-  //   meta: {
-  //     needsAuth: true
-  //   }
-  // },
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: Dashboard,
     meta: {
       needsAuth: true
     }
@@ -45,20 +33,6 @@ const routes = [
     meta: {
       sidebar: false
     }
-  },
-  {
-    path: '/sidebar',
-    name: 'Sidebar',
-    component: Sidebar,
-    meta: {
-      sidebar: false
-    }
-  },
-  {
-    path: '/sidebar',
-    name: 'Sidebar',
-    component: Sidebar
-
   },
   {
     path: '/dashboard',
@@ -128,7 +102,6 @@ const router = createRouter({
 })
 
 router.beforeResolve((to, from, next) => {
-  console.log(store.getters.getUserLoggedIn)
   if (to.meta.needsAuth) {
     if (localStorage.getItem('token')) {
       next()
@@ -140,6 +113,8 @@ router.beforeResolve((to, from, next) => {
   }
 })
 
+
 // To export our router
 // We can access this component from another file by simply referencing the file with any name since a function is exported by default.
 export default router
+

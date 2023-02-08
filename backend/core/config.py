@@ -16,7 +16,13 @@ class Settings:
     MYSQL_SERVER: str = os.getenv("MYSQL_SERVER", "localhost")
     MYSQL_PORT: str = os.getenv("MYSQL_PORT", 3306)
     MYSQL_DB: str = os.getenv("MYSQL_DB")
+    MYSQL_TEST_DB: str = os.getenv("MYSQL_TEST_DB")
     DATABASE_URL = f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_SERVER}:{MYSQL_PORT}/{MYSQL_DB}"
+    TEST_DATABASE_URL = \
+        f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_SERVER}:{MYSQL_PORT}/{MYSQL_TEST_DB}"
+
+    def get_test_database_url(self):
+        return self.TEST_DATABASE_URL
 
 
 settings = Settings()

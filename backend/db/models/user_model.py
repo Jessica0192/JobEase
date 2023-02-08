@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Enum
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from ..db_setup import Base
@@ -11,6 +11,6 @@ class User(Base, Timestamp):
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String(45), nullable=False)
     last_name = Column(String(45), nullable=False)
-    email = Column(String(45), nullable=False)
-    username = Column(String(45), nullable=False)
-    password = Column(String(60), nullable=False)
+    email = Column(String(45), nullable=False, unique=True)
+    username = Column(String(45), nullable=False, unique=True)
+    hashed_password = Column(String(65), nullable=False)

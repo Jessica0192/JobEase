@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1>Portfolios</h1>
+  <h1 class="view-title">Portfolios</h1>
 </div>
 </template>
 

@@ -2,7 +2,7 @@
 
 import router from '../router'
 import store from '@/store'
-// import {api} from '../services/UserApi'
+import {api} from '../services/AuthApi'
 
 export default {
   name: 'LoginPage',
@@ -22,22 +22,24 @@ export default {
       } else {
         // send API call './login'
 
-        // const inputs = {
-        //   user_name: this.userNameLogin,
-        //   password: this.passwordLogin
-        // }
+        const inputs = {
+          username: this.userNameLogin,
+          password: this.passwordLogin
+        }
 
-        // const {data} = await api.logInUser('login', inputs, {
-        //   withCredentials: true
-        // })
-        // event.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
-        alert('You are now logged in')
+        const data = await api.logInUser(JSON.stringify(inputs), {
+          withCredentials: true
+        })
+        console.log(data)
+        if (data.status === 200) {
+          alert('You are now logged in')
 
-        // set isUserLoggedIn store object to true to allow navigating to different pages
-        const token = 'your-token'
-        const user = { name: 'John Doe' }
-        await store.dispatch('login', { token, user })
-        await router.push({ name: 'Dashboard'})
+          const token = 'your-token'
+          const user = data
+          // calling login method in auth.js to update 'store' object
+          await store.dispatch('login', { token, user })
+          await router.push({ name: 'Dashboard'})
+        }
       }
     }
   }

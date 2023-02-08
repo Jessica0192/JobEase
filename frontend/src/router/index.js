@@ -3,6 +3,8 @@ import Login from '../views/LoginView.vue'
 import Register from '@/views/RegisterView.vue'
 import Dashboard from '../views/DashboardView.vue'
 import JobRecords from '../views/JobRecordsView.vue'
+import JobRecordDetail from '../views/JobRecordDetailView.vue'
+import CreateJobRecord from '../views/CreateJobRecordView.vue'
 import Calendar from '../views/CalendarView.vue'
 import Resources from '../views/ResourcesView.vue'
 import Portfolios from '../views/PortfoliosView.vue'
@@ -49,6 +51,16 @@ const routes = [
     meta: {
       needsAuth: true
     }
+  },
+  {
+      path: '/create-job',
+      name: 'CreateJobRecord',
+      component: CreateJobRecord,
+  },
+  {
+    path: '/job/:id',
+    name: 'JobRecordDetail',
+    component: JobRecordDetail,
   },
   {
     path: '/calendar',

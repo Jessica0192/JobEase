@@ -1,4 +1,9 @@
-/*.template-style{*/
-/*    margin-left: 20px;*/
-/*    margin-right: 20px;*/
-/*}*/
+.container{
+    padding: 0;
+    display: flex;
+    float: left;
+}
+
+.cards-container{
+    padding: 0;
+}

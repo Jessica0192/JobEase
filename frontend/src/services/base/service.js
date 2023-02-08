@@ -51,7 +51,6 @@ export default {
   },
 
   async post (...options) {
-    // 공통
     try {
       console.log('options: ' + options)
       const res = await service.post(options[0], (options[1]) ? options[1] : null)
@@ -62,7 +61,6 @@ export default {
   },
 
   async put (...options) {
-    // 공통
     try {
       const res = await service.put(options)
       return res
@@ -72,7 +70,6 @@ export default {
   },
 
   async delete (...options) {
-    // 공통
     try {
       const res = await service.delete(options)
       return res

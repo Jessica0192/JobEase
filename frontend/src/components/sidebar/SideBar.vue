@@ -1,140 +1,244 @@
 <template>
-  <!-- Create a sidebar menu on the left side of the screen -->
-  <div class="sidebar" :style="{ width: sidebarWidth }">
-    <div class="header">
-      <!-- To display different title based on sidebar is collapsed or not -->
-      <span v-if="collapsed">
-      </span>
-      <span v-else>JobEase</span>
+   <!--Main Navigation-->
+  <header>
+    <!-- Sidebar -->
+    <nav id="sidebarMenu"
+         class="collapse d-lg-block sidebar collapse bg-white">
+      <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3 mt-4">
+          <a ref="dashboard"
+             :class="`menuItem list-group-item list-group-item-action py-2 ripple
+             ${$route.path === dashboardPath ||
+              $route.path === homePath ? 'active' : ''}`"
+            >
+            <SidebarLink to="/dashboard" icon="fas fa-home">Dashboard</SidebarLink>
+          </a>
+          <a ref="jobRecords"
+             :class="`menuItem list-group-item list-group-item-action py-2 ripple
+             ${$route.path === jobRecordsPath ? 'active' : ''}`"
+             >
+            <SidebarLink to="/jobRecords" icon="fas fa-th-list">Job Records</SidebarLink>
+          </a>
+          <a ref="calendar"
+             :class="`menuItem list-group-item list-group-item-action py-2 ripple
+             ${$route.path === calendarPath ? 'active' : ''}`"
+             >
+            <SidebarLink to="/calendar" icon="fas fa-calendar-alt">Calendar</SidebarLink>
+          </a>
+          <a ref="resources"
+             :class="`menuItem list-group-item list-group-item-action py-2 ripple
+             ${$route.path === resourcesPath ? 'active' : ''}`"
+             >
+              <SidebarLink to="/resources" icon="fas fa-window-restore">Resources</SidebarLink>
+          </a>
+          <a ref="portfolios"
+             :class="`menuItem list-group-item list-group-item-action py-2 ripple
+             ${$route.path === portfoliosPath ? 'active' : ''}`"
+             >
+            <SidebarLink to="/portfolios" icon="fas fa-columns">Portfolios</SidebarLink>
+          </a>
+          <a ref="resumeBuilder"
+             :class="`menuItem list-group-item list-group-item-action py-2 ripple
+             ${$route.path === resumeBuilderPath ? 'active' : ''}`"
+             >
+            <SidebarLink to="/resumeBuilder" icon="fas fa-tools">Resume Builder</SidebarLink>
+          </a>
+          <a ref="communityBlog"
+             :class="`menuItem list-group-item list-group-item-action py-2 ripple
+             ${$route.path === communityBlogPath ? 'active' : ''}`"
+             >
+            <SidebarLink to="/communityBlog" icon="fas fa-link">Community Blog</SidebarLink>
+          </a>
+
+        </div>
+      </div>
+    </nav>
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar"
+         class="navbar navbar-expand-lg navbar-light bg-white fixed-top"
+         >
+      <!-- Container wrapper -->
+      <div class="container-fluid">
+        <!-- Toggle button -->
+        <button
+                class="navbar-toggler"
+                type="button"
+                v-on:click="toggleButtonClicked"
+                >
+          <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">
+          <h2>JobEase</h2>
+        </a>
+        <!-- Search form -->
+        <form class="d-none d-md-flex input-group w-auto my-auto">
+          <input
+                 autocomplete="off"
+                 type="search"
+                 class="form-control rounded"
+                 placeholder='Search'
+                 style="min-width: 225px"
+                 />
+          <span class="input-group-text border-0"
+                ><i class="fas fa-search"></i
+            ></span>
+        </form>
+
+        <!-- Right links -->
+        <ul class="navbar-nav ms-auto d-flex flex-row">
+          <!-- User -->
+          <li class="nav-item dropdown">
+             <a
+                class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                @click="toggleUserDropdown"
+                aria-expanded="false"
+              >
+                <label class="rounded-circle" loading="lazy">User 1</label>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="navbarDropdownMenuLink"
+                v-if="showUserDropdown"
+                v-bind:class="{ show: showUserDropdown }"
+              >
+                <li><a class="dropdown-item" href="#">My profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" @click="logout">Logout</a></li>
+              </ul>
+          </li>
+        </ul>
+      </div>
+      <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+  </header>
+  <!--Main Navigation-->
+
+  <!--Main layout-->
+  <main style="margin-top: 58px">
+    <div class="container pt-4">
+      <router-view/>
     </div>
-
-    <span v-if="collapsed">
-    </span>
-     <!-- Display the sidebar items when it is open and navigate user based on their selection -->
-    <span v-else>
-        <SidebarLink to="/dashboard" icon="fas fa-home">Dashboard</SidebarLink>
-        <SidebarLink to="/jobRecords" icon="fas fa-th-list">Job Records</SidebarLink>
-        <SidebarLink to="/calendar" icon="fas fa-calendar-alt">Calendar</SidebarLink>
-        <SidebarLink to="/resources" icon="fas fa-window-restore">Resources</SidebarLink>
-        <SidebarLink to="/portfolios" icon="fas fa-columns">Portfolios</SidebarLink>
-        <SidebarLink to="/resumeBuilder" icon="fas fa-tools">Resume Builder</SidebarLink>
-        <SidebarLink to="/communityBlog" icon="fas fa-link">Community Blog</SidebarLink>
-    </span>
-
-    <span v-if="collapsed">
-    </span>
-     <!-- Display the sidebar items when it is open and navigate user based on their selection -->
-    <span v-else style="position: absolute; bottom: 30px; horiz-align: center" >
-        <button class="button-54" role="button" @click="doLogout">Log-out</button>
-    </span>
-
-    <!-- To rotate the collapse icon -->
-    <!-- To call the toggle function on click -->
-    <span class="collapse-icon" :class="{ 'rotate-180': collapsed}" @click="toggleSidebar">
-      <!-- To add toggle icon -->
-        <i class="fas fa-angle-double-left" />
-    </span>
-  </div>
+  </main>
+  <!--Main layout-->
 </template>
 
 <script>
-import SidebarLink from './SidebarLink'
-import {collapsed, toggleSidebar, sidebarWidth, doLogout} from './state'
-
+import SidebarLink from './SidebarLink.vue'
+import store from '@/store'
+import router from '@/router'
 export default {
-  methods: {doLogout},
-  props: {},
+  data() {
+    return {
+      showUserDropdown: false,
+      homePath: this.$router.options.routes.find(route => route.name === 'Home').path,
+      dashboardPath: this.$router.options.routes.find(route => route.name === 'Dashboard').path,
+      jobRecordsPath: this.$router.options.routes.find(route => route.name === 'JobRecords').path,
+      calendarPath: this.$router.options.routes.find(route => route.name === 'Calendar').path,
+      resourcesPath: this.$router.options.routes.find(route => route.name === 'Resources').path,
+      portfoliosPath: this.$router.options.routes.find(route => route.name === 'Portfolios').path,
+      resumeBuilderPath: this.$router.options.routes.find(route => route.name === 'ResumeBuilder').path,
+      communityBlogPath: this.$router.options.routes.find(route => route.name === 'CommunityBlog').path,
+    };
+  },
   components: { SidebarLink },
-  // Set the width of the sidebar
-  setup () {
-    return { collapsed, toggleSidebar, sidebarWidth }
+  methods: {
+    toggleButtonClicked () {
+      if (document.getElementById("sidebarMenu").style.display === "block") {
+        document.getElementById("sidebarMenu").style.display = "none"
+      } else {
+        document.getElementById("sidebarMenu").style.display = "block"
+      }
+    },
+    toggleUserDropdown() {
+      console.log(this.showUserDropdown)
+      this.showUserDropdown = !this.showUserDropdown;
+    },
+    async logout () {
+      await store.dispatch('logout', `${localStorage.getItem('token')}`, store.getters.getUser )
+      await router.push({ name: 'Login'})
+    }
   }
 }
 </script>
 
-<style>
-/* Global CSS section */
-:root {
-  --sidebar-bg-color: #D3D3D3;
-  --sidebar-item-hover: #808080;
-  --sidebar-item-active: #316fcd;
-}
-</style>
-
 <style scoped>
-    .header {
-      text-align: center;
-      font-weight: bold;
-      font-size: 40px;
-      margin-top: 40px;
-      margin-bottom: 30px;
-      color: darkblue;
-    }
+  body {
+    background-color: #fbfbfb;
+  }
 
-    .sidebar{
-      color: #000000;
-      background-color: #D3D3D3;
+  @media only screen and (min-width: 991.98px) {
+     main {
+        float: right;
+        width: 82%;
+     }
+  }
 
-      float: left;
-      position: fixed;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      padding: 0.5em;
-      margin-bottom: 0px;
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 58px 0 0; /* Height of navbar */
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 240px;
+    z-index: 600;
+  }
 
-      /* For the smooth transition of the sidebar */
-      transition: 0.3s ease;
+  @media (max-width: 991.98px) {
+    .sidebar {
+      width: 100%;
+    }
+  }
+  .sidebar .active {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+  }
 
-      display: flex;
-      flex-direction: column;
-    }
+  .sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  }
 
-    .sidebar h1 {
-      height: 2.5em;
-    }
-
-    .collapse-icon {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 0.75;
-      transition: 0.2s linear;
-      margin-right: 10px;
-      margin-top: 10px;
-    }
-
-    .rotate-180 {
-      transform: rotate(180deg);
-      transition: 0.2s linear;
-    }
-
-    /* CSS */
-    .button-54 {
-      font-family: "Open Sans", sans-serif;
-      font-size: 16px;
-      letter-spacing: 2px;
-      text-decoration: none;
-      text-transform: uppercase;
-      color: #000;
-      cursor: pointer;
-      border: 3px solid;
-      padding: 0.25em 0.5em;
-      box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
-      position: relative;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-    }
-    .button-54:active {
-      box-shadow: 0px 0px 0px 0px;
-      top: 5px;
-      left: 5px;
-    }
-    @media (min-width: 768px) {
-      .button-54 {
-        padding: 0.25em 0.75em;
-      }
-    }
+  .menuItem{
+    width: 100%
+  }
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+    display: none;
+    float: right;
+    min-width: 10rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: .25rem;
+  }
+  .dropdown-menu.show {
+    display: block;
+  }
+  .dropdown-menu-end {
+    right: 0;
+    left: auto;
+  }
 </style>

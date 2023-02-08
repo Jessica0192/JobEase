@@ -1,31 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
 import Login from '../views/LoginView.vue'
 import Register from '@/views/RegisterView.vue'
-import Home from '@/views/HomeView.vue'
-import Sidebar from '../components/sidebar/SideBar.vue'
 import Dashboard from '../views/DashboardView.vue'
 import JobRecords from '../views/JobRecordsView.vue'
+import JobRecordDetail from '../views/JobRecordDetailView.vue'
+import CreateJobRecord from '../views/CreateJobRecordView.vue'
 import Calendar from '../views/CalendarView.vue'
 import Resources from '../views/ResourcesView.vue'
 import Portfolios from '../views/PortfoliosView.vue'
 import ResumeBuilder from '../views/ResumeBuilderView'
 import CommunityBlog from '../views/CommunityBlogView'
-import store from '@/store'
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'HelloWorld',
-  //   component: HelloWorld,
-  //   meta: {
-  //     needsAuth: true
-  //   }
-  // },
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: Dashboard,
     meta: {
       needsAuth: true
     }
@@ -47,20 +37,6 @@ const routes = [
     }
   },
   {
-    path: '/sidebar',
-    name: 'Sidebar',
-    component: Sidebar,
-    meta: {
-      sidebar: false
-    }
-  },
-  {
-    path: '/sidebar',
-    name: 'Sidebar',
-    component: Sidebar
-
-  },
-  {
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
@@ -75,6 +51,16 @@ const routes = [
     meta: {
       needsAuth: true
     }
+  },
+  {
+      path: '/create-job',
+      name: 'CreateJobRecord',
+      component: CreateJobRecord,
+  },
+  {
+    path: '/job/:id',
+    name: 'JobRecordDetail',
+    component: JobRecordDetail,
   },
   {
     path: '/calendar',
@@ -128,9 +114,8 @@ const router = createRouter({
 })
 
 router.beforeResolve((to, from, next) => {
-  console.log(to.params.userLoggedIn)
   if (to.meta.needsAuth) {
-    if (store.getters.getUserLoggedIn) {
+    if (localStorage.getItem('token')) {
       next()
     } else {
       next('/login')
@@ -140,6 +125,8 @@ router.beforeResolve((to, from, next) => {
   }
 })
 
+
 // To export our router
 // We can access this component from another file by simply referencing the file with any name since a function is exported by default.
 export default router
+

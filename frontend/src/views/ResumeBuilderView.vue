@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1>Resume Builder</h1>
+  <h1 class="view-title">Resume Builder</h1>
 </div>
 </template>
 

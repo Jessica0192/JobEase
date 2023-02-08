@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1>Community Blog</h1>
+  <h1 class="view-title">Community Blog</h1>
 </div>
 </template>
 

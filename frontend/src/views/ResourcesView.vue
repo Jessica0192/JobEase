@@ -28,12 +28,11 @@
               <td class="pt-3-half" contenteditable="true">{{ row.resourceName }}</td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary">{{ selectedOption }}</button>
-                  <button type="button" class="btn btn-primary dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="isOpen = !isOpen">
-                  <span class="sr-only">Toggle Dropdown</span>
+                  <button type="button" class="btn btn-primary">{{ row.selectedOption }}</button>
+                  <button type="button" class="btn btn-primary dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="row.isOpen = !row.isOpen">
                   </button>
-                  <ul v-if="isOpen">
-                    <li v-for="(option, index) in options" :key="index" @click="selectOption(option)">
+                  <ul v-if="row.isOpen">
+                    <li v-for="(option, index) in options" :key="index" @click="selectOption(option, row)">
                       {{ option }}
                     </li>
                   </ul>
@@ -73,13 +72,16 @@
 export default {
   data() {
     return {
-      data: [{ resourceName: 'Resource 1' }, { resourceName: 'Resource 2' }, { resourceName: 'Resource 3' }, { resourceName: 'Resource 4' }],
-      options: ['PDF', 'DOCX', 'MP4'],
-      selectedOption: 'PDF',
-      isOpen: false,
-      export: "",
+      data: [
+        { resourceName: 'Resource 1', selectedOption: 'PDF', isOpen: false }, 
+        { resourceName: 'Resource 2', selectedOption: 'PDF', isOpen: false }, 
+        { resourceName: 'Resource 3', selectedOption: 'PDF', isOpen: false }, 
+        { resourceName: 'Resource 4', selectedOption: 'PDF', isOpen: false }
+      ],
+      options: ['PDF', 'DOC', 'MP3', 'MP4'],
       sortAscending: true,
-      NameOfPage: ''
+      NameOfPage: '',
+      export: ""
     };
   },
   methods: {
@@ -104,9 +106,9 @@ export default {
     exportData() {
       this.export = JSON.stringify(this.data);
     },
-    selectOption(option) {
-      this.selectedOption = option
-      this.isOpen = false
+    selectOption(option, row) {
+      row.selectedOption = option
+      row.isOpen = false
     }
   }
 }

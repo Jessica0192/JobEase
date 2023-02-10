@@ -19,3 +19,15 @@
     overflow-x: auto;
     overflow-y: auto;
   }
+
+  li:hover {
+    background-color: lightblue;
+   }
+ 
+   li {
+     list-style-type: none;
+   }
+
+   ul#horizontal-list li {
+    align-items: center;
+   }

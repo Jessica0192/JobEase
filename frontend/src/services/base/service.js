@@ -41,37 +41,36 @@ service.interceptors.response.use(resp => resp, async error => {
 
 // these are the default methods when calling api call
 export default {
-  async get (options) {
+  async get (url, data) {
     try {
-      const res = await service.get(options)
+      const res = await service.get(url, data)
       return res
     } catch (e) {
       return console.log(e)
     }
   },
 
-  async post (...options) {
+  async post (url, data) {
     try {
-      console.log('options: ' + options)
-      const res = await service.post(options[0], (options[1]) ? options[1] : null)
+      const res = await service.post(url, data)
       return res
     } catch (e) {
       return console.log(e)
     }
   },
 
-  async put (...options) {
+  async put (url, data) {
     try {
-      const res = await service.put(options)
+      const res = await service.put(url, data)
       return res
     } catch (e) {
       return console.log(e)
     }
   },
 
-  async delete (...options) {
+  async delete (url, data) {
     try {
-      const res = await service.delete(options)
+      const res = await service.delete(url, data)
       return res
     } catch (e) {
       return console.log(e)

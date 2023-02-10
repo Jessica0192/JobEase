@@ -3,17 +3,14 @@
 import service from './base/service'
 import { API } from './base/config'
 
-// these are the api calls specific to User
+// these are the api calls specific to Authentication
 export const api = {
-  logInUser (param) {
-    return service.post(`${API.auth('login/')}`, param)
+  logInUser (data) {
+    return service.post(`${API.auth('login/')}`, data)
+  },
+  logOutUser (data){
+    return service.post(`${API.auth('logout/')}`, data)
   }
-  // setUser (args) {
-  //   return service.post(`${API_URL}${API.user(args)}`)
-  // },
-  // updateUser (args, param) {
-  //   return service.put(`${API_URL}${API.user(args)}`, param)
-  // }
 }
 
 export const testApi = {

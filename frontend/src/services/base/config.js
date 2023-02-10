@@ -4,7 +4,7 @@ export const API = {
   // user api
   auth: (args) => `auth/${args}`,
   user: (args) => `user/${args}`,
-  jobRecord: (args) => `jobRecords/${args}`
+  jobRecord: (args) => `jobRecord/${args}`
 }
 
 export const ETC_API = {

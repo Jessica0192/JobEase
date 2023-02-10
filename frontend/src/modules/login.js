@@ -40,6 +40,9 @@ export default {
           await store.dispatch('login', { token, user })
           await router.push({ name: 'Dashboard'})
         }
+        else {
+          this.msg.failedMsg = data.detail
+        }
       }
     }
   }

@@ -2,7 +2,7 @@
 
 import router from '../router'
 import store from '@/store'
-import {api} from '../services/AuthApi'
+// import {api} from '../services/AuthApi'
 
 export default {
   name: 'LoginPage',
@@ -26,20 +26,21 @@ export default {
           username: this.userNameLogin,
           password: this.passwordLogin
         }
+        console.log(inputs)
 
-        const data = await api.logInUser(JSON.stringify(inputs), {
-          withCredentials: true
-        })
-        console.log(data)
-        if (data.status === 200) {
+        // const data = await api.logInUser(JSON.stringify(inputs), {
+        //   withCredentials: true
+        // })
+        // console.log(data)
+        //if (data.status === 200) {
           alert('You are now logged in')
 
           const token = 'your-token'
-          const user = data
+          const user = this.userNameLogin
           // calling login method in auth.js to update 'store' object
           await store.dispatch('login', { token, user })
           await router.push({ name: 'Dashboard'})
-        }
+        //}
       }
     }
   }

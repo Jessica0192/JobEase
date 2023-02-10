@@ -1,0 +1,21 @@
+.pt-3-half {
+    padding-top: 1.4rem;
+  }
+  .btn-green {
+    background-color: lightseagreen;
+    color: white;
+  }
+  .sign-blue {
+  
+    color: blue;
+  }
+  .card-content{
+    align-content: center;
+  }
+  .icon {
+    margin-right: 100%;
+  }
+  .scrollable {
+    overflow-x: auto;
+    overflow-y: auto;
+  }

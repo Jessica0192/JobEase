@@ -4,11 +4,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from db.db_setup import engine
 from db.models import user_model
-from api import user_router, auth_router
+from db.models import jobRecord_model
+from api import user_router, auth_router, jobRecord_router
 
 
 # Bind models
 user_model.Base.metadata.create_all(bind=engine)
+jobRecord_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title=settings.PROJECT_NAME,
               description=settings.PROJECT_DESCRIPTION,
@@ -29,6 +31,7 @@ app.add_middleware(
 
 app.include_router(user_router.router)
 app.include_router(auth_router.router)
+app.include_router(jobRecord_router.router)
 
 
 @app.get("/")

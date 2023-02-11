@@ -4,7 +4,7 @@
   <div class="card scrollable">
     <div class="card-body">
       <span>
-        <a href="#!" @click="newPortfolio">
+        <a href="#!" @click="newResource">
           <i class="fas fa-plus fa-2x sign-blue icon" aria-hidden="true"></i>
         </a>
       </span>
@@ -39,25 +39,25 @@
                 </div>
               </td>
               <td>
-                <span class="table-view"
-                  ><button type="button" class="btn btn-green btn-rounded btn-sm my-0">
+                <span class="table-view" @click="viewFile">
+                  <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
                     view
-                  </button></span
-                >
+                  </button>
+                </span>
               </td>
               <td>
-                <span class="table-download">
+                <span class="table-download" @click="downloadFile">
                   <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
                     Download
                   </button>
                 </span>
               </td>
               <td>
-                <span class="table-remove" @click="remove(index)"
-                  ><button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
+                <span class="table-remove" @click="remove(index)">
+                  <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
                     Remove
-                  </button></span
-                >
+                  </button>
+                </span>
               </td>
             </tr>
           </tbody>
@@ -68,50 +68,7 @@
 </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      data: [
-        { resourceName: 'Resource 1', selectedOption: 'PDF', isOpen: false }, 
-        { resourceName: 'Resource 2', selectedOption: 'PDF', isOpen: false }, 
-        { resourceName: 'Resource 3', selectedOption: 'PDF', isOpen: false }, 
-        { resourceName: 'Resource 4', selectedOption: 'PDF', isOpen: false }
-      ],
-      options: ['PDF', 'DOC', 'MP3', 'MP4'],
-      sortAscending: true,
-      NameOfPage: '',
-      export: ""
-    };
-  },
-  methods: {
-    sortData() {
-      let sortedDataArray = this.data.slice();
-      sortedDataArray.sort((a, b) => {
-        if (this.sortAscending) {
-          return a.resourceName.localeCompare(b.resourceName);
-        } else {
-          return b.resourceName.localeCompare(a.resourceName);
-        }
-    });
-    this.data = sortedDataArray;
-    this.sortAscending = !this.sortAscending;
-    },
-    remove(index) {
-      this.data.splice(index, 1);
-    },
-    newPortfolio () {
-      alert('need a page or pop up for adding new portfolio')
-    },
-    exportData() {
-      this.export = JSON.stringify(this.data);
-    },
-    selectOption(option, row) {
-      row.selectedOption = option
-      row.isOpen = false
-    }
-  }
-}
+<script src="../modules/resources.js">
 </script>
 
 <style scoped src="../assets/css/table.css">

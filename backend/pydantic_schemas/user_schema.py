@@ -15,6 +15,7 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
+    is_super_user: bool
     created_at: datetime
     updated_at: datetime
 

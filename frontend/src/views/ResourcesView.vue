@@ -1,10 +1,20 @@
 <template>
+<!-- This code is a Vue.js component that creates a table to display resources.
+ The table has five columns: "Resources Name", "Type", "View", "Download", and "Remove".
+ The "Type" column has a dropdown menu that allows the user to select from different options.
+ The "View" and "Download" columns have buttons that trigger events when clicked. 
+ The "Remove" column has a button that removes a row from the table.
+ The code uses the Vue.js directive v-for to loop through the data array and create a row in the table for each item in the array.
+ The contenteditable attribute on the first column allows the user to edit the resource name directly in the table. 
+ The v-if directive is used to show or hide the dropdown menu based on the value of row.isOpen.
+ The code references an external JavaScript file "resources.js" and a stylesheet "table.css". 
+ These files define the logic and styles for the component, respectively. -->
 <div>
   <h1 class="view-title">Resources</h1>
   <div class="card scrollable">
     <div class="card-body">
       <span>
-        <a href="#!" @click="newResource">
+        <a href="#!" @click="newResource" title="Add new resource">
           <i class="fas fa-plus fa-2x sign-blue icon" aria-hidden="true"></i>
         </a>
       </span>
@@ -13,7 +23,7 @@
           <thead>
             <tr>
               <th class="text-center">Resources Name
-                <a href="#" @click="sortData">
+                <a href="#" @click="sortData" title="Sort resources">
                   <i class="fas fa-sort" aria-hidden="true"></i>
                 </a>
               </th>
@@ -28,15 +38,15 @@
               <td class="pt-3-half" contenteditable="true">{{ row.resourceName }}</td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary">{{ row.selectedOption }}</button>
+                  <button type="button" class="btn btn-primary btn_type">{{ row.selectedOption }}</button>
                   <button type="button" class="btn btn-primary dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="row.isOpen = !row.isOpen">
                   </button>
-                  <ul v-if="row.isOpen">
+                </div>
+                  <ul v-if="row.isOpen" class="customUl">
                     <li v-for="(option, index) in options" :key="index" @click="selectOption(option, row)">
                       {{ option }}
                     </li>
                   </ul>
-                </div>
               </td>
               <td>
                 <span class="table-view" @click="viewFile">

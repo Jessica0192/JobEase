@@ -28,6 +28,27 @@
      list-style-type: none;
    }
 
-   ul#horizontal-list li {
+  td ul {
+    display: inline-block;
     align-items: center;
-   }
+    padding: 10px;
+    margin: 0;
+  }
+  
+  td li {
+    list-style: none;
+  }
+
+  .customUl {
+    max-height: 100px; 
+    overflow-y: auto; 
+    position: absolute; 
+    z-index: 999; 
+    background-color: #F0F8FF;
+  }
+
+  .btn_type {
+    width: 130px;
+    height: 40px;
+    font-size: 10px;
+  }

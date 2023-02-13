@@ -33,6 +33,10 @@ service.interceptors.response.use(resp => resp, async error => {
       return service(error.config)
     }
   }
+  else {
+    alert(error.response.data.detail)
+  }
+
   refresh = false
   return error
 })
@@ -61,6 +65,7 @@ export default {
 
   async put (url, data) {
     try {
+      console.log(data)
       const res = await service.put(url, data)
       return res
     } catch (e) {

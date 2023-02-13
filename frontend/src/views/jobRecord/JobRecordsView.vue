@@ -2,9 +2,9 @@
   <h1 class="view-title">Job Records</h1>
   <div>
    <div class="container">
-      <b-button class="plus-button" @click="navigateToCreatePage" style="float:left;">
+      <button class="plus-button" @click="navigateToCreatePage" style="float:left;">
         <font-awesome-icon :icon="['fas', 'plus']"/>
-      </b-button>
+      </button>
       <!-- Search form -->
       <form style="display:inline-block; float:right;" class="d-none d-md-flex input-group w-auto my-auto navbar-nav ms-auto d-flex flex-row" >
         <input
@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script src="../../modules/jobRecords.js">
+<script src="../../modules/jobRecord/jobRecords.js">
 </script>
 
 <style scoped src="../../assets/css/jobRecordsPage.css">

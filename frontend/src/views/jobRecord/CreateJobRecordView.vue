@@ -114,14 +114,13 @@
       <!--second tab-->
       <!--badge: https://getbootstrap.com/docs/4.0/components/badge/-->
       <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
-        <a href="#" class="badge badge-primary big-badge">Primary</a>
-        <a href="#" class="badge badge-secondary">Secondary</a>
-        <a href="#" class="badge badge-success">Success</a>
-        <a href="#" class="badge badge-danger">Danger</a>
-        <a href="#" class="badge badge-warning">Warning</a>
-        <a href="#" class="badge badge-info">Info</a>
-        <a href="#" class="badge badge-light">Light</a>
-        <a href="#" class="badge badge-dark">Dark</a>
+        <div class="selected-badges">
+          <a aria-placeholder="Selected Tags" v-for="(selectedTag, index) in selectedTags" :key="index" href="#" class="badge padded-badge" :class="selectedTag.class" @click="removeTag(selectedTag)">{{ selectedTag.tag_name }}</a>
+        </div>
+        <br/>
+        <div class="badge-list">
+          <a v-for="(tag, index) in tags" :key="index" href="#" class="badge padded-badge" :class="tag.class" @click="selectTag(tag)">{{ tag.tag_name }}</a>
+        </div>
       </div>
       <!--end of second tab-->
       <!--third tab-->
@@ -133,87 +132,8 @@
   </div>
 </template>
 
-<script>
-import {api} from '@/services/JobRecordApi'
-import router from '@/router'
-
-export default {
-  data() {
-    return {
-      jobTitle: '',
-      jobStatus: '',
-      deadlineDate: '',
-      interviewDate: '',
-      organization: '',
-      salary: '',
-      jobUrl: '',
-      location: '',
-      note: '',
-      activeItem: 'jobInfo'
-    };
-  },
-  methods: {
-    openTagModal() {
-      // Add your logic for opening the tag modal here
-    },
-   // this is for tab appearance
-    isActive (menuItem) {
-      return this.activeItem === menuItem
-    },
-    // this is for tab appearance
-    setActive (menuItem) {
-      this.activeItem = menuItem
-    },
-    // create job record by calling api end point and navigate to Job Record page
-    async createJobRecord () {
-      if(this.jobTitle !== '')    //include tag later in if statement
-      {
-        // save Job Record by api call and navigate to Job Record page
-        let deadlineDateTime = new Date(this.deadlineDate);
-        let interviewDateTime = new Date(this.interviewDate);
-
-        const inputs = {
-            job_title: this.jobTitle,
-            deadline_date: deadlineDateTime.toISOString(),
-            interview_date: interviewDateTime.toISOString(),
-            organization_name: this.organization,
-            salary: +(this.salary),
-            notes: this.note,
-            job_url: this.jobUrl,
-            location: this.location
-          }
-          console.log(inputs)
-
-        api.createJobRecord(JSON.stringify(inputs)).then(response => {
-          console.log(response.data)
-          if(response.status===200) {
-            router.push({ name: 'JobRecords'})
-          }
-        });
-      } else {
-        alert("Please fill out all required fields")
-      }
-
-    }
-  },
-};
+<script src="../../modules/jobRecord/createJobRecord.js">
 </script>
 
-<style scoped>
-.jobInfoContainer {
-  display: flex;
-  justify-content: flex-start;
-}
-td {
-  text-align: left;
-  padding: 5px;
-}
-/*fill with red when field is empty*/
-.fill-red {
-  background-color: rgba(220,20,60,0.2);
-}
-.big-badge {
-  font-size: 15px;
-  padding: 10px 30px;
-}
+<style scoped  src="../../assets/css/jobRecord_create_detail.css">
 </style>

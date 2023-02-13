@@ -111,106 +111,26 @@
       <!--end of first tab-->
       <!--second tab-->
       <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
-        Tags
+        <div class="selected-badges">
+          <a aria-placeholder="Selected Tags" v-for="(selectedTag, index) in selectedTags" :key="index" href="#" class="badge padded-badge" :class="selectedTag.class" @click="removeTag(selectedTag)">{{ selectedTag.tag_name }}</a>
+        </div>
+        <br/>
+        <div class="badge-list">
+          <a v-for="(tag, index) in tags" :key="index" href="#" class="badge padded-badge" :class="tag.class" @click="selectTag(tag)">{{ tag.tag_name }}</a>
+        </div>
       </div>
       <!--end of second tab-->
       <!--third tab-->
       <div class="tab-pane fade" :class="{ 'active show': isActive('portfolio') }" id="portfolio">
         Portfolio
       </div>
-      <!--end of thrid tab-->
+      <!--end of third tab-->
     </div>
   </div>
 </template>
 
-<script>
-import {api} from '@/services/JobRecordApi'
-import router from '@/router'
-
-export default {
-  name: 'JobRecordDetailView',
-  data() {
-    return {
-      job: null,
-      activeItem: 'jobInfo'
-    };
-  },
-  created() {
-    // call fetchJob method to get data by calling api endpoint and update UI
-    this.fetchJob();
-  },
-  methods: {
-    openTagModal() {
-      // Add your logic for opening the tag modal here
-    },
-    // this is for tab appearance
-    isActive (menuItem) {
-      return this.activeItem === menuItem
-    },
-    // this is for tab appearance
-    setActive (menuItem) {
-      this.activeItem = menuItem
-    },
-    // call getJobRecordById endpoint and fill out fields in UI
-    async fetchJob() {
-     const id = this.$route.params.id;
-
-      // this is api call
-      try {
-        await api.getJobRecordByID(id).then(response => {
-           this.job = response.data;
-         });
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async saveJobRecord () {
-      if(this.job.job_title !== '')   //include tag later in if statement
-      {
-        // save Job Record by api call and navigate to Job Record page
-        let deadlineDateTime = new Date(this.job.deadline_date);
-        let interviewDateTime = new Date(this.job.interview_date);
-
-        const inputs = {
-            job_title: this.job.job_title,
-            deadline_date: deadlineDateTime.toISOString(),
-            interview_date: interviewDateTime.toISOString(),
-            organization_name: this.job.organization_name,
-            salary: +(this.job.salary),
-            notes: this.job.notes,
-            job_url: this.job.job_url,
-            location: this.job.location
-          }
-          console.log(inputs)
-
-        // update Job Record api logic hasn't been created on backend
-        // api.updateJobRecord(JSON.stringify(inputs)).then(response => {
-        //   console.log(response.data)
-        //   if(response.status===200) {
-        //     router.push({ name: 'JobRecords'})
-        //   }
-        // });
-        await router.push({ name: 'JobRecords'})
-      } else {
-        alert("Please fill out all required fields")
-      }
-
-    }
-  },
-};
+<script src="../../modules/jobRecord/jobRecordDetail.js">
 </script>
 
-<style scoped>
-.jobInfoContainer {
-  display: flex;
-  justify-content: flex-start;
-}
-td {
-  text-align: left;
-  padding: 5px;
-}
-/*fill with red when field is empty*/
-.fill-red {
-  background-color: rgba(220,20,60,0.2);
-}
+<style scoped  src="../../assets/css/jobRecord_create_detail.css">
 </style>

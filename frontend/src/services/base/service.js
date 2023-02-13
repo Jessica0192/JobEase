@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 // Provide basic information according to the project settings.
 const service = axios.create({
@@ -10,10 +10,15 @@ const service = axios.create({
 // Include the necessary information when requesting an axios
 service.interceptors.request.use(
   (config) => {
-    config.headers = {
-      'Content-Type': 'application/json',
-      // 'Authorization': `Bearer ${this.$store.state.token}`,
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    // TODO: DON'T FORGET TO HANDLE THIS. WE NEED TO FIND A WAY OF USING DIFFERENT CONTENT TYPE FOR DIFFERENT REQUESTS
+    // config.headers['Content-Type'] = 'application/json';
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+    // add authorization header only if the token exists; otherwise ignore
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = 'Bearer ' + token;
+      // config.headers['Authorization'] = 'Bearer ${this.$store.state.token}';
     }
     return config
   }
@@ -29,7 +34,7 @@ service.interceptors.response.use(resp => resp, async error => {
     })
 
     if (status === 200) {
-      service.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
+      service.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`
       return service(error.config)
     }
   }
@@ -54,6 +59,10 @@ export default {
     try {
       console.log('options: ' + options)
       const res = await service.post(options[0], (options[1]) ? options[1] : null)
+      // check if the response is type of AxiosError, and if so return only response
+      if (res instanceof AxiosError) {
+        return res.response
+      }
       return res
     } catch (e) {
       return console.log(e)

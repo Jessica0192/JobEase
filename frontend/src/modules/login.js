@@ -22,23 +22,25 @@ export default {
       } else {
         // send API call './login'
 
-        const inputs = {
-          username: this.userNameLogin,
-          password: this.passwordLogin
-        }
+        let loginFormData = new FormData();
+        loginFormData.append('username', this.userNameLogin)
+        loginFormData.append('password', this.passwordLogin)
 
-        const data = await api.logInUser(JSON.stringify(inputs), {
+        // since the request body requires form data, send the data as FormData instead of JSON
+        const response = await api.logInUser(loginFormData, {
           withCredentials: true
         })
-        console.log(data)
-        if (data.status === 200) {
+        console.log(response)
+        if (response.status === 200) {
           alert('You are now logged in')
 
-          const token = 'your-token'
-          const user = data
+          const token = response.data.access_token
+          const user = this.userNameLogin
           // calling login method in auth.js to update 'store' object
           await store.dispatch('login', { token, user })
           await router.push({ name: 'Dashboard'})
+        } else if (response.status === 401) {
+          alert('Wrong username or password')
         }
       }
     }

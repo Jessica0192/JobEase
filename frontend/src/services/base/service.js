@@ -10,9 +10,7 @@ const service = axios.create({
 // Include the necessary information when requesting an axios
 service.interceptors.request.use(
   (config) => {
-    // TODO: DON'T FORGET TO HANDLE THIS. WE NEED TO FIND A WAY OF USING DIFFERENT CONTENT TYPE FOR DIFFERENT REQUESTS
-    // config.headers['Content-Type'] = 'application/json';
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    config.headers['Content-Type'] = 'application/json';
 
     // add authorization header only if the token exists; otherwise ignore
     const token = localStorage.getItem('token');

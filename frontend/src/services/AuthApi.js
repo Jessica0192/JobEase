@@ -1,12 +1,12 @@
 // this file contains api calls for Authentication
 
-import service from './base/service'
+import loginService from './base/loginService'
 import { API } from './base/config'
 
 // these are the api calls specific to User
 export const api = {
   logInUser (param) {
-    return service.post(`${API.auth('login/')}`, param)
+    return loginService.post(`${API.auth('login/')}`, param)
   }
   // setUser (args) {
   //   return service.post(`${API_URL}${API.user(args)}`)
@@ -18,7 +18,7 @@ export const api = {
 
 export const testApi = {
   getTests () {
-    return service.get(`${API.tests}`)
+    return loginService.get(`${API.tests}`)
   },
   /* Register Test
    * @param { Object } args
@@ -27,6 +27,6 @@ export const testApi = {
    * @param { string } args.args3
    */
   setTest (args) {
-    return service.post(`${API.test(args)}`)
+    return loginService.post(`${API.test(args)}`)
   }
 }

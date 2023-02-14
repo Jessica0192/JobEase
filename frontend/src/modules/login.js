@@ -1,5 +1,4 @@
 // this is a javascript file for LoginView.vue page
-
 import router from '../router'
 import store from '@/store'
 // import {api} from '../services/AuthApi'
@@ -41,6 +40,9 @@ export default {
           await router.push({ name: 'Dashboard'})
         } else if (response.status === 401) {
           alert('Wrong username or password')
+        }
+        else {
+          this.msg.failedMsg = data.detail
         }
       }
     }

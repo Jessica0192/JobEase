@@ -34,9 +34,9 @@ service.interceptors.response.use(resp => resp, async error => {
 
 // these are the default methods when calling api call
 export default {
-  async get (options) {
+  async get (url, data) {
     try {
-      const res = await service.get(options)
+      const res = await service.get(url, data)
       if (res instanceof AxiosError) {
         return res.response
       }
@@ -46,10 +46,9 @@ export default {
     }
   },
 
-  async post (...options) {
+  async post (url, data) {
     try {
-      console.log('options: ' + options)
-      const res = await service.post(options[0], (options[1]) ? options[1] : null)
+      const res = await service.post(url, data)
       // check if the response is type of AxiosError, and if so return only response
       if (res instanceof AxiosError) {
         return res.response
@@ -60,9 +59,9 @@ export default {
     }
   },
 
-  async put (...options) {
+  async put (url, data) {
     try {
-      const res = await service.put(options)
+      const res = await service.put(url, data)
       if (res instanceof AxiosError) {
         return res.response
       }
@@ -72,9 +71,9 @@ export default {
     }
   },
 
-  async delete (...options) {
+  async delete (url, data) {
     try {
-      const res = await service.delete(options)
+      const res = await service.delete(url, data)
       if (res instanceof AxiosError) {
         return res.response
       }

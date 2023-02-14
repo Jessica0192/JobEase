@@ -23,20 +23,10 @@ service.interceptors.request.use(
 )
 
 // Include the necessary processing in the response.
-let refresh = false
 service.interceptors.response.use(resp => resp, async error => {
-  if (error.response.status === 401 && !refresh) {
-    refresh = true
-    const {status, data} = await service.post('refresh', {}, {
-      withCredentials: true
-    })
-
-    if (status === 200) {
-      service.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`
-      return service(error.config)
-    }
+  if (error.response.status === 401) {
+    console.log("Service Error: " + error)
   }
-  refresh = false
   return error
 })
 // (res) => { return res },
@@ -47,6 +37,9 @@ export default {
   async get (options) {
     try {
       const res = await service.get(options)
+      if (res instanceof AxiosError) {
+        return res.response
+      }
       return res
     } catch (e) {
       return console.log(e)
@@ -70,6 +63,9 @@ export default {
   async put (...options) {
     try {
       const res = await service.put(options)
+      if (res instanceof AxiosError) {
+        return res.response
+      }
       return res
     } catch (e) {
       return console.log(e)
@@ -79,6 +75,9 @@ export default {
   async delete (...options) {
     try {
       const res = await service.delete(options)
+      if (res instanceof AxiosError) {
+        return res.response
+      }
       return res
     } catch (e) {
       return console.log(e)

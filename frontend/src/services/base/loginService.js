@@ -14,20 +14,10 @@ loginService.interceptors.request.use(
 )
 
 // Include the necessary processing in the response.
-let refresh = false
 loginService.interceptors.response.use(resp => resp, async error => {
-  if (error.response.status === 401 && !refresh) {
-    refresh = true
-    const {status, data} = await loginService.post('refresh', {}, {
-      withCredentials: true
-    })
-
-    if (status === 200) {
-      loginService.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`
-      return loginService(error.config)
-    }
+  if (error.response.status === 401) {
+    console.log('login service error: ' + error)
   }
-  refresh = false
   return error
 })
 

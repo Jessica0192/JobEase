@@ -2,7 +2,7 @@
 
 import router from '../router'
 import store from '@/store'
-import {api} from '../services/AuthApi'
+// import {api} from '../services/AuthApi'
 
 export default {
   name: 'LoginPage',

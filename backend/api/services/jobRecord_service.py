@@ -10,20 +10,19 @@ def get_jobRecord_by_id(db: Session, jobRecord_id: int):
     job_record = db.query(JobRecord).filter(JobRecord.id == jobRecord_id).first()
     if job_record:
         tags = [tag.id for tag in job_record.tags]
-        return {
-            'id': job_record.id,
-            'job_title': job_record.job_title,
-            'deadline_date': job_record.deadline_date,
-            'interview_date': job_record.interview_date,
-            'organization_name': job_record.organization_name,
-            'salary': job_record.salary,
-            'notes': job_record.notes,
-            'job_url': job_record.job_url,
-            'location': job_record.location,
-            'tags': tags,
-            'created_at': job_record.created_at,
-            'updated_at': job_record.updated_at
-        }
+        return jobRecord_schema.JobRecord(id=job_record.id,
+                                          job_title=job_record.job_title,
+                                          deadline_date=job_record.deadline_date,
+                                          interview_date=job_record.interview_date,
+                                          organization_name=job_record.organization_name,
+                                          salary=job_record.salary,
+                                          notes=job_record.notes,
+                                          job_url=job_record.job_url,
+                                          location=job_record.location,
+                                          tags=tags,
+                                          created_at=job_record.created_at,
+                                          updated_at=job_record.updated_at
+                                          )
     else:
         return None
 
@@ -33,21 +32,21 @@ def get_all_jobRecords(db: Session, limit: int = 100):
     result = []
     for job_record in job_records:
         tags = [tag.id for tag in job_record.tags]
-        result.append({
-            'id': job_record.id,
-            'job_title': job_record.job_title,
-            'deadline_date': job_record.deadline_date,
-            'interview_date': job_record.interview_date,
-            'organization_name': job_record.organization_name,
-            'salary': job_record.salary,
-            'notes': job_record.notes,
-            'job_url': job_record.job_url,
-            'location': job_record.location,
-            'tags': tags,
-            'created_at': job_record.created_at,
-            'updated_at': job_record.updated_at
-        })
+        result.append(jobRecord_schema.JobRecord(id=job_record.id,
+                                                 job_title=job_record.job_title,
+                                                 deadline_date=job_record.deadline_date,
+                                                 interview_date=job_record.interview_date,
+                                                 organization_name=job_record.organization_name,
+                                                 salary=job_record.salary,
+                                                 notes=job_record.notes,
+                                                 job_url=job_record.job_url,
+                                                 location=job_record.location,
+                                                 tags=tags,
+                                                 created_at=job_record.created_at,
+                                                 updated_at=job_record.updated_at
+                                                 ))
     return result
+
 
 def create_jobRecord(db: Session, jobRecord: jobRecord_schema.JobRecordCreate):
     try:

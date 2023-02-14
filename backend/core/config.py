@@ -21,6 +21,11 @@ class Settings:
     TEST_DATABASE_URL = \
         f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_SERVER}:{MYSQL_PORT}/{MYSQL_TEST_DB}"
 
+    # For JWT
+    SECRET_KEY: str = os.getenv("SECRET_KEY")
+    ALGORITHM = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES = 60  # in minutes
+
     def get_test_database_url(self):
         return self.TEST_DATABASE_URL
 

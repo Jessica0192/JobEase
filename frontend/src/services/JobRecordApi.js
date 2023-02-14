@@ -3,15 +3,18 @@
 import service from './base/service'
 import { API } from './base/config'
 
-// these are the api calls specific to User
+// these are the api calls specific to Job Record
 export const api = {
-  getJobRecordByID (args, param) {
-    return service.get(`${API.jobRecord('')}`, param)
+  getJobRecordByID (jobRecordId) {
+    return service.get(`${API.jobRecord('')}${jobRecordId}`)
   },
   getAllJobRecords () {
     return service.get(`${API.jobRecord('')}`)
   },
-  createJobRecord (args, param) {
-    return service.post(`${API.jobRecord('create_jobRecord')}`, param)
+  createJobRecord (data) {
+    return service.post(`${API.jobRecord('')}`, data)
+  },
+  updateJobRecord(jobRecordId, data){
+    return service.put(`${API.jobRecord('')}${jobRecordId}`, data)
   }
 }

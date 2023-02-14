@@ -3,7 +3,9 @@
     display: flex;
     float: left;
 }
-
 .cards-container{
     padding: 0;
+}
+.cursor-pointer {
+  cursor: pointer;
 }

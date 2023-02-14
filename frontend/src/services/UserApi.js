@@ -5,14 +5,14 @@ import { API } from './base/config'
 
 // these are the api calls specific to User
 export const api = {
-  getUserByID (args, param) {
-    return service.get(`${API.user('')}`, param)
+  getUserByID (userId) {
+    return service.get(`${API.user('')}${userId}`, )
   },
   getAllUsers () {
     return service.get(`${API.user('')}`)
   },
-  createUser (args, param) {
-    return service.post(`${API.user('')}`, param)
+  createUser (data) {
+    return service.post(`${API.user('')}`, data)
   }
   // setUser (args) {
   //   return service.post(`${API_URL}${API.user(args)}`)

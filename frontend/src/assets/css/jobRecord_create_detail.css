@@ -1,0 +1,30 @@
+.jobInfoContainer {
+  display: flex;
+  justify-content: flex-start;
+}
+td {
+  text-align: left;
+  padding: 5px;
+}
+/*fill with red when field is empty*/
+.fill-red {
+  background-color: rgba(220,20,60,0.2);
+}
+.padded-badge {
+  padding: 10px 20px;
+  margin-right: 10px;
+}
+.selected-badges {
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 20px;
+  height: 55px;
+  line-height: 50px;
+}
+.big-badge {
+  font-size: 15px;
+  padding: 10px 30px;
+}

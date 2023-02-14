@@ -1,7 +1,7 @@
 // this is a javascript file for LoginView.vue page
 import router from '../router'
 import store from '@/store'
-// import {api} from '../services/AuthApi'
+import {api} from '../services/AuthApi'
 
 export default {
   name: 'LoginPage',
@@ -42,7 +42,7 @@ export default {
           alert('Wrong username or password')
         }
         else {
-          this.msg.failedMsg = data.detail
+          this.msg.failedMsg = response.data.detail
         }
       }
     }

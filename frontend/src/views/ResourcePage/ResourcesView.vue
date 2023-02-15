@@ -19,7 +19,7 @@
         </a>
       </span>
       <ResourcePopup v-if="isPopupVisible" @close="hidePopup">
-        <h5>Add a resource</h5>
+        <h4>Add a resource</h4>
       </ResourcePopup>
       <div id="table" class="table-editable">
         <table class="table table-bordered table-responsive-md table-striped text-center">

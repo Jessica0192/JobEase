@@ -12,9 +12,9 @@
             </button>
           </div>
         </form>
-        <button class=" popup-closeBtn" @click="$emit('close')">
-          Close
-        </button>
+        <a href="#!" @click="$emit('close')" title="close">
+          <i class="fas fa-times close-icon" aria-hidden="true"></i>
+        </a>
       </div>
     </div>
   </template>
@@ -73,29 +73,34 @@
     max-height: 200px;
   }
   
-  .popup-closeBtn {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background-color:lightcoral;
-    border-width: thin;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-  }
   .popup-saveBtn {
+    font-size: 20px;
     position: absolute;
-    bottom: 10px;
-    right: 70px;
+    bottom: 15px;
+    right: 20px;
     background-color: lightgray;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
-  .popup-closeBtn:hover {background-color: rgba(233, 57, 57, 0.888)}
-
   .button:hover {background-color: gray}
+
+  .close-icon {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    margin-left: 100%;
+    margin-bottom: 100%;
+    color: red;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 5px;
+    background: rgb(242, 239, 239);
+    font-size: 1.2em;
+  }
 
 </style>
   

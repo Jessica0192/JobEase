@@ -1,4 +1,8 @@
+import ResourcePopup from '../views/ResourcePage/ResourcePopup.vue'
 export default {
+  components: {
+    ResourcePopup
+  },
     data() {
       return {
         data: [
@@ -10,6 +14,7 @@ export default {
         options: ['Resume', 'Cover Letter', 'Image', 'Audio', 'Video', 'Others'],
         sortAscending: true,
         NameOfPage: '',
+        isPopupVisible: false,
         export: ""
       };
     },
@@ -55,6 +60,12 @@ export default {
       selectOption(option, row) {
         row.selectedOption = option
         row.isOpen = false
+      },
+      showPopup() {
+        this.isPopupVisible = true;
+      },
+      hidePopup() {
+        this.isPopupVisible = false;
       }
     }
   }

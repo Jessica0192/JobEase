@@ -14,10 +14,13 @@
   <div class="card scrollable">
     <div class="card-body">
       <span>
-        <a href="#!" @click="newResource" title="Add new resource">
+        <a href="#!" @click="showPopup" title="Add new resource">
           <i class="fas fa-plus fa-2x sign-blue icon" aria-hidden="true"></i>
         </a>
       </span>
+      <ResourcePopup v-if="isPopupVisible" @close="hidePopup">
+        <h5>Add a resource</h5>
+      </ResourcePopup>
       <div id="table" class="table-editable">
         <table class="table table-bordered table-responsive-md table-striped text-center">
           <thead>
@@ -78,8 +81,8 @@
 </div>
 </template>
 
-<script src="../modules/resources.js">
+<script src="../../modules/resources.js">
 </script>
 
-<style scoped src="../assets/css/table.css">
+<style scoped src="../../assets/css/table.css">
 </style>

@@ -21,7 +21,7 @@
   </template>
   
   <script>
-  import axios from 'axios'
+  import { fileApi } from '../../services/FileApi'
   export default {
     name:'resourcePopup',
     data () {
@@ -35,15 +35,11 @@
           this.file = this.$refs.selectedFile.files[0]
           console.log(this.file)
         },
-        async saveFile () {
+        saveFile () {
           const formData = new FormData()
           formData.append('file', this.fill)
 
-          try {
-            await axios.post ('/upload', formData) 
-          } catch (err) {
-            console.log(err)
-          }          
+          fileApi.uploadFile (formData)          
         }
     }
   }

@@ -19,7 +19,6 @@
         </a>
       </span>
       <ResourcePopup v-if="isPopupVisible" @close="hidePopup">
-        <h4>Add a Resource</h4>
       </ResourcePopup>
       <div id="table" class="table-editable">
         <table class="table table-bordered table-responsive-md table-striped text-center">
@@ -52,7 +51,7 @@
                   </ul>
               </td>
               <td>
-                <span class="table-view" @click="viewFile">
+                <span class="table-view" @click="viewFile(index)">
                   <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
                     view
                   </button>

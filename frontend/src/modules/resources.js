@@ -16,8 +16,12 @@ export default {
         sortAscending: true,
         NameOfPage: '',
         isPopupVisible: false,
+        resources: [],
         export: ""
       };
+    },
+    mounted () {
+      // this.resources = fileApi.getAllResources()
     },
     methods: {
       // This function sorts an array of data objects, stored in the property "data" of the current object. 
@@ -41,8 +45,8 @@ export default {
       // To delete the row of table
       remove(index) {
         console.log(this.data[index].resourceName)
-        this.data.splice(index, 1);
         fileApi.deleteFile(this.data[index].resourceName)
+        this.data.splice(index, 1);
       },
       exportData () {
         this.export = JSON.stringify(this.data);
@@ -54,8 +58,31 @@ export default {
         await fileApi.downloadFile (this.data[index].fileLink, this.data[index].resourceName)
       },
       // TODO: send and API request to retrieve a resource from database 
-      viewFile (row) {
-        alert('file viewed', row)
+      viewFile (index) {
+        // Get the URL of the file from the data array
+        const fileUrl = this.data[index].fileLink;
+
+        // Create an XHR request to get the file data as a blob
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', fileUrl);
+        xhr.responseType = 'blob';
+
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            // Create a blob from the file data
+            const blob = new Blob([xhr.response], { type: xhr.getResponseHeader('Content-Type') })
+
+            // Create a URL for the blob
+            const blobUrl = URL.createObjectURL(blob)
+
+            // Open the URL in a new window
+            window.open(blobUrl);
+          } else {
+            console.error(`Failed to load file: ${fileUrl}`)
+          }
+        }
+
+        xhr.send()
       },
       selectOption(option, row) {
         row.selectedOption = option

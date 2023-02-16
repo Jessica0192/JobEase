@@ -1,48 +1,80 @@
 <template>
-    <div class="resourcePopup">
-      <div class="popup-inner">
-        <slot />
-        <form @submit.prevent="saveFile" enctype="multipart/form-data" style="margin-top: 40px;">
-          <div class="field">
-              <input type="file" ref="selectedFile" @change="selectFile"/>
-          </div>
-          <div class="field">
-            <button class="button is-info popup-saveBtn">
-              Save
-            </button>
-          </div>
-        </form>
-        <a href="#!" @click="$emit('close')" title="close">
-          <i class="fas fa-times close-icon" aria-hidden="true"></i>
-        </a>
-      </div>
+  <div class="resourcePopup">
+    <div class="popup-inner">
+      <div class="popup-header">
+      <h5>Add a Resource</h5>
+      <a href="#!" @click="$emit('close')" title="close">
+        <i class="fas fa-times close-icon" aria-hidden="true"></i>
+      </a>
     </div>
-  </template>
+      <slot />
+      <table style="margin-top: 50px;">
+        <tr>
+          <td>
+            <label>File Title:</label>
+          </td>
+          <td>
+            <input type="text" v-model="fileTitle" required />
+          </td>
+        </tr>
+        <tr >
+          <td>
+            <label style="margin-top: 5px;">File Type:</label>
+          </td>
+          <td>
+            <select v-model="fileType" style="margin-top: 10px;" required>
+              <option value="" disabled>-- Select --</option>
+              <option>Resume</option>
+              <option>Cover Letter</option>
+              <option>Image</option>
+              <option>Audio</option>
+              <option>Video</option>
+              <option>Others</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+      <form @submit.prevent="saveFile" enctype="multipart/form-data" style="margin-top: 30px;">
+        <div class="field">
+          <input type="file" ref="selectedFile" @change="selectFile" required />
+        </div>
+        <div class="field">
+          <button class="button is-info popup-saveBtn" :disabled="isSaveDisabled">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
   
   <script>
   import { fileApi } from '../../services/FileApi'
   export default {
     name:'resourcePopup',
     data () {
-        return {
-            fill: ''
-        }
+      return {
+        fileType: '',
+        fileTitle: '',
+        file: null
+      }
+    },
+    computed: {
+      // Check whether all the required fields have been filled
+      isSaveDisabled() {
+        return !(this.fileType && this.fileTitle && this.file)
+      },
     },
     methods: {
       selectFile () {
-        console.log('File selected')
         this.file = this.$refs.selectedFile.files[0]
-        console.log(this.file)
+        //console.log(this.file)
       },
       saveFile () {
-        if (this.file) {
-          const formData = new FormData()
-          formData.append('file', this.file)
-          fileApi.uploadFile(formData)
-        } else {
-          // show an error message
-          alert('Please select a file before saving')
-        }
+        const formData = new FormData()
+        formData.append('file', this.file)
+        fileApi.uploadFile(formData)
+        alert('File has been saved successfully!')
       }
     }
   }
@@ -60,45 +92,62 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: Helvetica;
+    font-size: 15px;
   }
-  
-  .popup-inner {
+
+  .popup-header {
     background: #fff;
+    height: 40px;
+    padding-left: 10px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: dark;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .popup-inner {
+    background-color: rgb(235, 233, 233);
     padding: 20px;
-    max-width: 500px;
+    max-width: 400px;
     width: 100%;
     height: 100%;
-    text-align: center;
+    text-align: left;
     position: relative;
-    max-height: 200px;
+    max-height: 250px;
   }
   
   .popup-saveBtn {
-    font-size: 20px;
+    font-size: 12px;
     position: absolute;
-    bottom: 15px;
-    right: 20px;
+    bottom: 10px;
+    right: 15px;
     background-color: lightgray;
-    border: none;
-    border-radius: 10px;
     cursor: pointer;
     padding-left: 20px;
     padding-right: 20px;
+    text-align: center;
+    border: 1px solid rgb(124, 122, 122);
   }
 
-  .button:hover {background-color: gray}
+  .button:hover {border-color: rgb(74, 109, 225); background-color:rgb(186, 220, 248)}
+  .close-icon:hover {background-color: rgb(238, 102, 102); color: white;}
 
   .close-icon {
     position: absolute;
-    top: 7px;
+    top: 10px;
     right: 7px;
     margin-left: 100%;
     margin-bottom: 100%;
-    color: red;
+    color: rgb(72, 70, 70);
     padding-left: 5px;
     padding-right: 5px;
-    border-radius: 5px;
-    background: rgb(242, 239, 239);
     font-size: 1.2em;
   }
 </style>

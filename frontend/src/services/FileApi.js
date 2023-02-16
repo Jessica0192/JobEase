@@ -4,7 +4,6 @@ export const fileApi = {
   //  To upload a file
   async uploadFile (formData) {
     let response = null
-
     try {
       response = await axios.post ('/upload', formData) 
     } catch (err) {
@@ -20,10 +19,8 @@ export const fileApi = {
   // To delete a file
   async deleteFile (resourceName) {
     let response = null
-
     try {
-      response = await axios.delete (`delete/${resourceName}`)
-      return response
+      response = await axios.delete (`/delete/${resourceName}`)
     } catch (err) {
       console.log(err)
     }
@@ -50,6 +47,21 @@ export const fileApi = {
     // clean up resources
     URL.revokeObjectURL(objectUrl)
     document.body.removeChild(link)
+  },
+
+  // To get all resources
+  async getAllResources () {
+    let response = null
+    try {
+      response = await axios.get('/api/resources')
+    } catch (err) {
+      console.log(err)
+    }
+    
+    if (response == null || response.status !== 200) {
+      return null
+    }
+    return response.data
   }
 }
   

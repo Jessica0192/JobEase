@@ -4,7 +4,7 @@ import service from './base/service'
 import { API } from './base/config'
 
 // these are the api calls specific to Job Record
-export const api = {
+export const jobRecordApi = {
   getJobRecordByID (jobRecordId) {
     return service.get(`${API.jobRecord('')}${jobRecordId}`)
   },

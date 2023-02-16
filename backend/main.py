@@ -2,17 +2,22 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import settings
-from db.db_setup import engine
+from db import initialize_data
+from db.db_setup import engine, SessionLocal
 from db.models import user_model
 from db.models import jobRecord_model
 from db.models import jobTag_model
-from api import user_router, auth_router, jobRecord_router, jobTag_router
-
+from db.models import jobStatus_model
+from api import user_router, auth_router, jobRecord_router, jobTag_router, jobStatus_router
+from db.models.jobStatus_model import JobStatus
 
 # Bind models
 user_model.Base.metadata.create_all(bind=engine)
-jobRecord_model.Base.metadata.create_all(bind=engine)
 jobTag_model.Base.metadata.create_all(bind=engine)
+jobStatus_model.Base.metadata.create_all(bind=engine)
+jobRecord_model.Base.metadata.create_all(bind=engine)
+
+initialize_data()
 
 app = FastAPI(title=settings.PROJECT_NAME,
               description=settings.PROJECT_DESCRIPTION,
@@ -35,6 +40,8 @@ app.include_router(user_router.router)
 app.include_router(auth_router.router)
 app.include_router(jobRecord_router.router)
 app.include_router(jobTag_router.router)
+app.include_router(jobStatus_router.router)
+
 
 @app.get("/")
 async def root():

@@ -1,5 +1,4 @@
 // this is a javascript file for LoginView.vue page
-import router from '../router'
 import store from '@/store'
 import {api} from '../services/AuthApi'
 
@@ -31,17 +30,11 @@ export default {
         })
         console.log(response)
         if (response.status === 200) {
-          alert('You are now logged in')
-
           const token = response.data.access_token
           const user = this.userNameLogin
           // calling login method in auth.js to update 'store' object
           await store.dispatch('login', { token, user })
-          await router.push({ name: 'Dashboard'})
-        } else if (response.status === 401) {
-          alert('Wrong username or password')
-        }
-        else {
+        } else {
           this.msg.failedMsg = response.data.detail
         }
       }

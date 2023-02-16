@@ -1,16 +1,26 @@
 // this file is included in both createJobRecord.js and jobRecordDetail.js
 
 import { jobTagApi } from '@/services/JobTagApi'
+import {jobStatusApi} from '@/services/JobStatusApi'
 
 export default {
   data() {
     return {
+      statusOptions: [],
       tags: [],
       selectedTags: [],
       activeItem: 'jobInfo',
     };
   },
   created() {
+    jobStatusApi.getAllStatus().then(response => {
+      if (Array.isArray(response.data)) {
+        //this.statusOptions = response.data.map(d => d.status_name);
+        this.statusOptions = response.data
+        console.log(this.statusOptions)
+      }
+    });
+
     const tagStyleClasses = ['badge-success big-badge',
                   'badge-danger big-badge',
                   'badge-warning big-badge',

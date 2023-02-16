@@ -100,7 +100,7 @@
                 @click="toggleUserDropdown"
                 aria-expanded="false"
               >
-                <label class="rounded-circle" loading="lazy">User 1</label>
+                <label class="rounded-circle" loading="lazy">{{ userName }}</label>
               </a>
               <ul
                 class="dropdown-menu dropdown-menu-end"
@@ -133,7 +133,7 @@
 <script>
 import SidebarLink from './SidebarLink.vue'
 import store from '@/store'
-import router from '@/router'
+
 export default {
   data() {
     return {
@@ -158,12 +158,15 @@ export default {
       }
     },
     toggleUserDropdown() {
-      console.log(this.showUserDropdown)
       this.showUserDropdown = !this.showUserDropdown;
     },
     async logout () {
       await store.dispatch('logout', `${localStorage.getItem('token')}`, store.getters.getUser )
-      await router.push({ name: 'Login'})
+    }
+  },
+  computed: {
+    userName () {
+      return localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : "";
     }
   }
 }

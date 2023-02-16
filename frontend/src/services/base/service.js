@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import store from '@/store'
 
 // Provide basic information according to the project settings.
 const service = axios.create({
@@ -24,10 +25,16 @@ service.interceptors.request.use(
 
 // Include the necessary processing in the response.
 service.interceptors.response.use(resp => resp, async error => {
+  console.log(error);
+
   if (error.response.status === 401) {
-    console.log("Service Error: " + error)
+    // 401 error occurred, dispatch logout action
+    await store.dispatch('logout');
   }
-  return error
+
+  // it is used to reject the Promise chain and propagate the error to the caller of the service method.
+  // This allows the caller to handle the error appropriately based on the error message or status code.
+  return Promise.reject(error);
 })
 // (res) => { return res },
 // (error) => Promise.reject(error)

@@ -1,5 +1,5 @@
 import { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardLink  } from "mdb-vue-ui-kit";
-import {api} from '../../services/JobRecordApi'
+import {jobRecordApi} from '../../services/JobRecordApi'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -25,7 +25,7 @@ export default {
   },
   created () {
    // API call to retrieve job records and store in the jobs property
-   api.getAllJobRecords().then(response => {
+   jobRecordApi.getAllJobRecords().then(response => {
      this.jobs = response.data;
    });
  },

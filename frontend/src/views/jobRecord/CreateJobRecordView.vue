@@ -49,9 +49,7 @@
                     </td>
                     <td style="width: 40%;">
                       <select v-model="jobStatus" :class="{ 'fill-red': !jobStatus }">
-                        <option>Active</option>
-                        <option>Inactive</option>
-                        <option>Pending</option>
+                        <option v-for="status in statusOptions" :key="status.status_name" :value="status.status_name">{{ status.status_name }}</option>
                       </select>
                     </td>
                   </tr>

@@ -2,29 +2,23 @@ from datetime import datetime
 from pydantic import BaseModel, validator
 from typing import List
 
+from db import JobStatus
+
 
 class JobRecordBase(BaseModel):
-    # jobStatus should be included later
+    # jobStatus, portfolio should be included later
     job_title: str
+    status: str
+    notes: str
+
+class JobRecordAll(JobRecordBase):
     deadline_date: datetime
     interview_date: datetime
     organization_name: str
     salary: float
-    notes: str
     job_url: str
     location: str
-    tags: List[int]
-
-
-class JobRecordCreate(JobRecordBase):
-    # tags, portfolio should be included later
-    pass
-
-
-class JobRecordUpdate(JobRecordBase):
-    # tags, portfolio should be included later
-    pass
-
+    tags_id: List[int]
 
 class JobRecord(JobRecordBase):
     id: int
@@ -33,3 +27,6 @@ class JobRecord(JobRecordBase):
 
     class Config:
         orm_mode = True
+
+
+

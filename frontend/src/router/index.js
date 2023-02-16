@@ -115,7 +115,7 @@ const router = createRouter({
 
 router.beforeResolve((to, from, next) => {
   if (to.meta.needsAuth) {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem('user')) {
       next()
     } else {
       next('/login')

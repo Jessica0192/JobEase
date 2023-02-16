@@ -13,5 +13,5 @@ router = fastapi.APIRouter(
 
 
 @router.get("/", response_model=list[jobTag_schema.JobTag])
-async def retrieve_all_jobRecords(limit: int = 100, db: Session = Depends(get_db)):
+async def retrieve_all_jobTags(limit: int = 100, db: Session = Depends(get_db)):
     return jobTag_service.get_all_tags(db=db, limit=limit)

@@ -101,6 +101,5 @@
     background: rgb(242, 239, 239);
     font-size: 1.2em;
   }
-
 </style>
   

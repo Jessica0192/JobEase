@@ -1,4 +1,5 @@
 import ResourcePopup from '../views/ResourcePage/ResourcePopup.vue'
+import { fileApi } from '../services/FileApi'
 export default {
   components: {
     ResourcePopup
@@ -38,13 +39,9 @@ export default {
       this.sortAscending = !this.sortAscending;
       },
       // To delete the row of table
-      // TODO: send and API request to delete the resource from the database
       remove(index) {
         this.data.splice(index, 1);
-      },
-      // TODO: send and API request to create a resource and save it the database
-      newResource () {
-        alert('need a page or pop up for adding new Resource')
+        fileApi.deleteFile(this.data[index].resourceName)
       },
       exportData () {
         this.export = JSON.stringify(this.data);

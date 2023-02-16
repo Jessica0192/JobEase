@@ -7,6 +7,14 @@ export const fileApi = {
       } catch (err) {
         console.log(err)
       } 
+    },
+
+    async deleteFile (resourceName) {
+      try {
+        await axios.delete (`delete/${resourceName}`) 
+      } catch (err) {
+        console.log(err)
+      } 
     }
   }
   

@@ -3,8 +3,8 @@ import store from '@/store'
 
 // Provide basic information according to the project settings.
 const service = axios.create({
-  baseURL: 'http://localhost:8000/'
-  // timeout,
+  baseURL: 'http://localhost:8000/',
+  timeout: 30000
   // withCredentials,
 })
 
@@ -36,8 +36,6 @@ service.interceptors.response.use(resp => resp, async error => {
   // This allows the caller to handle the error appropriately based on the error message or status code.
   return Promise.reject(error);
 })
-// (res) => { return res },
-// (error) => Promise.reject(error)
 
 // these are the default methods when calling api call
 export default {

@@ -20,8 +20,24 @@ export default {
   },
   data() {
     return {
+      searchText: '',
       jobs: []
     };
+  },
+  computed: {
+    filteredJobs() {
+      if (!this.searchText) {
+        return this.jobs;
+      }
+      const searchTextLower = this.searchText.toLowerCase();
+      return this.jobs.filter(job => {
+        return (
+          job.job_title.toLowerCase().includes(searchTextLower) ||
+          job.status.toLowerCase().includes(searchTextLower) ||
+          job.notes.toLowerCase().includes(searchTextLower)
+        );
+      });
+    },
   },
   created () {
    // API call to retrieve job records and store in the jobs property

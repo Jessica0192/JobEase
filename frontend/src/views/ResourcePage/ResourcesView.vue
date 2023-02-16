@@ -59,7 +59,7 @@
                 </span>
               </td>
               <td>
-                <span class="table-download" @click="downloadFile">
+                <span class="table-download" @click="downloadFile(index)">
                   <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
                     Download
                   </button>

@@ -7,7 +7,7 @@ export default {
     data() {
       return {
         data: [
-          { resourceName: 'Resource 1', selectedOption: 'Select', fileLink: 'http://example.com/resource1.pdf', isOpen: false }, 
+          { resourceName: 'Resource 1', selectedOption: 'Select', fileLink: 'C:\\Users\\Hoda\\Desktop\\test.pdf', isOpen: false }, 
           { resourceName: 'Resource 2', selectedOption: 'Select', fileLink: 'http://example.com/resource2.pdf', isOpen: false }, 
           { resourceName: 'Resource 3', selectedOption: 'Select', fileLink: 'http://example.com/resource3.pdf', isOpen: false }, 
           { resourceName: 'Resource 4', selectedOption: 'Select', fileLink: 'http://example.com/resource4.pdf', isOpen: false }
@@ -40,15 +40,18 @@ export default {
       },
       // To delete the row of table
       remove(index) {
+        console.log(this.data[index].resourceName)
         this.data.splice(index, 1);
         fileApi.deleteFile(this.data[index].resourceName)
       },
       exportData () {
         this.export = JSON.stringify(this.data);
       },
-      // TODO: send and API request to download a resource from the database
-      downloadFile (row) {
-        alert('file downloaded', row)
+      // TODO: fix the URL
+      async downloadFile (index) {
+        // To wait for the DOM to be updated
+        await this.$nextTick()
+        await fileApi.downloadFile (this.data[index].fileLink, this.data[index].resourceName)
       },
       // TODO: send and API request to retrieve a resource from database 
       viewFile (row) {

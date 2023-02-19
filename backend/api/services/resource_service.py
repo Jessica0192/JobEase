@@ -1,7 +1,15 @@
+import os
+import aiofiles
+from fastapi import UploadFile
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from db.models.resource_model import Resource
 from pydantic_schemas import resource_schema
+
+
+CURR_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(CURR_DIR))
+UPLOADED_RESOURCES_FOLDER_PATH = os.path.join(BASE_DIR, "uploaded_resources")
 
 
 def get_resource_by_id(db: Session, resource_id: int):
@@ -35,9 +43,9 @@ def get_all_resources(db: Session, limit: int = 100):
     return db.query(Resource).limit(limit).all()
 
 
-def create_resource(db: Session, resource: resource_schema.ResourceCreate, resource_user_id: int):
+def create_resource(db: Session, resource: resource_schema.ResourceCreate, resource_user_id: int, resource_name: str):
     try:
-        db_resource = Resource(resource_name=resource.resource_name,
+        db_resource = Resource(resource_name=resource_name,
                                resource_type_id=resource.resource_type_id,
                                resource_extension_type_id=resource.resource_extension_type_id,
                                resource_user_id=resource_user_id)
@@ -52,3 +60,16 @@ def create_resource(db: Session, resource: resource_schema.ResourceCreate, resou
         print("\nHandled Exception: Trying to create a new resource with duplicate resource name\n"
               "Error Args:" + str(error.args))
         return None
+
+
+async def store_resource(username: str, file: UploadFile):
+    user_specific_path = os.path.join(UPLOADED_RESOURCES_FOLDER_PATH, username)
+    file_path = os.path.join(user_specific_path, file.filename)
+
+    if not os.path.exists(UPLOADED_RESOURCES_FOLDER_PATH):
+        os.makedirs(UPLOADED_RESOURCES_FOLDER_PATH)
+    if not os.path.exists(user_specific_path):
+        os.makedirs(user_specific_path)
+    async with aiofiles.open(file_path, "wb") as outfile:
+        content = await file.read()
+        await outfile.write(content)

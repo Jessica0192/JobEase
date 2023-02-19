@@ -1,5 +1,5 @@
 import fastapi
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, File, UploadFile
 from sqlalchemy.orm import Session
 
 from db.db_setup import get_db
@@ -46,13 +46,17 @@ async def retrieve_all_resources(limit: int = 100,
 
 
 @router.post("/", response_model=resource_schema.Resource)
-async def create_new_resource(resource: resource_schema.ResourceCreate,
+async def create_new_resource(resource: resource_schema.ResourceCreate = Depends(),
+                              file: UploadFile = File(...),
                               db: Session = Depends(get_db),
                               current_user: User = Depends(auth_service.get_current_user_from_token)):
-    db_resource = resource_service.create_resource(db=db, resource=resource, resource_user_id=current_user.id)
+    db_resource = resource_service.create_resource(db=db, resource=resource,
+                                                   resource_user_id=current_user.id,
+                                                   resource_name=file.filename)
     if db_resource is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Resource already exists")
 
+    await resource_service.store_resource(username=current_user.username, file=file)
     return db_resource
 
 

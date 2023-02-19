@@ -12,7 +12,8 @@ def get_resource_by_id(db: Session, resource_id: int):
                                         resource_type_id=db_resource.resource_type_id,
                                         resource_type=db_resource.resource_type,
                                         resource_extension_type_id=db_resource.resource_extension_type_id,
-                                        resource_extension_type=db_resource.resource_extension_type
+                                        resource_extension_type=db_resource.resource_extension_type,
+                                        resource_user_id=db_resource.resource_user_id
                                         )
     else:
         return None
@@ -26,15 +27,20 @@ def delete_resource_by_id(db: Session, resource_id: int):
     db.commit()
 
 
+def get_all_resources_for_user(db: Session, user_id: int, limit: int = 100):
+    return db.query(Resource).filter(Resource.resource_user_id == user_id).limit(limit).all()
+
+
 def get_all_resources(db: Session, limit: int = 100):
     return db.query(Resource).limit(limit).all()
 
 
-def create_resource(db: Session, resource: resource_schema.ResourceCreate):
+def create_resource(db: Session, resource: resource_schema.ResourceCreate, resource_user_id: int):
     try:
         db_resource = Resource(resource_name=resource.resource_name,
                                resource_type_id=resource.resource_type_id,
-                               resource_extension_type_id=resource.resource_extension_type_id)
+                               resource_extension_type_id=resource.resource_extension_type_id,
+                               resource_user_id=resource_user_id)
         db.add(db_resource)
         db.commit()
         db.refresh(db_resource)

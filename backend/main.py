@@ -30,6 +30,7 @@ user_model.Base.metadata.create_all(bind=engine)
 jobRecord_model.Base.metadata.create_all(bind=engine)
 jobTag_model.Base.metadata.create_all(bind=engine)
 resource_type_model.Base.metadata.create_all(bind=engine)
+resource_extension_type_model.Base.metadata.create_all(bind=engine)
 resource_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title=settings.PROJECT_NAME,

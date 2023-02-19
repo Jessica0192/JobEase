@@ -18,6 +18,14 @@ def get_resource_by_id(db: Session, resource_id: int):
         return None
 
 
+def delete_resource_by_id(db: Session, resource_id: int):
+    existing_resource = db.query(Resource).filter(Resource.id == resource_id)
+    if not existing_resource.first():
+        return False
+    existing_resource.delete()
+    db.commit()
+
+
 def get_all_resources(db: Session, limit: int = 100):
     return db.query(Resource).limit(limit).all()
 

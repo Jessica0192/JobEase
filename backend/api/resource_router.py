@@ -39,3 +39,12 @@ async def create_new_resource(resource: resource_schema.ResourceCreate,
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Resource already exists")
 
     return db_resource
+
+
+@router.delete("/{resource_id}")
+def delete_resource(resource_id: int,
+                    db: Session = Depends(get_db)):
+    db_resource = resource_service.delete_resource_by_id(db=db, resource_id=resource_id)
+    if db_resource is False:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Resource not found, so cannot be deleted")
+    return {"message": "Successfully deleted"}

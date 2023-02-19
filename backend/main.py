@@ -4,11 +4,8 @@ from sqlalchemy import event
 
 from core.config import settings
 from db.db_setup import engine, Base
-from db.models import user_model
-from db.models import jobRecord_model
-from db.models import jobTag_model
-from db.models import resource_type_model
-from api import user_router, auth_router, jobRecord_router, jobTag_router, resource_type_router
+from db.models import user_model, jobRecord_model, jobTag_model, resource_type_model, resource_model
+from api import user_router, auth_router, jobRecord_router, jobTag_router, resource_type_router, resource_router
 from api.services.resource_type_service import populate_initial_data
 
 
@@ -28,7 +25,7 @@ user_model.Base.metadata.create_all(bind=engine)
 jobRecord_model.Base.metadata.create_all(bind=engine)
 jobTag_model.Base.metadata.create_all(bind=engine)
 resource_type_model.Base.metadata.create_all(bind=engine)
-
+resource_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title=settings.PROJECT_NAME,
               description=settings.PROJECT_DESCRIPTION,
@@ -52,6 +49,7 @@ app.include_router(auth_router.router)
 app.include_router(jobRecord_router.router)
 app.include_router(jobTag_router.router)
 app.include_router(resource_type_router.router)
+app.include_router(resource_router.router)
 
 
 @app.get("/")

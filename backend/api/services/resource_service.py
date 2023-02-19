@@ -10,7 +10,9 @@ def get_resource_by_id(db: Session, resource_id: int):
         return resource_schema.Resource(id=db_resource.id,
                                         resource_name=db_resource.resource_name,
                                         resource_type_id=db_resource.resource_type_id,
-                                        resource_type=db_resource.resource_type
+                                        resource_type=db_resource.resource_type,
+                                        resource_extension_type_id=db_resource.resource_extension_type_id,
+                                        resource_extension_type=db_resource.resource_extension_type
                                         )
     else:
         return None
@@ -23,7 +25,8 @@ def get_all_resources(db: Session, limit: int = 100):
 def create_resource(db: Session, resource: resource_schema.ResourceCreate):
     try:
         db_resource = Resource(resource_name=resource.resource_name,
-                               resource_type_id=resource.resource_type_id)
+                               resource_type_id=resource.resource_type_id,
+                               resource_extension_type_id=resource.resource_extension_type_id)
         db.add(db_resource)
         db.commit()
         db.refresh(db_resource)

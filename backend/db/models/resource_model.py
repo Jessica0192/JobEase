@@ -9,7 +9,7 @@ class Resource(Base, Timestamp):
     __tablename__ = "resources"
 
     id = Column(Integer, primary_key=True, index=True)
-    resource_name = Column(String(45), nullable=False, unique=True)
+    resource_name = Column(String(85), nullable=False)
     resource_type_id = Column(Integer, ForeignKey("resource_types.id"))
     resource_extension_type_id = Column(Integer, ForeignKey("resource_extension_types.id"))
     resource_user_id = Column(Integer, ForeignKey("users.id"))

@@ -43,8 +43,31 @@ def get_all_resources(db: Session, limit: int = 100):
     return db.query(Resource).limit(limit).all()
 
 
+def check_by_id_if_resource_exists_for_user(db: Session, resource_id: int, user_id: int):
+    db_resource = db.query(Resource).filter(Resource.id == resource_id,
+                                            Resource.resource_user_id == user_id).first()
+    if db_resource:
+        return db_resource
+    else:
+        return None
+
+
+def check_by_name_if_resource_exists_for_user(db: Session, resource_name: str, user_id: int):
+    db_resource = db.query(Resource).filter(Resource.resource_name == resource_name,
+                                            Resource.resource_user_id == user_id).first()
+    if db_resource:
+        return db_resource
+    else:
+        return None
+
+
 def create_resource(db: Session, resource: resource_schema.ResourceCreate, resource_user_id: int, resource_name: str):
     try:
+        existing_resource = check_by_name_if_resource_exists_for_user(db=db,
+                                                                      resource_name=resource_name,
+                                                                      user_id=resource_user_id)
+        if existing_resource is not None:
+            return None
         db_resource = Resource(resource_name=resource_name,
                                resource_type_id=resource.resource_type_id,
                                resource_extension_type_id=resource.resource_extension_type_id,
@@ -54,10 +77,8 @@ def create_resource(db: Session, resource: resource_schema.ResourceCreate, resou
         db.refresh(db_resource)
         return db_resource
     except IntegrityError as error:
-        # TODO 2 different errors code 1452 for inserting resource type that does not exist
-        #  code 1062 for duplicate entry
         # Handle the exception gracefully and log for being informative
-        print("\nHandled Exception: Trying to create a new resource with duplicate resource name\n"
+        print("\nHandled Exception: Trying to create a new resource with invalid resource type or extension type\n"
               "Error Args:" + str(error.args))
         return None
 
@@ -73,3 +94,12 @@ async def store_resource(username: str, file: UploadFile):
     async with aiofiles.open(file_path, "wb") as outfile:
         content = await file.read()
         await outfile.write(content)
+
+
+def get_resource_from_store(username: str, filename: str):
+    user_specific_path = os.path.join(UPLOADED_RESOURCES_FOLDER_PATH, username)
+    file_path = os.path.join(user_specific_path, filename)
+
+    if os.path.isfile(file_path):
+        return file_path
+    return False

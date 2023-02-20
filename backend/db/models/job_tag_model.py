@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import relationship
 
-from .jobRecord_model import job_record_tag
+from .job_record_model import job_record_tag
 from ..db_setup import Base
 from .mixins import Timestamp
 

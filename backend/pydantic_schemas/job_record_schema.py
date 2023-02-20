@@ -1,15 +1,15 @@
 from datetime import datetime
 from pydantic import BaseModel, validator
 from typing import List
-
-from db import JobStatus
+from pydantic_schemas.job_status_schema import JobStatus
 
 
 class JobRecordBase(BaseModel):
     # jobStatus, portfolio should be included later
     job_title: str
-    status: str
+    status: JobStatus
     notes: str
+
 
 class JobRecordAll(JobRecordBase):
     deadline_date: datetime
@@ -20,6 +20,7 @@ class JobRecordAll(JobRecordBase):
     location: str
     tags_id: List[int]
 
+
 class JobRecord(JobRecordBase):
     id: int
     created_at: datetime
@@ -27,6 +28,3 @@ class JobRecord(JobRecordBase):
 
     class Config:
         orm_mode = True
-
-
-

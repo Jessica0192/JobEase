@@ -12,10 +12,7 @@ class JobRecord(Base, Timestamp):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))  # FK added
-    user = relationship("User", backref="job_records")
     status_id = Column(Integer, ForeignKey('job_status.id'))    # FK added
-    status = relationship('JobStatus', back_populates='job_records')
-    tags = relationship("JobTag", secondary=job_record_tag, back_populates="job_records")
     # portfolio
     job_title = Column(String(45), nullable=False, unique=True)
     deadline_date = Column(DateTime, default=datetime.datetime.utcnow, nullable=True)
@@ -25,3 +22,7 @@ class JobRecord(Base, Timestamp):
     notes = Column(String(100), nullable=True)
     job_url = Column(String(45), nullable=True)
     location = Column(String(45), nullable=True)
+
+    user = relationship("User", backref="job_records")
+    status = relationship('JobStatus', back_populates='job_records')
+    tags = relationship("JobTag", secondary=job_record_tag, back_populates="job_records")

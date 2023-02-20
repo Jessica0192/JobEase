@@ -38,7 +38,8 @@ export default {
             }
           }
       } catch (error) {
-        console.error(error);
+          console.log(error)
+          alert(error)
       }
     },
     async saveJobRecord () {

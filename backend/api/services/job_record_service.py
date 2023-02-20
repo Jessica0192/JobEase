@@ -1,19 +1,19 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from db import JobStatus
-from db.models.jobRecord_model import JobRecord
-from db.models.jobTag_model import JobTag
+from db.models.job_record_model import JobRecord
+from db.models.job_status_model import JobStatus
+from db.models.job_tag_model import JobTag
 from db.models.user_model import User
-from pydantic_schemas import jobRecord_schema
+from pydantic_schemas import job_record_schema
 from core.hashing import Hasher
 
 
-def get_jobRecord_by_id(db: Session, jobRecord_id: int):
-    job_record = db.query(JobRecord).filter(JobRecord.id == jobRecord_id).first()
+def get_jobRecord_by_id(db: Session, job_record_id: int):
+    job_record = db.query(JobRecord).filter(JobRecord.id == job_record_id).first()
     if job_record:
         tag_ids = [tag.id for tag in job_record.tags]
-        return jobRecord_schema.JobRecordAll(id=job_record.id,
+        return job_record_schema.JobRecordAll(id=job_record.id,
                                              job_title=job_record.job_title,
                                              status=job_record.status.status_name,
                                              deadline_date=job_record.deadline_date,
@@ -34,7 +34,7 @@ def get_all_jobRecords(current_user_id: int, db: Session, limit: int = 100):
     result = []
     for job_record in job_records:
         tags = [tag.id for tag in job_record.tags]
-        result.append(jobRecord_schema.JobRecord(id=job_record.id,
+        result.append(job_record_schema.JobRecord(id=job_record.id,
                                                  job_title=job_record.job_title,
                                                  status=job_record.status.status_name,
                                                  notes=job_record.notes,
@@ -44,7 +44,7 @@ def get_all_jobRecords(current_user_id: int, db: Session, limit: int = 100):
     return result
 
 
-def create_jobRecord(current_user_id: int, db: Session, job_record: jobRecord_schema.JobRecordAll):
+def create_jobRecord(current_user_id: int, db: Session, job_record: job_record_schema.JobRecordAll):
     try:
         # Update status
         new_status = db.query(JobStatus).filter_by(status_name=job_record.status).one()
@@ -81,7 +81,7 @@ def create_jobRecord(current_user_id: int, db: Session, job_record: jobRecord_sc
         return None
 
 
-def update_jobRecord(db: Session, job_record_id: int, job_record: jobRecord_schema.JobRecordAll):
+def update_jobRecord(db: Session, job_record_id: int, job_record: job_record_schema.JobRecordAll):
     try:
         item = db.query(JobRecord).filter(JobRecord.id == job_record_id).first()
         if item:

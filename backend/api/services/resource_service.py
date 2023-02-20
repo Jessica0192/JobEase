@@ -103,3 +103,12 @@ def get_resource_from_store(username: str, filename: str):
     if os.path.isfile(file_path):
         return file_path
     return False
+
+
+def remove_resource_from_store(username: str, filename: str):
+    user_specific_path = os.path.join(UPLOADED_RESOURCES_FOLDER_PATH, username)
+    file_path = os.path.join(user_specific_path, filename)
+
+    if os.path.isfile(file_path):
+        os.remove(file_path)
+    return False

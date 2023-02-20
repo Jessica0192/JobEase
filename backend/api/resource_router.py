@@ -113,6 +113,7 @@ def delete_resource(resource_id: int,
     db_resource = resource_service.get_resource_by_id(db=db, resource_id=resource_id)
 
     if db_resource is not None:
+        file_name = db_resource.resource_name
         if current_user.id != db_resource.resource_user_id and current_user.is_super_user is False:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
 
@@ -120,5 +121,6 @@ def delete_resource(resource_id: int,
         if deleted_resource is False:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                                 detail="Resource not found, so cannot be deleted")
+        resource_service.remove_resource_from_store(username=current_user.username, filename=file_name)
         return {"message": "Successfully deleted"}
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Resource not found, so cannot be deleted")

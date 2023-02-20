@@ -1,8 +1,15 @@
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-from db.models.job_tag_model import JobTag
-from pydantic_schemas import user_schema
-from core.hashing import Hasher
+from db.models.job_tag_model import JobTag, JobTagEnum
+from db.db_setup import get_db
+
+
+def populate_initial_data():
+    # Get the db session from Generator object (yield)
+    db = next(get_db())
+    for job_tag in JobTagEnum:
+        db.add(JobTag(job_tag))
+    db.commit()
+    db.close()
 
 
 def get_all_tags(db: Session):

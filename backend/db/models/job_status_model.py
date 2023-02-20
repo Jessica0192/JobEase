@@ -16,4 +16,5 @@ class JobStatus(Base):
     __tablename__ = "job_status"
 
     id = Column(Integer, primary_key=True, index=True)
-    status = Column(Enum(JobStatusEnum, values_callable=lambda obj: [e.value for e in obj]), nullable=False)
+    status_name = Column(Enum(JobStatusEnum, values_callable=lambda obj: [e.value for e in obj]), nullable=False)
+    job_records = relationship("JobRecord", back_populates="status")

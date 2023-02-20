@@ -117,7 +117,7 @@
         </div>
         <br/>
         <div class="badge-list">
-          <a v-for="(tag, index) in tags" :key="index" href="#" class="badge padded-badge" :class="tag.class" @click="selectTag(tag)">{{ tag.tag_name }}</a>
+          <a v-for="(tag, index) in tempTags" :key="index" href="#" class="badge padded-badge" :class="tag.class" @click="selectTag(tag)">{{ tag.tag_name }}</a>
         </div>
       </div>
       <!--end of second tab-->

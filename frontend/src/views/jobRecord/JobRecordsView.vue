@@ -28,7 +28,7 @@
           <MDBCard class="h-80">
             <MDBCardBody>
               <MDBCardTitle>{{ job.job_title }}</MDBCardTitle>
-              <MDBCardTitle subtitle class="mb-2 text-muted">{{ job.status }}</MDBCardTitle>
+              <MDBCardTitle subtitle class="mb-2 text-muted">{{ job.status.status_name }}</MDBCardTitle>
               <MDBCardText>
                 {{ job.notes }}
               </MDBCardText>

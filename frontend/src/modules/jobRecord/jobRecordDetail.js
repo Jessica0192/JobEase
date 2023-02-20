@@ -26,12 +26,13 @@ export default {
            this.job = response.data;
         });
 
-        let tempSelectedTags = this.job.tags_id
+        let tempSelectedTags = this.job.tags
          for (let i = 0; i < tempSelectedTags.length; i++) {
-            let tempId = tempSelectedTags[i];
-            for (let j = 0; j < this.tags.length; j++) {
-              if (tempId === this.tags[j].id) {
-                let foundTag = this.tags.splice(j, 1)[0];
+            let tempId = tempSelectedTags[i].id;
+            for (let j = 0; j < this.tempTags.length; j++) {
+              console.log(`this.tags: ${this.tags[j]}`)
+              if (tempId === this.tempTags[j].id) {
+                let foundTag = this.tempTags.splice(j, 1)[0];
                 this.selectedTags.push(foundTag);
                 break;
               }
@@ -51,7 +52,7 @@ export default {
 
         const inputs = {
             job_title: this.job.job_title,
-            status: this.statusOptions.find(x=> x.status_name === this.job.status).status_name,
+            status: this.statusOptions.find(s=> s.status_name === this.job.status.status_name),
             deadline_date: deadlineDateTime.toISOString(),
             interview_date: interviewDateTime.toISOString(),
             organization_name: this.job.organization_name,
@@ -59,7 +60,7 @@ export default {
             notes: this.job.notes,
             job_url: this.job.job_url,
             location: this.job.location,
-            tags_id: Array.from(this.selectedTags, tag => parseInt(tag.id))
+            tags: this.tags.filter(tag => this.selectedTags.map(tag => tag.id).includes(tag.id))
           }
 
           console.log(inputs)

@@ -47,7 +47,7 @@
                       </div>
                     </td>
                     <td style="width: 40%;">
-                      <select v-model="job.status" :class="{ 'fill-red': !job.status }">
+                      <select v-model="job.status.status_name" :class="{ 'fill-red': !job.status }">
                         <option v-for="status in statusOptions" :key="status.status_name" :value="status.status_name">{{ status.status_name }}</option>
                       </select>
                     </td>
@@ -114,7 +114,7 @@
         </div>
         <br/>
         <div class="badge-list">
-          <a v-for="(tag, index) in tags" :key="index" href="#" class="badge padded-badge" :class="tag.class" @click="selectTag(tag)">{{ tag.tag_name }}</a>
+          <a v-for="(tag, index) in tempTags" :key="index" href="#" class="badge padded-badge" :class="tag.class" @click="selectTag(tag)">{{ tag.tag_name }}</a>
         </div>
       </div>
       <!--end of second tab-->

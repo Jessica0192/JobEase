@@ -6,8 +6,9 @@ import {jobStatusApi} from '@/services/JobStatusApi'
 export default {
   data() {
     return {
-      statusOptions: [],
-      tags: [],
+      statusOptions: [],  // status data with status_name and id
+      tags: [],   // original tag with tag_name and id
+      tempTags: [], // temp tags data with extra property called classes which is for style
       selectedTags: [],
       activeItem: 'jobInfo',
     };
@@ -29,8 +30,9 @@ export default {
                   'badge-dark big-badge'];
     // Make API call to get the tag data
     jobTagApi.getAllTags().then(response => {
-      if (Array.isArray(response.data)) {
-        this.tags = response.data.map((tag, index) => {
+      this.tags = response.data
+      if (Array.isArray(this.tags)) {
+        this.tempTags = this.tags.map((tag, index) => {
           return {...tag, class: tagStyleClasses[index % tagStyleClasses.length]};
         });
       }
@@ -48,10 +50,10 @@ export default {
     // when
     selectTag(tag) {
       this.selectedTags.push(tag);
-      this.tags = this.tags.filter(b => b !== tag);
+      this.tempTags = this.tempTags.filter(b => b !== tag);
     },
     removeTag(tag) {
-      this.tags.push(tag);
+      this.tempTags.push(tag);
       this.selectedTags = this.selectedTags.filter(b => b !== tag);
     }
   },

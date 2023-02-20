@@ -20,13 +20,14 @@ export default {
   methods: {
     // create job record by calling api end point and navigate to Job Record page
     async createJobRecord () {
+      console.log(this.jobStatus)
       if(this.jobTitle !== '' && this.jobStatus !== '')    //include tag later in if statement
       {
         let deadlineDateTime = (this.deadlineDate !== "") ? new Date(this.deadlineDate) : null;
         let interviewDateTime = (this.interviewDate !== "") ? new Date(this.interviewDate) : null;
         const inputs = {
             job_title: this.jobTitle,
-            status: this.statusOptions.find(s=> s.status_name === this.jobStatus).status_name,
+            status: this.statusOptions.find(s=> s.status_name === this.jobStatus),
             deadline_date: (deadlineDateTime!==null)?deadlineDateTime.toISOString():new Date().toISOString(),
             interview_date: (interviewDateTime!==null)?interviewDateTime.toISOString():new Date().toISOString(),
             organization_name: this.organization,
@@ -34,7 +35,7 @@ export default {
             notes: this.note,
             job_url: this.jobUrl,
             location: this.location,
-            tags_id: Array.from(this.selectedTags, tag => parseInt(tag.id))
+            tags: this.tags.filter(tag => this.selectedTags.map(tag => tag.id).includes(tag.id))
           }
 
           console.log(inputs)

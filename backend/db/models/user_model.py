@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from ..db_setup import Base
@@ -15,6 +15,7 @@ class User(Base, Timestamp):
     username = Column(String(45), nullable=False, unique=True)
     is_super_user = Column(Boolean, nullable=False, default=False)
     hashed_password = Column(String(65), nullable=False)
+    resources = relationship("Resource", back_populates="user")
 
     def __init__(self, first_name, last_name, email, username, hashed_password):
         self.first_name = first_name

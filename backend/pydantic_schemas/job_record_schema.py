@@ -2,6 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel, validator
 from typing import List
 from pydantic_schemas.job_status_schema import JobStatus
+from pydantic_schemas.job_tag_schema import JobTag
 
 
 class JobRecordBase(BaseModel):
@@ -18,7 +19,7 @@ class JobRecordAll(JobRecordBase):
     salary: float
     job_url: str
     location: str
-    tags_id: List[int]
+    tags: List[JobTag]
 
 
 class JobRecord(JobRecordBase):

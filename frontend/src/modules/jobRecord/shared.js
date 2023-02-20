@@ -15,10 +15,8 @@ export default {
   },
   created() {
     jobStatusApi.getAllStatus().then(response => {
-      if (Array.isArray(response.data)) {
-        //this.statusOptions = response.data.map(d => d.status_name);
+      if (response && response.status === 200 && Array.isArray(response.data)) {
         this.statusOptions = response.data
-        console.log(this.statusOptions)
       }
     });
 
@@ -30,11 +28,13 @@ export default {
                   'badge-dark big-badge'];
     // Make API call to get the tag data
     jobTagApi.getAllTags().then(response => {
-      this.tags = response.data
-      if (Array.isArray(this.tags)) {
-        this.tempTags = this.tags.map((tag, index) => {
-          return {...tag, class: tagStyleClasses[index % tagStyleClasses.length]};
-        });
+      if (response && response.status === 200){
+        this.tags = response.data
+        if (Array.isArray(this.tags)) {
+          this.tempTags = this.tags.map((tag, index) => {
+            return {...tag, class: tagStyleClasses[index % tagStyleClasses.length]};
+          });
+        }
       }
     });
   },

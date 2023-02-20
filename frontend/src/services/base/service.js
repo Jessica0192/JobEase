@@ -25,20 +25,20 @@ service.interceptors.request.use(
 
 // Include the necessary processing in the response.
 service.interceptors.response.use(resp => resp, async error => {
-  console.log(error);
+  alert(error.response.data.detail);
 
-  if (error.response.status === 401) {
-    // 401 error occurred, dispatch logout action
-    await store.dispatch('logout');
+  if (error.response) {
+    if (error.response.status === 401) {
+      // 401 error occurred, dispatch logout action
+      await store.dispatch('logout');
+    }
+
+    if (error.response.status === 404) {
+      throw new Error('Object not found');
+    }
   }
 
-  if (error.response.status === 404) {
-    throw new Error('Object not found');
-  }
-
-  // it is used to reject the Promise chain and propagate the error to the caller of the service method.
-  // This allows the caller to handle the error appropriately based on the error message or status code.
-  return Promise.reject(error);
+  return error;
 })
 
 // these are the default methods when calling api call

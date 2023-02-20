@@ -23,14 +23,15 @@ export default {
       // this is api call getting job record data by passing job record id
       try {
         await jobRecordApi.getJobRecordByID(this.id).then(response => {
-           this.job = response.data;
+          if(response && response.status===200) {
+            this.job = response.data;
+          }
         });
 
         let tempSelectedTags = this.job.tags
          for (let i = 0; i < tempSelectedTags.length; i++) {
             let tempId = tempSelectedTags[i].id;
             for (let j = 0; j < this.tempTags.length; j++) {
-              console.log(`this.tags: ${this.tags[j]}`)
               if (tempId === this.tempTags[j].id) {
                 let foundTag = this.tempTags.splice(j, 1)[0];
                 this.selectedTags.push(foundTag);
@@ -66,7 +67,7 @@ export default {
           console.log(inputs)
         // update Job Record
         jobRecordApi.updateJobRecord(this.id, JSON.stringify(inputs)).then(response => {
-          if(response.status===200) {
+          if(response && response.status===200) {
             router.push({ name: 'JobRecords'})
           }
         });

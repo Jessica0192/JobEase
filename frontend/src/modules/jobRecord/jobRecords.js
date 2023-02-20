@@ -42,7 +42,9 @@ export default {
   created () {
    // API call to retrieve job records and store in the jobs property
    jobRecordApi.getAllJobRecords().then(response => {
-     this.jobs = response.data;
+      if(response && response.status === 200) {
+        this.jobs = response.data;
+      }
    });
  },
    methods: {

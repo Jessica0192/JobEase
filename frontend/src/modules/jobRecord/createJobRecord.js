@@ -20,7 +20,6 @@ export default {
   methods: {
     // create job record by calling api end point and navigate to Job Record page
     async createJobRecord () {
-      console.log(this.jobStatus)
       if(this.jobTitle !== '' && this.jobStatus !== '')    //include tag later in if statement
       {
         let deadlineDateTime = (this.deadlineDate !== "") ? new Date(this.deadlineDate) : null;
@@ -38,11 +37,9 @@ export default {
             tags: this.tags.filter(tag => this.selectedTags.map(tag => tag.id).includes(tag.id))
           }
 
-          console.log(inputs)
-
         // call api endpoint to create new job record
         jobRecordApi.createJobRecord(JSON.stringify(inputs)).then(response => {
-          if(response.status===200) {
+          if(response && response.status === 200) {
             router.push({ name: 'JobRecords'})
           }
         });

@@ -9,3 +9,5 @@ __pycache__/
 .env
 # Pytest cache files
 .pytest_cache
+# Uploaded Resources
+/uploaded_resources

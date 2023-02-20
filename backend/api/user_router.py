@@ -54,5 +54,7 @@ def delete_user(user_id: int,
     if user_id != current_user.id and current_user.is_super_user is False:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
 
-    user_service.delete_user_by_id(db=db, user_id=user_id)
+    db_user = user_service.delete_user_by_id(db=db, user_id=user_id)
+    if db_user is False:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found, so cannot be deleted")
     return {"message": "Successfully deleted."}

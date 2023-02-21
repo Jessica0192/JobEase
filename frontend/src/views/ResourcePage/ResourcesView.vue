@@ -63,6 +63,14 @@
                     Download
                   </button>
                 </span>
+                <div v-if="resourceDisplayed === index">
+                    <iframe
+                      ref="iframeViewer"
+                      :src="fileUrl"
+                      style="width: 100%; height: 600px;"
+                      @load="onIframeLoad"
+                    ></iframe>
+                  </div>
               </td>
               <td>
                 <span class="table-remove" @click="remove(index)">

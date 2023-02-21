@@ -52,34 +52,11 @@ export default {
       async downloadFile (index) {
         // To wait for the DOM to be updated
         await this.$nextTick()
-        await fileApi.downloadFile (this.data[index].resourceId)
+        await fileApi.downloadFile (this.resources[index].id, this.resources[index].resource_name, this.resources[index].resource_extension_type.resource_extension_type)
       },
-      // TODO: send and API request to retrieve a resource from database 
-      viewFile (index) {
-        // Get the URL of the file from the data array
-        const fileUrl = this.data[index].fileLink;
-
-        // Create an XHR request to get the file data as a blob
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', fileUrl);
-        xhr.responseType = 'blob';
-
-        xhr.onload = () => {
-          if (xhr.status === 200) {
-            // Create a blob from the file data
-            const blob = new Blob([xhr.response], { type: xhr.getResponseHeader('Content-Type') })
-
-            // Create a URL for the blob
-            const blobUrl = URL.createObjectURL(blob)
-
-            // Open the URL in a new window
-            window.open(blobUrl);
-          } else {
-            console.error(`Failed to load file: ${fileUrl}`)
-          }
-        }
-
-        xhr.send()
+      // To display a file content on a browser
+      async viewFile (index) {
+        await fileApi.displayFile (this.resources[index].id, this.resources[index].resource_extension_type.resource_extension_type)
       },
       selectOption(option, row) {
         row.selectedOption = option

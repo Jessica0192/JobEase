@@ -74,19 +74,6 @@
         <a class="navbar-brand" href="#">
           <h2>JobEase</h2>
         </a>
-        <!-- Search form -->
-        <form class="d-none d-md-flex input-group w-auto my-auto">
-          <input
-                 autocomplete="off"
-                 type="search"
-                 class="form-control rounded"
-                 placeholder='Search'
-                 style="min-width: 225px"
-                 />
-          <span class="input-group-text border-0"
-                ><i class="fas fa-search"></i
-            ></span>
-        </form>
 
         <!-- Right links -->
         <ul class="navbar-nav ms-auto d-flex flex-row">
@@ -100,7 +87,7 @@
                 @click="toggleUserDropdown"
                 aria-expanded="false"
               >
-                <label class="rounded-circle" loading="lazy">User 1</label>
+                <label class="rounded-circle" loading="lazy">{{ userName }}</label>
               </a>
               <ul
                 class="dropdown-menu dropdown-menu-end"
@@ -133,7 +120,7 @@
 <script>
 import SidebarLink from './SidebarLink.vue'
 import store from '@/store'
-import router from '@/router'
+
 export default {
   data() {
     return {
@@ -158,12 +145,15 @@ export default {
       }
     },
     toggleUserDropdown() {
-      console.log(this.showUserDropdown)
       this.showUserDropdown = !this.showUserDropdown;
     },
     async logout () {
       await store.dispatch('logout', `${localStorage.getItem('token')}`, store.getters.getUser )
-      await router.push({ name: 'Login'})
+    }
+  },
+  computed: {
+    userName () {
+      return localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : "";
     }
   }
 }
@@ -174,11 +164,17 @@ export default {
     background-color: #fbfbfb;
   }
 
+  @media (max-width: 991.98px) {
+    .sidebar {
+      width: 100%;
+    }
+  }
+
   @media only screen and (min-width: 991.98px) {
      main {
-        float: right;
-        width: 82%;
-     }
+      padding-top: 10px;
+      padding-left: 260px;
+    }
   }
 
   /* Sidebar */

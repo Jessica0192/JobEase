@@ -15,10 +15,11 @@ loginService.interceptors.request.use(
 
 // Include the necessary processing in the response.
 loginService.interceptors.response.use(resp => resp, async error => {
-  if (error.response.status === 401) {
-    console.log('login service error: ' + error)
-  }
-  return error
+  console.log(error);
+
+  // it is used to reject the Promise chain and propagate the error to the caller of the service method.
+  // This allows the caller to handle the error appropriately based on the error message or status code.
+  return error;
 })
 
 // these are the default methods when calling api call

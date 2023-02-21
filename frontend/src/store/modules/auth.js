@@ -3,11 +3,12 @@
 // The state property holds data relevant to the authentication state of the user, such as the userLoggedIn flag and the user object.
 
 // Overall, this file is used to manage the authentication state of the user in a centralized and consistent way across the application.
+import router from '@/router'
+
 export default ({
   state: {
     userLoggedIn: false,
-    user: {},
-    // token: null
+    user: null
   },
   // The getters property provides a way to retrieve data from the state.
   // For example, you can use the getUserLoggedIn getter to check whether the user is logged in,
@@ -22,7 +23,8 @@ export default ({
     setUserLoggedIn: (state, value) => (state.userLoggedIn = value),
     setUser: (state, user) => {
       state.user = user
-    },
+      localStorage.setItem("user", JSON.stringify(user));
+    }
   },
   // The actions property contains methods that perform asynchronous operations and commit mutations.
   // For example, you can use the login action to log in a user and set the userLoggedIn flag and the user object,
@@ -31,18 +33,16 @@ export default ({
     login ({ commit }, { token, user }) {
       commit('setUserLoggedIn', true)
       commit('setUser', user)
-      // In general, it's recommended to use local storage if you want the user to remain logged in after they close the browser,
-      // and to use Vuex state if you want to enforce a consistent state across your application.
+      localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem('token', token)
-      // commit('token', token)
+      router.push({ name: 'Dashboard'})
     },
     logout ({ commit }) {
       commit('setUserLoggedIn', false)
-      commit('setUser', {})
-      // In general, it's recommended to use local storage if you want the user to remain logged in after they close the browser,
-      // and to use Vuex state if you want to enforce a consistent state across your application.
+      commit('setUser', null)
+      localStorage.removeItem("user");
       localStorage.removeItem('token')
-      // commit('token', token)
+      router.push({ name: 'Login'})
     }
   }
 })

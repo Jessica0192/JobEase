@@ -6,8 +6,11 @@
         <font-awesome-icon :icon="['fas', 'plus']"/>
       </button>
       <!-- Search form -->
-      <form style="display:inline-block; float:right;" class="d-none d-md-flex input-group w-auto my-auto navbar-nav ms-auto d-flex flex-row" >
+      <div style="display:inline-block; float:right;"
+            class="d-none d-md-flex input-group w-auto my-auto navbar-nav ms-auto d-flex flex-row"
+            >
         <input
+              v-model="searchText"
                autocomplete="off"
                type="search"
                class="form-control rounded"
@@ -17,15 +20,15 @@
         <span class="input-group-text border-0"
               ><i class="fas fa-search"></i
           ></span>
-      </form>
+      </div>
     </div>
     <div class="cards-container">
       <MDBRow :cols="['1', 'md-3']" class="g-4" >
-        <MDBCol v-for="job in jobs" :key="job.id">
+        <MDBCol v-for="job in filteredJobs" :key="job.id">
           <MDBCard class="h-80">
             <MDBCardBody>
               <MDBCardTitle>{{ job.job_title }}</MDBCardTitle>
-              <MDBCardTitle subtitle class="mb-2 text-muted">{{ job.jobStatus }}</MDBCardTitle>
+              <MDBCardTitle subtitle class="mb-2 text-muted">{{ job.status.status_name }}</MDBCardTitle>
               <MDBCardText>
                 {{ job.notes }}
               </MDBCardText>

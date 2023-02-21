@@ -19,6 +19,7 @@ class Resource(Base, Timestamp):
     user = relationship("User", back_populates="resources")
 
     def __init__(self, resource_name, resource_type_id, resource_extension_type_id, resource_user_id):
+        super(Resource, self).__init__()
         self.resource_name = resource_name
         self.resource_type_id = resource_type_id
         self.resource_extension_type_id = resource_extension_type_id

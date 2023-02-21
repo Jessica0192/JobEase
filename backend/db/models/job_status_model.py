@@ -18,3 +18,6 @@ class JobStatus(Base):
     id = Column(Integer, primary_key=True, index=True)
     status_name = Column(Enum(JobStatusEnum, values_callable=lambda obj: [e.value for e in obj]), nullable=False)
     job_records = relationship("JobRecord", back_populates="status")
+
+    def __init__(self, status_name):
+        self.status_name = status_name

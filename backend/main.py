@@ -9,7 +9,7 @@ from db.models import user_model, job_record_model, job_tag_model, job_status_mo
 from api import user_router, auth_router, job_record_router, job_tag_router, job_status_router, \
     resource_type_router, resource_router, resource_extension_type_router
 from api.services import resource_type_service, resource_extension_type_service, \
-    job_status_service
+    job_status_service, job_tag_service
 
 
 # Event listener that is executed after create_all method has been called for tables
@@ -26,7 +26,10 @@ def receive_after_create(target, connection, tables, **kw):
                 print("Initial data for Resource Extension Type table has been populated")
             if str(i) == job_status_model.JobStatus.__tablename__:
                 job_status_service.populate_initial_data()
-                print("Initial data for Resource Extension Type table has been populated")
+                print("Initial data for job status table has been populated")
+            if str(i) == job_tag_model.JobTag.__tablename__:
+                job_tag_service.populate_initial_data()
+                print("Initial data for job tag Type table has been populated")
 
 
 # Bind models

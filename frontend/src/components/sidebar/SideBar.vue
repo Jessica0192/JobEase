@@ -164,11 +164,17 @@ export default {
     background-color: #fbfbfb;
   }
 
+  @media (max-width: 991.98px) {
+    .sidebar {
+      width: 100%;
+    }
+  }
+
   @media only screen and (min-width: 991.98px) {
      main {
-        float: right;
-        width: 82%;
-     }
+      padding-top: 10px;
+      padding-left: 260px;
+    }
   }
 
   /* Sidebar */

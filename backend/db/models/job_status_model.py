@@ -20,4 +20,5 @@ class JobStatus(Base):
     job_records = relationship("JobRecord", back_populates="status")
 
     def __init__(self, status_name):
+        super(JobStatus, self).__init__()
         self.status_name = status_name

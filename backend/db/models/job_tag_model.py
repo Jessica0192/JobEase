@@ -6,6 +6,7 @@ from .job_record_model import job_record_tag
 from ..db_setup import Base
 from .mixins import Timestamp
 
+
 class JobTagEnum(str, enum.Enum):
     interested = "Interested",
     applied = "Applied"
@@ -20,4 +21,5 @@ class JobTag(Base):
     job_records = relationship("JobRecord", secondary=job_record_tag, back_populates="tags")
 
     def __init__(self, tag_name):
+        super(JobTag, self).__init__()
         self.tag_name = tag_name

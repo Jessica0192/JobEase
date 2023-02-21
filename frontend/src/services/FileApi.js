@@ -1,11 +1,14 @@
-import axios from 'axios'
+// import axios from 'axios'
+import service from './base/service'
+
+const url = 'http://localhost:8000'
 
 export const fileApi = {
   //  To upload a file
-  async uploadFile (formData) {
+  async uploadFile (resourceTypeId, resourceExtensionTypeId, formData) {
     let response = null
     try {
-      response = await axios.post ('/upload', formData) 
+      response = await service.post (`${url}/resource/?resource_type_id=${resourceTypeId}&resource_extension_type_id=${resourceExtensionTypeId}`, formData) 
     } catch (err) {
       console.log(err)
     }
@@ -17,10 +20,10 @@ export const fileApi = {
   },
 
   // To delete a file
-  async deleteFile (resourceName) {
+  async deleteFile (resourceId) {
     let response = null
     try {
-      response = await axios.delete (`/delete/${resourceName}`)
+      response = await service.delete (`${url}/resource/${resourceId}`)
     } catch (err) {
       console.log(err)
     }
@@ -28,19 +31,19 @@ export const fileApi = {
     if (response == null || response.status !== 200) {
       return null
     }
-    return response.data
+    return response
   },
 
   // To download a file
-  async downloadFile (url, filename) {
+  async downloadFile (resourceId) {
     
-    const response = await axios.get(url, { responseType: 'blob' })
+    const response = await service.get(`${url}/resource/${resourceId}/download/`, { responseType: 'blob' })
     const blob = new Blob([response.data])
     const objectUrl = URL.createObjectURL(blob)
 
     const link = document.createElement('a')
     link.href = objectUrl
-    link.download = filename
+    link.download = resourceId
     document.body.appendChild(link)
     link.click()
 
@@ -53,7 +56,7 @@ export const fileApi = {
   async getAllResources () {
     let response = null
     try {
-      response = await axios.get('/api/resources')
+      response = await service.get(`${url}/resource/?limit=100`)
     } catch (err) {
       console.log(err)
     }
@@ -61,6 +64,22 @@ export const fileApi = {
     if (response == null || response.status !== 200) {
       return null
     }
+    return response.data
+  },
+
+  // To type extension type id
+  async getFileTypeId (resourceType) {
+    let response = null
+    try {
+      response = await service.get(`${url}/${resourceType}/`)
+    } catch (err) {
+      console.log(err)
+    }
+    
+    if (response == null || response.status !== 200) {
+      return null
+    }
+    console.log('response.data', response.data)
     return response.data
   }
 }

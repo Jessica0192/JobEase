@@ -73,7 +73,11 @@
       saveFile () {
         const formData = new FormData()
         formData.append('file', this.file)
-        fileApi.uploadFile(formData)
+        let fileExtension = this.file.name.split('.').pop()
+        // let fileExtensionInt = fileApi.getTypeExtensionId(fileExtension)
+        let fileTypeId = fileApi.getFileTypeId(this.fileType)
+        fileApi.uploadFile(fileTypeId, fileExtension, formData)
+        
         alert('File has been saved successfully!')
       }
     }

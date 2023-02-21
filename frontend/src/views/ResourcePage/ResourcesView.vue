@@ -36,11 +36,11 @@
             </tr>
           </thead>
           <tbody> 
-            <tr v-for="(row, index) in data" :key="index">
-              <td class="pt-3-half" contenteditable="true">{{ row.resourceName }}</td>
+            <tr v-for="(row, index) in resources" :key="index">
+              <td class="pt-3-half" contenteditable="true">{{ this.resources.length ? this.resources[index].resource_name : '' }}</td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary btn_type">{{ row.selectedOption }}</button>
+                  <button type="button" class="btn btn-primary btn_type">{{ this.resources.length ? this.resources[index].resource_type.resource_type : '' }}</button>
                   <button type="button" class="btn btn-primary dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="row.isOpen = !row.isOpen">
                   </button>
                 </div>

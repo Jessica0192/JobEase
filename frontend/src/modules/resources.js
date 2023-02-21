@@ -6,12 +6,6 @@ export default {
   },
     data() {
       return {
-        data: [
-          { resourceName: 'Resource 1', selectedOption: 'Select', fileLink: 'C:\\Users\\Hoda\\Desktop\\test.pdf', isOpen: false }, 
-          { resourceName: 'Resource 2', selectedOption: 'Select', fileLink: 'http://example.com/resource2.pdf', isOpen: false }, 
-          { resourceName: 'Resource 3', selectedOption: 'Select', fileLink: 'http://example.com/resource3.pdf', isOpen: false }, 
-          { resourceName: 'Resource 4', selectedOption: 'Select', fileLink: 'http://example.com/resource4.pdf', isOpen: false }
-        ],
         options: ['Resume', 'Cover Letter', 'Image', 'Audio', 'Video', 'Others'],
         sortAscending: true,
         NameOfPage: '',
@@ -20,8 +14,8 @@ export default {
         export: ""
       };
     },
-    mounted () {
-      // this.resources = fileApi.getAllResources()
+    async mounted () {
+      await this.loadResources()
     },
     methods: {
       // This function sorts an array of data objects, stored in the property "data" of the current object. 
@@ -30,6 +24,9 @@ export default {
       //  a comparison function that compares the "portfolioName" property of two data objects (a and b).
       // If the property "sortAscending" is true, the function sorts the data objects in ascending order based on their "portfolioName" property,
       //  using the "localeCompare" method. If "sortAscending" is false, the function sorts the data objects in descending order.
+      async loadResources () {
+        this.resources = await fileApi.getAllResources()
+      },
       sortData() {
         let sortedDataArray = this.data.slice();
         sortedDataArray.sort((a, b) => {
@@ -44,9 +41,9 @@ export default {
       },
       // To delete the row of table
       remove(index) {
-        console.log(this.data[index].resourceName)
-        fileApi.deleteFile(this.data[index].resourceName)
-        this.data.splice(index, 1);
+        console.log('delete', this.resources[index].id)
+        fileApi.deleteFile(this.resources[index].id)
+        this.resources.splice(index, 1);
       },
       exportData () {
         this.export = JSON.stringify(this.data);
@@ -55,7 +52,7 @@ export default {
       async downloadFile (index) {
         // To wait for the DOM to be updated
         await this.$nextTick()
-        await fileApi.downloadFile (this.data[index].fileLink, this.data[index].resourceName)
+        await fileApi.downloadFile (this.data[index].resourceId)
       },
       // TODO: send and API request to retrieve a resource from database 
       viewFile (index) {

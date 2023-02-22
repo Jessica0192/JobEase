@@ -43,7 +43,6 @@ export default {
       },
       // To delete the row of table
       remove(index) {
-        console.log('delete', this.resources[index].id)
         fileApi.deleteFile(this.resources[index].id)
         this.resources.splice(index, 1)
       },

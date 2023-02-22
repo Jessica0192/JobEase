@@ -117,7 +117,6 @@
             break
           }
         }
-        console.log(alowSave)
 
         if (alowSave) {
           for (let i = 0; i < this.fileExtension.length; i++) {

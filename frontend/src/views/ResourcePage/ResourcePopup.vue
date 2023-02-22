@@ -88,6 +88,7 @@
         this.fileType = ''
         this.fileFormat = ''
         this.file = null
+        this.$refs.selectedFile.value = ''
       },
       saveFile () {
         const formData = new FormData()

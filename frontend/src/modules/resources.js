@@ -11,6 +11,7 @@ export default {
         NameOfPage: '',
         isPopupVisible: false,
         resources: [],
+        resourceDisplayed: null,
         export: ""
       };
     },
@@ -28,25 +29,25 @@ export default {
         this.resources = await fileApi.getAllResources()
       },
       sortData() {
-        let sortedDataArray = this.data.slice();
+        let sortedDataArray = this.resources.slice()
         sortedDataArray.sort((a, b) => {
           if (this.sortAscending) {
-            return a.resourceName.localeCompare(b.resourceName);
+            return a.resource_name.localeCompare(b.resource_name)
           } else {
-            return b.resourceName.localeCompare(a.resourceName);
+            return b.resource_name.localeCompare(a.resource_name)
           }
-      });
-      this.data = sortedDataArray;
-      this.sortAscending = !this.sortAscending;
+        })
+        this.resources = sortedDataArray
+        this.sortAscending = !this.sortAscending
       },
       // To delete the row of table
       remove(index) {
         console.log('delete', this.resources[index].id)
         fileApi.deleteFile(this.resources[index].id)
-        this.resources.splice(index, 1);
+        this.resources.splice(index, 1)
       },
       exportData () {
-        this.export = JSON.stringify(this.data);
+        this.export = JSON.stringify(this.data)
       },
       // TODO: fix the URL
       async downloadFile (index) {
@@ -56,17 +57,24 @@ export default {
       },
       // To display a file content on a browser
       async viewFile (index) {
-        await fileApi.displayFile (this.resources[index].id, this.resources[index].resource_extension_type.resource_extension_type)
+        let NameExtension = this.resources[index].resource_name.split('.').pop()
+        if ( NameExtension === 'pdf' || NameExtension === 'jpeg' || NameExtension === 'jpg') {
+          await fileApi.displayFile (this.resources[index].id, this.resources[index].resource_extension_type.resource_extension_type)
+        }
+        else {
+          alert('Sorry! This type of file cannot be displayed.\nPlease download the file to be able to view it!')
+        }
+        
       },
       selectOption(option, row) {
         row.selectedOption = option
         row.isOpen = false
       },
       showPopup() {
-        this.isPopupVisible = true;
+        this.isPopupVisible = true
       },
       hidePopup() {
-        this.isPopupVisible = false;
+        this.isPopupVisible = false
       }
     }
   }

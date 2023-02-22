@@ -9,14 +9,6 @@
     </div>
       <slot />
       <table style="margin-top: 50px;">
-        <tr>
-          <td>
-            <label>File Title:</label>
-          </td>
-          <td>
-            <input type="text" v-model="fileTitle" required />
-          </td>
-        </tr>
         <tr >
           <td>
             <label style="margin-top: 5px;">File Type:</label>
@@ -24,12 +16,22 @@
           <td>
             <select v-model="fileType" style="margin-top: 10px;" required>
               <option value="" disabled>-- Select --</option>
-              <option>Resume</option>
-              <option>Cover Letter</option>
-              <option>Image</option>
-              <option>Audio</option>
-              <option>Video</option>
-              <option>Others</option>
+              <option v-for="fileTypeItem in fileTypeDb" :key="fileTypeItem.id" :value="fileTypeItem.resource_type">
+                {{ fileTypeItem.resource_type }}
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr >
+          <td>
+            <label style="margin-top: 5px;">File Format:</label>
+          </td>
+          <td>
+            <select v-model="fileFormat" style="margin-top: 10px;" required>
+              <option value="" disabled>-- Select --</option>
+              <option v-for="fileFormatItem in fileExtension" :key="fileFormatItem.id" :value="fileFormatItem.resource_extension_type">
+                {{ fileFormatItem.resource_extension_type }}
+              </option>
             </select>
           </td>
         </tr>
@@ -52,33 +54,90 @@
   import { fileApi } from '../../services/FileApi'
   export default {
     name:'resourcePopup',
+    async mounted () {
+      await this.loadResources()
+    },
     data () {
       return {
         fileType: '',
-        fileTitle: '',
+        fileTypeDb: [],
+        fileTypeDbId: '',
+        fileFormat: '',
+        fileExtension: [],
+        fileExtensionId: '',
         file: null
       }
     },
     computed: {
       // Check whether all the required fields have been filled
       isSaveDisabled() {
-        return !(this.fileType && this.fileTitle && this.file)
+        return !(this.fileType && this.fileFormat && this.file)
       },
     },
     methods: {
+      async loadResources () {
+        this.fileTypeDb = await fileApi.getFileTypeId()
+        this.fileExtension = await fileApi.getFileExtensionId()
+      },
       selectFile () {
         this.file = this.$refs.selectedFile.files[0]
-        //console.log(this.file)
+      },
+      resetForm() {
+        this.fileType = ''
+        this.fileFormat = ''
+        this.file = null
       },
       saveFile () {
         const formData = new FormData()
         formData.append('file', this.file)
-        let fileExtension = this.file.name.split('.').pop()
-        // let fileExtensionInt = fileApi.getTypeExtensionId(fileExtension)
-        let fileTypeId = fileApi.getFileTypeId(this.fileType)
-        fileApi.uploadFile(fileTypeId, fileExtension, formData)
+        let extensionFile = this.file.name.split('.').pop()
+        let alowSave = false
         
-        alert('File has been saved successfully!')
+        for (let j=0; j<this.fileTypeDb.length; j++){
+          if (this.fileTypeDb[j].resource_type === this.fileType)
+          {
+            this.fileTypeDbId = this.fileTypeDb[j].id
+            break
+          }          
+        }
+
+        for (let k =0 ; k < this.fileExtension.length; k++) {
+          if (extensionFile === 'docx') {
+            alowSave = true
+            break
+          }
+          if (extensionFile === 'jpg') {
+            alowSave = true
+            break
+          }
+          if (this.fileExtension[k].resource_extension_type.split('/').pop() === extensionFile) {
+            alowSave = true
+            break
+          }
+        }
+        console.log(alowSave)
+
+        if (alowSave) {
+          for (let i = 0; i < this.fileExtension.length; i++) {
+            let extensionDb = this.fileExtension[i].resource_extension_type.split('/').pop()
+            if (extensionFile === 'docx') {
+              extensionFile = 'plain'
+            }
+            if (extensionFile === 'jpg') {
+              extensionFile = 'jpeg'
+            }
+            if (extensionDb === extensionFile) {
+              this.fileExtensionId = this.fileExtension[i].id
+              break 
+            }
+          }
+          
+          fileApi.uploadFile(this.fileTypeDbId, this.fileExtensionId, formData)
+          this.resetForm()
+        }
+        else {
+          alert('Please select a file with correct format!')
+        }
       }
     }
   }

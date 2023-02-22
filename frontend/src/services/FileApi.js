@@ -1,4 +1,5 @@
-// import axios from 'axios'
+
+import axios from 'axios'
 import service from './base/service'
 
 const url = 'http://localhost:8000'
@@ -7,16 +8,28 @@ export const fileApi = {
   //  To upload a file
   async uploadFile (resourceTypeId, resourceExtensionTypeId, formData) {
     let response = null
+    const token = localStorage.getItem('token')
     try {
-      response = await service.post (`${url}/resource/?resource_type_id=${resourceTypeId}&resource_extension_type_id=${resourceExtensionTypeId}`, formData) 
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json',
+        },
+      }
+      response = await axios.post (`${url}/resource/?resource_type_id=${resourceTypeId}&resource_extension_type_id=${resourceExtensionTypeId}`, formData, config) 
     } catch (err) {
       console.log(err)
     }
 
-    if (response == null || response.status !== 200) {
-      return null
+    if (response == null) {
+      alert('This file is already exist! Please select another file or change the nam!')
     }
-    return response.data
+    else {
+      alert('File has been saved successfully!')
+    }
+
+    return response
   },
 
   // To delete a file
@@ -79,29 +92,11 @@ export const fileApi = {
     return response.data
   },
 
-  // To type extension type id
-  async getFileTypeId (resourceType) {
-    let response = null
-    try {
-      response = await service.get(`${url}/${resourceType}/`)
-    } catch (err) {
-      console.log(err)
-    }
-    
-    if (response == null || response.status !== 200) {
-      return null
-    }
-    console.log('response.data', response.data)
-    return response.data
-  },
-
   // To view a file on browser
   async displayFile(resourceId, fileType) {
     try {
       // Send a request to download the PDF file
       const response = await service.get(`${url}/resource/${resourceId}/display/`, { responseType: 'arraybuffer' })
-      console.log('response', response)
-      console.log('file type', fileType)
   
       // Convert the response data to a blob
       const blob = new Blob([response.data], { type: fileType })
@@ -110,6 +105,36 @@ export const fileApi = {
     } catch (error) {
       console.error('Error displaying file:', error)
     }
+  },
+
+  // To type extension type id
+  async getFileTypeId () {
+    let response = null
+    try {
+      response = await service.get(`${url}/resource_type/`)
+    } catch (err) {
+      console.log(err)
+    }
+    
+    if (response == null || response.status !== 200) {
+      return null
+    }
+    return response.data
+  },
+
+  // To type extension type id
+  async getFileExtensionId () {
+    let response = null
+    try {
+      response = await service.get(`${url}/resource_extension_type/`)
+    } catch (err) {
+      console.log(err)
+    }
+    
+    if (response == null || response.status !== 200) {
+      return null
+    }
+    return response.data
   }
 }
   

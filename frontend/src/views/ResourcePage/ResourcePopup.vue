@@ -76,8 +76,10 @@
     },
     methods: {
       async loadResources () {
-        this.fileTypeDb = await fileApi.getFileTypeId()
-        this.fileExtension = await fileApi.getFileExtensionId()
+        const typeRsp = await fileApi.getFileTypeId()
+        const extensionRsp = await fileApi.getFileExtensionId()
+        this.fileTypeDb = typeRsp.data
+        this.fileExtension = extensionRsp.data
       },
       selectFile () {
         this.file = this.$refs.selectedFile.files[0]

@@ -7,6 +7,7 @@ export const API = {
   jobRecord: (args) => `job_record/${args}`,
   jobTag: (args) => `job_tag/${args}`,
   jobRecordTag: (args) => `job_record_tag/${args}`,
+  fileResource: (args) => `resource/${args}`,
 }
 
 export const ETC_API = {

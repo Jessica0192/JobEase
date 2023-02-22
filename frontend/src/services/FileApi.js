@@ -1,6 +1,7 @@
 
 import axios from 'axios'
 import service from './base/service'
+import { API } from './base/config'
 
 const url = 'http://localhost:8000'
 
@@ -32,19 +33,8 @@ export const fileApi = {
     return response
   },
 
-  // To delete a file
-  async deleteFile (resourceId) {
-    let response = null
-    try {
-      response = await service.delete (`${url}/resource/${resourceId}`)
-    } catch (err) {
-      console.log(err)
-    }
-    
-    if (response == null || response.status !== 200) {
-      return null
-    }
-    return response
+  deleteFile (resourceId) {
+    return service.delete(`${API.fileResource('')}${resourceId}`)
   },
 
   // To download a file

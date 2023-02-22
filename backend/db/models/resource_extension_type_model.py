@@ -10,9 +10,10 @@ class ResourceExtensionTypeEnum(str, enum.Enum):
     plain_text = "text/plain"
     pdf = "application/pdf"
     image_jpeg = "image/jpeg"
+    image_jpg = "image/jpg"
     image_png = "image/png"
     audio = "audio/mpeg"
-    video = "vide/mp4"
+    video = "video/mp4"
 
 
 class ResourceExtensionType(Base, Timestamp):

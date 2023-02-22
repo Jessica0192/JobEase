@@ -50,7 +50,6 @@ export default {
       exportData () {
         this.export = JSON.stringify(this.data)
       },
-      // TODO: fix the URL
       async downloadFile (index) {
         let fileType = this.resources[index].resource_extension_type.resource_extension_type
         let filename = this.resources[index].resource_name
@@ -84,7 +83,7 @@ export default {
       // To display a file content on a browser
       async viewFile (index) {
         let NameExtension = this.resources[index].resource_name.split('.').pop()
-        if ( NameExtension === 'pdf' || NameExtension === 'jpeg' || NameExtension === 'jpg') {
+        if ( NameExtension !== 'docx') {
           const response = await fileApi.displayFile (this.resources[index].id)
 
           // Convert the response data to a blob

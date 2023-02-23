@@ -1,5 +1,5 @@
-import ResourcePopup from '../views/ResourcePage/ResourcePopup.vue'
-import { fileApi } from '../services/FileApi'
+import ResourcePopup from '../../views/ResourcePage/ResourcePopup.vue'
+import { fileApi } from '../../services/FileApi'
 export default {
   components: {
     ResourcePopup

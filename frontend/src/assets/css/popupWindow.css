@@ -1,0 +1,69 @@
+.resourcePopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Helvetica;
+    font-size: 15px;
+  }
+
+  .popup-header {
+    background: #fff;
+    height: 40px;
+    padding-left: 10px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: dark;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .popup-inner {
+    background-color: rgb(235, 233, 233);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    position: relative;
+    max-height: 250px;
+  }
+  
+  .popup-saveBtn {
+    font-size: 12px;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    background-color: lightgray;
+    cursor: pointer;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    border: 1px solid rgb(124, 122, 122);
+  }
+
+  .button:hover {border-color: rgb(74, 109, 225); background-color:rgb(186, 220, 248)}
+  .close-icon:hover {background-color: rgb(238, 102, 102); color: white;}
+
+  .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 7px;
+    margin-left: 100%;
+    margin-bottom: 100%;
+    color: rgb(72, 70, 70);
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 1.2em;
+  }

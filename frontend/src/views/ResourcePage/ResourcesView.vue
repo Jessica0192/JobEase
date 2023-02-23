@@ -29,6 +29,7 @@
                   <i class="fas fa-sort" aria-hidden="true"></i>
                 </a>
               </th>
+              <!-- <th class="text-center">Created Date</th> -->
               <th class="text-center">Type</th>
               <th class="text-center">View</th>
               <th class="text-center">Download</th>            
@@ -38,6 +39,7 @@
           <tbody> 
             <tr v-for="(row, index) in resources" :key="index">
               <td class="pt-3-half" contenteditable="true">{{ this.resources.length ? this.resources[index].resource_name : '' }}</td>
+              <!-- <td>{{ this.resources.length ? this.resources[index].created_date : '' }}</td> -->
               <td>
                 <div class="btn-group">
                   <button type="button" class="btn btn-primary btn_type">{{ this.resources.length ? this.resources[index].resource_type.resource_type : '' }}</button>
@@ -88,7 +90,7 @@
 </div>
 </template>
 
-<script src="../../modules/resources.js">
+<script src="../../modules/resources/resources.js">
 </script>
 
 <style scoped src="../../assets/css/table.css">

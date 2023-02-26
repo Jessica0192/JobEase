@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from db.models.portfolio_model import Portfolio
 from db.models.resource_model import Resource
-from db.models.tables.portfolio_resource_table import portfolio_resource
 from pydantic_schemas import portfolio_schema
 
 
@@ -65,9 +64,10 @@ def create_portfolio(db: Session, portfolio: portfolio_schema.PortfolioCreate, u
 
 
 def delete_portfolio_by_id(db: Session, portfolio_id: int):
-    # TODO: YOU HAVE TO DELETE CORRESPONDING DATA FROM portfolio_resource TABLE FIRST IN ORDER TO DELETE THE PORTFOLIO
     existing_portfolio = db.query(Portfolio).filter(Portfolio.id == portfolio_id)
     if not existing_portfolio.first():
         return False
-    existing_portfolio.delete()
+    existing_portfolio = existing_portfolio.first()
+    existing_portfolio.resources = []
+    db.delete(existing_portfolio)
     db.commit()

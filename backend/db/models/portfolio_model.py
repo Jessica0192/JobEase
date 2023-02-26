@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
+from .tables.portfolio_resource_table import portfolio_resource
 from ..db_setup import Base
 from .mixins import Timestamp
 
@@ -13,6 +14,7 @@ class Portfolio(Base, Timestamp):
     portfolio_user_id = Column(Integer, ForeignKey("users.id"))
 
     user = relationship("User", back_populates="portfolios")
+    resources = relationship("Resource", secondary=portfolio_resource, back_populates="portfolios")
 
     def __init__(self, portfolio_name, portfolio_user_id):
         super(Portfolio, self).__init__()

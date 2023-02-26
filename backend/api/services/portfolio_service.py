@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from db.models.portfolio_model import Portfolio
+from db.models.resource_model import Resource
+from db.models.tables.portfolio_resource_table import portfolio_resource
 from pydantic_schemas import portfolio_schema
 
 
@@ -40,6 +42,17 @@ def create_portfolio(db: Session, portfolio: portfolio_schema.PortfolioCreate, u
             return None
         db_portfolio = Portfolio(portfolio_name=portfolio.portfolio_name,
                                  portfolio_user_id=user_id)
+
+        # Append each resource to the portfolio
+        for resource_id in portfolio.resource_ids:
+            resource = db.query(Resource).filter(Resource.id == resource_id,
+                                                 Resource.resource_user_id == user_id).first()
+            if not resource:
+                # TODO: how to handle error that Resource is not found
+                print("\nResource not found with the ID:", resource_id)
+                return None
+            db_portfolio.resources.append(resource)
+
         db.add(db_portfolio)
         db.commit()
         db.refresh(db_portfolio)
@@ -52,6 +65,7 @@ def create_portfolio(db: Session, portfolio: portfolio_schema.PortfolioCreate, u
 
 
 def delete_portfolio_by_id(db: Session, portfolio_id: int):
+    # TODO: YOU HAVE TO DELETE CORRESPONDING DATA FROM portfolio_resource TABLE FIRST IN ORDER TO DELETE THE PORTFOLIO
     existing_portfolio = db.query(Portfolio).filter(Portfolio.id == portfolio_id)
     if not existing_portfolio.first():
         return False

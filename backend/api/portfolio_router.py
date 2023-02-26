@@ -44,7 +44,7 @@ async def retrieve_all_portfolios(limit: int = 100,
 
 
 @router.post("/", response_model=portfolio_schema.Portfolio)
-async def create_new_portfolio(portfolio: portfolio_schema.PortfolioCreate = Depends(),
+async def create_new_portfolio(portfolio: portfolio_schema.PortfolioCreate,
                                db: Session = Depends(get_db),
                                current_user: User = Depends(auth_service.get_current_user_from_token)):
     db_portfolio = portfolio_service.create_portfolio(db=db,

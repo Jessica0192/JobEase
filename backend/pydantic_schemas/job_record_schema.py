@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, validator
-from typing import List
+from typing import List, Optional
 from pydantic_schemas.job_status_schema import JobStatus
 from pydantic_schemas.job_tag_schema import JobTag
 

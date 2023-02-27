@@ -1,52 +1,56 @@
 import {jobRecordApi} from '@/services/JobRecordApi'
 import router from '@/router'
 import sharedMixin from '../../modules/jobRecord/shared';
+import PortfolioTab from '@/components/jobRecord/PortfolioTab.vue'
+import TagTab from '@/components/jobRecord/TagTab.vue'
+import JobInfoTab from '@/components/jobRecord/JobInfoTab.vue'
+
 
 export default {
   mixins: [sharedMixin],
-  data() {
-    return {
-      jobTitle: '',
-      jobStatus: '',
-      deadlineDate: '',
-      interviewDate: '',
-      organization: '',
-      salary: '',
-      jobUrl: '',
-      location: '',
-      note: ''
-    };
+  components: {
+    JobInfoTab: JobInfoTab,
+    PortfolioTab,
+    TagTab
   },
   methods: {
     // create job record by calling api end point and navigate to Job Record page
     async createJobRecord () {
-      if(this.jobTitle !== '' && this.jobStatus !== '')    //include tag later in if statement
-      {
-        let deadlineDateTime = (this.deadlineDate !== "") ? new Date(this.deadlineDate) : null;
-        let interviewDateTime = (this.interviewDate !== "") ? new Date(this.interviewDate) : null;
-        const inputs = {
-            job_title: this.jobTitle,
-            status: this.statusOptions.find(s=> s.status_name === this.jobStatus),
-            deadline_date: (deadlineDateTime!==null)?deadlineDateTime.toISOString():new Date().toISOString(),
-            interview_date: (interviewDateTime!==null)?interviewDateTime.toISOString():new Date().toISOString(),
-            organization_name: this.organization,
-            salary: +(this.salary),
-            notes: this.note,
-            job_url: this.jobUrl,
-            location: this.location,
-            tags: this.tags.filter(tag => this.selectedTags.map(tag => tag.id).includes(tag.id))
+      if (this.$refs.jobInfoTab.$data.job !== null) {
+        let jobTemp = this.$refs.jobInfoTab.$data.job
+
+        if (jobTemp.job_title !== '' && jobTemp.jobStatus !== '')    //include tag later in if statement
+        {
+          let deadlineDateTime = (jobTemp.deadline_date !== "") ? new Date(jobTemp.deadline_date) : null;
+          let interviewDateTime = (jobTemp.interview_date !== "") ? new Date(jobTemp.interview_date) : null;
+
+          const inputs = {
+            job_title: jobTemp.job_title,
+            status: this.$refs.jobInfoTab.$data.statusOptions.find(s => s.status_name === jobTemp.status.status_name),
+            deadline_date: (deadlineDateTime !== null) ? deadlineDateTime.toISOString() : new Date().toISOString(),
+            interview_date: (interviewDateTime !== null) ? interviewDateTime.toISOString() : new Date().toISOString(),
+            organization_name: jobTemp.organization_name,
+            salary: +(jobTemp.salary),
+            notes: jobTemp.notes,
+            job_url: jobTemp.job_url,
+            location: jobTemp.location,
+            tags: this.$refs.tagTab.$data.tags.filter(tag => this.$refs.tagTab.$data.selectedTags.map(tag => tag.id).includes(tag.id)),
+            portfolio: null
           }
 
-        // call api endpoint to create new job record
-        jobRecordApi.createJobRecord(JSON.stringify(inputs)).then(response => {
-          if(response && response.status === 200) {
-            router.push({ name: 'JobRecords'})
-          }
-        });
+          console.log(inputs)
 
-      } else {
-        alert("Please fill out all required fields")
+          // call api endpoint to create new job record
+          jobRecordApi.createJobRecord(JSON.stringify(inputs)).then(response => {
+            if (response && response.status === 200) {
+              router.push({name: 'JobRecords'})
+            }
+          });
+
+        } else {
+          alert("Please fill out all required fields")
+        }
       }
     }
-  },
+  }
 };

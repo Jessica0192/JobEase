@@ -22,110 +22,21 @@
       <!--tabs content-->
       <div class="tab-content py-3" id="myTabContent">
         <!--first tab-->
-        <div class="tab-pane fade" :class="{ 'active show': isActive('jobInfo') }" id="jobInfo">
-            <div class="jobInfoContainer">
-              <div>
-                <table class="table table-bordered" style="width: 100%;margin: 0;">
-                  <tr>
-                    <td style="width: 25%; text-align: right;">
-                      <div style="display: flex;">
-                        <label style="color: darkred; width: 10%">*</label>
-                        <label style="width: 90%">Job Title</label>
-                      </div>
-                    </td>
-                    <td style="width: 50%;">
-                      <input type="text" :class="{ 'fill-red': !jobTitle }" v-model="jobTitle" />
-                    </td>
-                    <td style="width: 20%;">
-                      <!-- Add content here -->
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 25%; text-align: right;">
-                      <div style="display: flex;">
-                        <label style="color: darkred; width: 10%">*</label>
-                        <label style="width: 90%">Job Status</label>
-                      </div>
-                    </td>
-                    <td style="width: 40%;">
-                      <select v-model="jobStatus" :class="{ 'fill-red': !jobStatus }">
-                        <option v-for="status in statusOptions" :key="status.status_name" :value="status.status_name">{{ status.status_name }}</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 25%; text-align: right;">
-                      <label>Deadline Date</label>
-                    </td>
-                    <td style="width: 20%;">
-                      <input type="datetime-local" v-model="deadlineDate" />
-                    </td>
-                    <td style="width: 35%;text-align: right;">
-                      <label>Interview Date</label>
-                    </td>
-                    <td style="width: 20%;">
-                      <input type="datetime-local" v-model="interviewDate" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 25%; text-align: right;">
-                      <label>Organization</label>
-                    </td>
-                    <td style="width: 20%;">
-                      <input type="text" v-model="organization" />
-                    </td>
-                    <td style="width: 20%;text-align: right;">
-                      <label>Salary</label>
-                    </td>
-                    <td style="width: 20%;">
-                      <input type="number" step="0.01" v-model="salary" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 25%; text-align: right;">
-                      <label>Job Url</label>
-                    </td>
-                    <td style="width: 20%;">
-                      <input type="text" v-model="jobUrl" />
-                    </td>
-                    <td style="width: 20%;text-align: right;">
-                      <label>Location</label>
-                    </td>
-                    <td style="width: 20%;">
-                      <input type="text" v-model="location" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="width: 25%; text-align: right;">
-                      <label>Note</label>
-                    </td>
-                    <td style="width: 90%;">
-                      <textarea v-model="note" rows="3" cols="60"></textarea>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-
-            </div>
+        <div class="tab-pane fade" :class="{ 'active show': isActive('jobInfo') }" >
+          <JobInfoTab ref="jobInfoTab"/>
         </div>
-      <!--end of first tab-->
-      <!--second tab-->
-      <!--badge: https://getbootstrap.com/docs/4.0/components/badge/-->
-      <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
-        <div class="selected-badges">
-          <a aria-placeholder="Selected Tags" v-for="(selectedTag, index) in selectedTags" :key="index" href="#" class="badge padded-badge" :class="selectedTag.class" @click="removeTag(selectedTag)">{{ selectedTag.tag_name }}</a>
+        <!--end of first tab-->
+        <!--second tab-->
+        <!--badge: https://getbootstrap.com/docs/4.0/components/badge/-->
+        <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
+          <TagTab ref="tagTab"/>
         </div>
-        <br/>
-        <div class="badge-list">
-          <a v-for="(tag, index) in tempTags" :key="index" href="#" class="badge padded-badge" :class="tag.class" @click="selectTag(tag)">{{ tag.tag_name }}</a>
+        <!--end of second tab-->
+        <!--third tab-->
+        <div class="tab-pane fade" :class="{ 'active show': isActive('portfolio') }" id="portfolio">
+          <PortfolioTab ref="portfolioTab"/>
         </div>
-      </div>
-      <!--end of second tab-->
-      <!--third tab-->
-      <div class="tab-pane fade" :class="{ 'active show': isActive('portfolio') }" id="portfolio">
-        Portfolio
-      </div>
-      <!--end of third tab-->
+        <!--end of third tab-->
     </div>
   </div>
 </template>

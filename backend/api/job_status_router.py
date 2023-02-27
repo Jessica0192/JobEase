@@ -8,7 +8,7 @@ from api.services import job_status_service
 
 router = fastapi.APIRouter(
     prefix="/job_status",
-    tags=["job_status"]
+    tags=["job status"]
 )
 
 

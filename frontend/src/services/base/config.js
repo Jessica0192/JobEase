@@ -10,6 +10,7 @@ export const API = {
   fileResource: (args) => `resource/${args}`,
   fileType: (args) => `resource_type/${args}`,
   fileExtension: (args) => `resource_extension_type/${args}`,
+  jobStatus: (args) => `job_status/${args}`
 }
 
 export const ETC_API = {

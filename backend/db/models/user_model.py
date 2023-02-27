@@ -16,6 +16,7 @@ class User(Base, Timestamp):
     is_super_user = Column(Boolean, nullable=False, default=False)
     hashed_password = Column(String(65), nullable=False)
     resources = relationship("Resource", back_populates="user")
+    portfolios = relationship("Portfolio", back_populates="user")
 
     def __init__(self, first_name, last_name, email, username, hashed_password):
         self.first_name = first_name

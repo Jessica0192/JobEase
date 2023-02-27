@@ -1,6 +1,6 @@
 // this is a javascript file for RegisterView.vue page
 
-import {api} from '../services/UserApi.js'
+import {userApi} from '../services/UserApi.js'
 import router from '../router'
 
 export default {
@@ -56,7 +56,7 @@ export default {
             password: this.passwordReg
           }
           // API call
-          await api.createUser(JSON.stringify(userData)).then(res => {
+          await userApi.createUser(JSON.stringify(userData)).then(res => {
             console.log(res)
             if (res.status === 200) {
               this.initForm()

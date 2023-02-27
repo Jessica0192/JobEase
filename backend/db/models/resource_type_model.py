@@ -23,4 +23,5 @@ class ResourceType(Base, Timestamp):
     resources = relationship("Resource", back_populates="resource_type")
 
     def __init__(self, resource_type):
+        super(ResourceType, self).__init__()
         self.resource_type = resource_type

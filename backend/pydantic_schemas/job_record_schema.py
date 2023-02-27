@@ -1,29 +1,25 @@
 from datetime import datetime
 from pydantic import BaseModel, validator
 from typing import List
+from pydantic_schemas.job_status_schema import JobStatus
+from pydantic_schemas.job_tag_schema import JobTag
 
 
 class JobRecordBase(BaseModel):
-    # jobStatus should be included later
+    # jobStatus, portfolio should be included later
     job_title: str
+    status: JobStatus
+    notes: str
+
+
+class JobRecordAll(JobRecordBase):
     deadline_date: datetime
     interview_date: datetime
     organization_name: str
     salary: float
-    notes: str
     job_url: str
     location: str
-    tags: List[int]
-
-
-class JobRecordCreate(JobRecordBase):
-    # tags, portfolio should be included later
-    pass
-
-
-class JobRecordUpdate(JobRecordBase):
-    # tags, portfolio should be included later
-    pass
+    tags: List[JobTag]
 
 
 class JobRecord(JobRecordBase):

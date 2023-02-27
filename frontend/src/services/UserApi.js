@@ -4,7 +4,7 @@ import service from './base/service'
 import { API } from './base/config'
 
 // these are the api calls specific to User
-export const api = {
+export const userApi = {
   getUserByID (userId) {
     return service.get(`${API.user('')}${userId}`, )
   },

@@ -1,9 +1,10 @@
 import axios, { AxiosError } from 'axios'
+import store from '@/store'
 
 // Provide basic information according to the project settings.
 const service = axios.create({
-  baseURL: 'http://localhost:8000/'
-  // timeout,
+  baseURL: 'http://localhost:8000/',
+  timeout: 30000
   // withCredentials,
 })
 
@@ -24,13 +25,21 @@ service.interceptors.request.use(
 
 // Include the necessary processing in the response.
 service.interceptors.response.use(resp => resp, async error => {
-  if (error.response.status === 401) {
-    console.log("Service Error: " + error)
+  alert(error.response.data.detail);
+
+  if (error.response) {
+    if (error.response.status === 401) {
+      // 401 error occurred, dispatch logout action
+      await store.dispatch('logout');
+    }
+
+    if (error.response.status === 404) {
+      throw new Error('Object not found');
+    }
   }
-  return error
+
+  return error;
 })
-// (res) => { return res },
-// (error) => Promise.reject(error)
 
 // these are the default methods when calling api call
 export default {

@@ -6,7 +6,8 @@ export const API = {
   user: (args) => `user/${args}`,
   jobRecord: (args) => `job_record/${args}`,
   jobTag: (args) => `job_tag/${args}`,
-  jobStatus: (args) => `job_status/${args}`
+  jobStatus: (args) => `job_status/${args}`,
+  portfolio: (args) => `portfolio/${args}`
 }
 
 export const ETC_API = {

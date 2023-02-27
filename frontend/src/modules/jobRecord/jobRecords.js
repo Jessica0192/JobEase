@@ -4,6 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from '@/router'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 
 library.add(faPlus)
 
@@ -18,11 +19,14 @@ export default {
     MDBCardLink,
     MDBIcon,
     FontAwesomeIcon,
+    ConfirmationDialog
   },
   data() {
     return {
       searchText: '',
-      jobs: []
+      jobs: [],
+      jobRecordIdToDelete: null,
+      openDeleteConfirmDialog: false,
     };
   },
   computed: {
@@ -49,8 +53,12 @@ export default {
    });
  },
  methods: {
-  deleteJobRecord (id) {
-      jobRecordApi.deleteJobRecord(id).then(response => {
+  openDeleteJobRecordDialog(id){
+    this.jobRecordIdToDelete = id
+    this.openDeleteConfirmDialog = true
+  },
+  deleteJobRecord () {
+      jobRecordApi.deleteJobRecord(this.jobRecordIdToDelete).then(response => {
         if(response && response.status === 200) {
           alert("Successfully deleted Job Record")
           location.reload()

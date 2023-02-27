@@ -1,9 +1,18 @@
 <template>
+  <ConfirmationDialog
+      style="align-content: center"
+      v-if="openDeleteConfirmDialog"
+      title="Confirmation"
+      message="Are you sure you want to delete this record?"
+      confirm-btn-label="Yes"
+      :on-confirm="deleteJobRecord"
+      @close-modal="openDeleteConfirmDialog = false"
+  />
   <div style="display: flex; justify-content: space-between;">
     <h1 class="view-title">Job Record Detail</h1>
     <div class="d-flex justify-content-end">
       <a class="btn btn-lg btn-primary delete-button"
-          @click="deleteJobRecord">Delete</a>
+          @click="openDeleteConfirmDialog = true">Delete</a>
       <a style="margin-right: 150px"
          class="btn btn-lg btn-primary save-button"
           @click="saveJobRecord">Save</a>
@@ -47,5 +56,5 @@
 <script src="../../modules/jobRecord/jobRecordDetail.js">
 </script>
 
-<style scoped  src="../../assets/css/jobRecord_create_detail.css">
+<style scoped src="../../assets/css/jobRecord_create_detail.css">
 </style>

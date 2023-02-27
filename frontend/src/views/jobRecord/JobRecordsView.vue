@@ -1,4 +1,13 @@
 <template>
+  <ConfirmationDialog
+      style="align-content: center"
+      v-if="openDeleteConfirmDialog"
+      title="Confirmation"
+      message="Are you sure you want to delete this record?"
+      confirm-btn-label="Yes"
+      :on-confirm="deleteJobRecord"
+      @close-modal="openDeleteConfirmDialog = false; jobRecordIdToDelete = null"
+  />
   <h1 class="view-title">Job Records</h1>
   <div>
    <div class="container">
@@ -28,7 +37,7 @@
           <MDBCard class="h-80">
             <div class="d-flex justify-content-end" style="padding-top: 3px; padding-right: 3px">
               <div>
-                <a class="m-1" href="#!" role="button" aria-controls="exampleModal" @click="deleteJobRecord(job.id)">
+                <a class="m-1" href="#!" role="button" aria-controls="exampleModal" @click="openDeleteJobRecordDialog(job.id)">
                   <MDBIcon size="lg" class="fas fa-window-close text-muted p-md-1 my-1 me-0"
                          id="deleteIcon"
                          data-mdb-toggle="tooltip"

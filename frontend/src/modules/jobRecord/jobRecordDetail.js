@@ -4,6 +4,7 @@ import sharedMixin from '../../modules/jobRecord/shared';
 import PortfolioTab from '@/components/jobRecord/PortfolioTab.vue'
 import TagTab from '@/components/jobRecord/TagTab.vue'
 import JobInfoTab from '@/components/jobRecord/JobInfoTab.vue'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 
 export default {
   mixins: [sharedMixin],
@@ -11,12 +12,14 @@ export default {
   components: {
     JobInfoTab:JobInfoTab,
     PortfolioTab,
-    TagTab
+    TagTab,
+    ConfirmationDialog
   },
   data() {
     return {
       id: null,
-      tempJob: null
+      tempJob: null,
+      openDeleteConfirmDialog: false,
     };
   },
   mounted() {
@@ -52,12 +55,14 @@ export default {
       }
     },
     deleteJobRecord () {
-      jobRecordApi.deleteJobRecord(this.id).then(response => {
-        if (response && response.status === 200) {
-          alert("Successfully deleted Job Record")
-          router.push({name: 'JobRecords'})
-        }
-      })
+      if(confirm("Do you really want to delete?")) {
+        jobRecordApi.deleteJobRecord(this.id).then(response => {
+          if (response && response.status === 200) {
+            alert("Successfully deleted Job Record")
+            router.push({name: 'JobRecords'})
+          }
+        })
+      }
      },
     async saveJobRecord () {
       if (this.$refs.jobInfoTab.$data.job !== null) {

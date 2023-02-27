@@ -13,7 +13,7 @@ class JobRecord(Base, Timestamp):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))  # FK added
     status_id = Column(Integer, ForeignKey('job_status.id'))    # FK added
-    portfolio_id = Column(Integer, ForeignKey('portfolio.id'))    # FK added
+    portfolio_id = Column(Integer, ForeignKey('portfolios.id'))    # FK added
     job_title = Column(String(45), nullable=False, unique=True)
     deadline_date = Column(DateTime, default=datetime.datetime.utcnow, nullable=True)
     interview_date = Column(DateTime, default=datetime.datetime.utcnow, nullable=True)

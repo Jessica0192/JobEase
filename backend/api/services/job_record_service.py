@@ -34,6 +34,7 @@ def get_all_job_records_for_user(current_user_id: int, db: Session, limit: int =
 
 def create_job_record(current_user_id: int, db: Session, job_record: job_record_schema.JobRecordAll):
     try:
+        print(job_record)
         # Update status
         new_status = db.query(JobStatus).filter_by(status_name=job_record.status.status_name).one()
         # Update portfolio

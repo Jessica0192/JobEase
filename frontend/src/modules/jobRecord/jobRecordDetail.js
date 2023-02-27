@@ -37,7 +37,6 @@ export default {
             this.tempJob = response.data;
 
             let tempSelectedTags = this.tempJob.tags
-            console.log(tempSelectedTags)
             for (let i = 0; i < tempSelectedTags.length; i++) {
               let tempId = tempSelectedTags[i].id;
               for (let j = 0; j < this.$refs.tagTab.$data.tempTags.length; j++) {
@@ -67,17 +66,17 @@ export default {
     async saveJobRecord () {
       if (this.$refs.jobInfoTab.$data.job !== null) {
         let jobTemp = this.$refs.jobInfoTab.$data.job
-        if (jobTemp.job_title !== '' && jobTemp.status !== '')   //include tag later in if statement
+        if (jobTemp.job_title !== '' && JSON.stringify(jobTemp.status) !== JSON.stringify({}))
         {
           // save Job Record by api call and navigate to Job Record page
-          let deadlineDateTime = new Date(jobTemp.deadline_date);
-          let interviewDateTime = new Date(jobTemp.interview_date);
+          let deadlineDateTime = (jobTemp.deadline_date !== "") ? new Date(jobTemp.deadline_date).toISOString() : null;
+          let interviewDateTime = (jobTemp.interview_date !== "") ? new Date(jobTemp.interview_date).toISOString() : null;
 
           const inputs = {
             job_title: jobTemp.job_title,
             status: this.$refs.jobInfoTab.$data.statusOptions.find(s => s.status_name === jobTemp.status.status_name),
-            deadline_date: deadlineDateTime.toISOString(),
-            interview_date: interviewDateTime.toISOString(),
+            deadline_date: deadlineDateTime,
+            interview_date: interviewDateTime,
             organization_name: jobTemp.organization_name,
             salary: +(jobTemp.salary),
             notes: jobTemp.notes,

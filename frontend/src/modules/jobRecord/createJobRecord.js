@@ -19,16 +19,16 @@ export default {
       if (this.$refs.jobInfoTab.$data.job !== null) {
         let jobTemp = this.$refs.jobInfoTab.$data.job
 
-        if (jobTemp.job_title !== '' && jobTemp.jobStatus !== '')    //include tag later in if statement
+        if (jobTemp.job_title !== '' && JSON.stringify(jobTemp.status) !== JSON.stringify({}))
         {
-          let deadlineDateTime = (jobTemp.deadline_date !== "") ? new Date(jobTemp.deadline_date) : null;
-          let interviewDateTime = (jobTemp.interview_date !== "") ? new Date(jobTemp.interview_date) : null;
+          let deadlineDateTime = (jobTemp.deadline_date !== "") ? new Date(jobTemp.deadline_date).toISOString() : null;
+          let interviewDateTime = (jobTemp.interview_date !== "") ? new Date(jobTemp.interview_date).toISOString() : null;
 
           const inputs = {
             job_title: jobTemp.job_title,
             status: this.$refs.jobInfoTab.$data.statusOptions.find(s => s.status_name === jobTemp.status.status_name),
-            deadline_date: (deadlineDateTime !== null) ? deadlineDateTime.toISOString() : new Date().toISOString(),
-            interview_date: (interviewDateTime !== null) ? interviewDateTime.toISOString() : new Date().toISOString(),
+            deadline_date: deadlineDateTime,
+            interview_date: interviewDateTime,
             organization_name: jobTemp.organization_name,
             salary: +(jobTemp.salary),
             notes: jobTemp.notes,

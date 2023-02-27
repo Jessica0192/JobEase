@@ -14,8 +14,8 @@ class JobRecordBase(BaseModel):
 
 
 class JobRecordAll(JobRecordBase):
-    deadline_date: datetime
-    interview_date: datetime
+    deadline_date: Optional[datetime] = None
+    interview_date: Optional[datetime] = None
     organization_name: str
     salary: float
     job_url: str

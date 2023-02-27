@@ -21,7 +21,7 @@
       <ResourcePopup v-if="isPopupVisible" @close="hidePopup">
       </ResourcePopup>
       <div id="table" class="table-editable">
-        <table class="table table-bordered table-responsive-md table-striped text-center">
+        <table class="table table-responsive-md table-striped text-center">
           <thead>
             <tr>
               <th class="text-center">Resources Name

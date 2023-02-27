@@ -1,0 +1,58 @@
+<template>
+  <div class="resourcePopup">
+    <div class="popup-inner">
+      <div class="popup-header">
+      <h5>Add a Resource</h5>
+      <a href="#!" @click="$emit('close')" title="close">
+        <i class="fas fa-times close-icon" aria-hidden="true"></i>
+      </a>
+    </div>
+      <slot />
+      <table style="margin-top: 50px;">
+        <tr >
+          <td>
+            <label style="margin-top: 5px;">File Type:</label>
+          </td>
+          <td>
+            <select v-model="fileType" style="margin-top: 10px;" required>
+              <option value="" disabled>-- Select --</option>
+              <option v-for="fileTypeItem in fileTypeDb" :key="fileTypeItem.id" :value="fileTypeItem.resource_type">
+                {{ fileTypeItem.resource_type }}
+              </option>
+            </select>
+          </td>
+        </tr>
+        <tr >
+          <td>
+            <label style="margin-top: 5px;">File Format:</label>
+          </td>
+          <td>
+            <select v-model="fileFormat" style="margin-top: 10px;" required>
+              <option value="" disabled>-- Select --</option>
+              <option v-for="fileFormatItem in fileExtension" :key="fileFormatItem.id" :value="fileFormatItem.resource_extension_type">
+                {{ fileFormatItem.resource_extension_type }}
+              </option>
+            </select>
+          </td>
+        </tr>
+      </table>
+      <form @submit.prevent="saveFile" enctype="multipart/form-data" style="margin-top: 30px;">
+        <div class="field">
+          <input type="file" ref="selectedFile" @change="selectFile" required />
+        </div>
+        <div class="field">
+          <button class="button is-info popup-saveBtn" :disabled="isSaveDisabled">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+  
+<script src="../../modules/resources/resourcePopup.js">
+</script>
+  
+<style scoped src="../../assets/css/popupWindow.css">
+</style>
+  

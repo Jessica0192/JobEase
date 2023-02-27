@@ -6,6 +6,9 @@ export const API = {
   user: (args) => `user/${args}`,
   jobRecord: (args) => `job_record/${args}`,
   jobTag: (args) => `job_tag/${args}`,
+  fileResource: (args) => `resource/${args}`,
+  fileType: (args) => `resource_type/${args}`,
+  fileExtension: (args) => `resource_extension_type/${args}`,
   jobStatus: (args) => `job_status/${args}`
 }
 

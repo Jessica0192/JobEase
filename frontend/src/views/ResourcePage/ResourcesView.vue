@@ -14,12 +14,14 @@
   <div class="card scrollable">
     <div class="card-body">
       <span>
-        <a href="#!" @click="newResource" title="Add new resource">
+        <a href="#!" @click="showPopup" title="Add new resource">
           <i class="fas fa-plus fa-2x sign-blue icon" aria-hidden="true"></i>
         </a>
       </span>
+      <ResourcePopup v-if="isPopupVisible" @close="hidePopup">
+      </ResourcePopup>
       <div id="table" class="table-editable">
-        <table class="table table-bordered table-responsive-md table-striped text-center">
+        <table class="table table-responsive-md table-striped text-center">
           <thead>
             <tr>
               <th class="text-center">Resources Name
@@ -27,6 +29,7 @@
                   <i class="fas fa-sort" aria-hidden="true"></i>
                 </a>
               </th>
+              <th class="text-center">Created Date</th>
               <th class="text-center">Type</th>
               <th class="text-center">View</th>
               <th class="text-center">Download</th>            
@@ -34,11 +37,12 @@
             </tr>
           </thead>
           <tbody> 
-            <tr v-for="(row, index) in data" :key="index">
-              <td class="pt-3-half" contenteditable="true">{{ row.resourceName }}</td>
+            <tr v-for="(row, index) in resources" :key="index">
+              <td class="pt-3-half" contenteditable="true">{{ this.resources.length ? this.resources[index].resource_name : '' }}</td>
+              <td>{{ this.resources.length ? this.resources[index].updated_at : '' }}</td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary btn_type">{{ row.selectedOption }}</button>
+                  <button type="button" class="btn btn-primary btn_type">{{ this.resources.length ? this.resources[index].resource_type.resource_type : '' }}</button>
                   <button type="button" class="btn btn-primary dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="row.isOpen = !row.isOpen">
                   </button>
                 </div>
@@ -49,18 +53,26 @@
                   </ul>
               </td>
               <td>
-                <span class="table-view" @click="viewFile">
+                <span class="table-view" @click="viewFile(index)">
                   <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
                     view
                   </button>
                 </span>
               </td>
               <td>
-                <span class="table-download" @click="downloadFile">
+                <span class="table-download" @click="downloadFile(index)">
                   <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
                     Download
                   </button>
                 </span>
+                <div v-if="resourceDisplayed === index">
+                    <iframe
+                      ref="iframeViewer"
+                      :src="fileUrl"
+                      style="width: 100%; height: 600px;"
+                      @load="onIframeLoad"
+                    ></iframe>
+                  </div>
               </td>
               <td>
                 <span class="table-remove" @click="remove(index)">
@@ -78,8 +90,8 @@
 </div>
 </template>
 
-<script src="../modules/resources.js">
+<script src="../../modules/resources/resources.js">
 </script>
 
-<style scoped src="../assets/css/table.css">
+<style scoped src="../../assets/css/table.css">
 </style>

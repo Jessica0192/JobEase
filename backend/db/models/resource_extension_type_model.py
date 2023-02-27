@@ -12,7 +12,7 @@ class ResourceExtensionTypeEnum(str, enum.Enum):
     image_jpeg = "image/jpeg"
     image_png = "image/png"
     audio = "audio/mpeg"
-    video = "vide/mp4"
+    video = "video/mp4"
 
 
 class ResourceExtensionType(Base, Timestamp):

@@ -28,6 +28,7 @@ export default {
       async loadResources () {
         const resourcesRsp = await fileApi.getAllResources()
         this.resources = resourcesRsp.data
+        console.log('this.resources ', this.resources )
       },
       sortData() {
         let sortedDataArray = this.resources.slice()

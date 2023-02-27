@@ -65,10 +65,6 @@ export default {
           alowSave = true
           break
         }
-        if (extensionFile === 'jpg') {
-          alowSave = true
-          break
-        }
         if (this.fileExtension[k].resource_extension_type.split('/').pop() === extensionFile) {
           alowSave = true
           break

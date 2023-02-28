@@ -9,6 +9,9 @@ from .mixins import Timestamp
 class ResourceTypeEnum(str, enum.Enum):
     resume = "Resume"
     cover_letter = "Cover Letter"
+    image = "Image"
+    video = "Video"
+    audio = "Audio"
     other = "Other"
 
 

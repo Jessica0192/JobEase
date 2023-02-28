@@ -8,6 +8,9 @@ export const API = {
   jobTag: (args) => `job_tag/${args}`,
   jobStatus: (args) => `job_status/${args}`,
   portfolio: (args) => `portfolio/${args}`
+  fileResource: (args) => `resource/${args}`,
+  fileType: (args) => `resource_type/${args}`,
+  fileExtension: (args) => `resource_extension_type/${args}`
 }
 
 export const ETC_API = {

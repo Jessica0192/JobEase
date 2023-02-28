@@ -1,15 +1,16 @@
 import {jobRecordApi} from '@/services/JobRecordApi'
-import router from '@/router'
 import sharedMixin from '../../modules/jobRecord/shared';
 import PortfolioTab from '@/components/jobRecord/PortfolioTab.vue'
 import TagTab from '@/components/jobRecord/TagTab.vue'
 import JobInfoTab from '@/components/jobRecord/JobInfoTab.vue'
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
 export default {
   mixins: [sharedMixin],
   name: 'JobRecordDetailView',
   components: {
+    FontAwesomeIcon,
     JobInfoTab:JobInfoTab,
     PortfolioTab,
     TagTab,
@@ -27,15 +28,19 @@ export default {
     this.fetchData();
   },
   methods: {
-    fetchData(){
+    async fetchData(){
       this.id = this.$route.params.id;
 
       // this is api call getting job record data by passing job record id
       try {
-        jobRecordApi.getJobRecordByID(this.id).then(response => {
+        await jobRecordApi.getJobRecordByID(this.id).then(response => {
           if(response && response.status===200) {
             this.tempJob = response.data;
 
+            const h1 = document.getElementById('jobTitleOnHeading');
+            h1.textContent = this.tempJob.job_title;
+
+            // update selected tags
             let tempSelectedTags = this.tempJob.tags
             for (let i = 0; i < tempSelectedTags.length; i++) {
               let tempId = tempSelectedTags[i].id;
@@ -47,18 +52,22 @@ export default {
                 }
               }
             }
+
+            // update selected portfolio
+            if(this.tempJob.portfolio) {
+              this.$refs.portfolioTab.$data.selectedPortfolio = this.tempJob.portfolio
+            }
           }
         });
       } catch (error) {
           console.log(error)
       }
     },
-    deleteJobRecord () {
+    async deleteJobRecord () {
       if(confirm("Do you really want to delete?")) {
-        jobRecordApi.deleteJobRecord(this.id).then(response => {
+        await jobRecordApi.deleteJobRecord(this.id).then(response => {
           if (response && response.status === 200) {
-            alert("Successfully deleted Job Record")
-            router.push({name: 'JobRecords'})
+            this.navigateBackToJobRecords()
           }
         })
       }
@@ -83,15 +92,13 @@ export default {
             job_url: jobTemp.job_url,
             location: jobTemp.location,
             tags: this.$refs.tagTab.$data.tags.filter(tag => this.$refs.tagTab.$data.selectedTags.map(tag => tag.id).includes(tag.id)),
-            portfolio: null
+            portfolio: this.$refs.portfolioTab.$data.selectedPortfolio ? this.$refs.portfolioTab.$data.selectedPortfolio : null
           }
 
-          console.log(inputs)
-
           // update Job Record
-          jobRecordApi.updateJobRecord(this.id, JSON.stringify(inputs)).then(response => {
+          await jobRecordApi.updateJobRecord(this.id, JSON.stringify(inputs)).then(response => {
             if (response && response.status === 200) {
-              router.push({name: 'JobRecords'})
+              this.navigateBackToJobRecords()
             }
           });
 

@@ -16,21 +16,8 @@
           <td>
             <select v-model="fileType" style="margin-top: 10px;" required>
               <option value="" disabled>-- Select --</option>
-              <option v-for="fileTypeItem in fileTypeDb" :key="fileTypeItem.id" :value="fileTypeItem.resource_type">
+              <option v-for="fileTypeItem in fileTypeDb" :key="fileTypeItem.id" :value="fileTypeItem">
                 {{ fileTypeItem.resource_type }}
-              </option>
-            </select>
-          </td>
-        </tr>
-        <tr >
-          <td>
-            <label style="margin-top: 5px;">File Format:</label>
-          </td>
-          <td>
-            <select v-model="fileFormat" style="margin-top: 10px;" required>
-              <option value="" disabled>-- Select --</option>
-              <option v-for="fileFormatItem in fileExtension" :key="fileFormatItem.id" :value="fileFormatItem.resource_extension_type">
-                {{ fileFormatItem.resource_extension_type }}
               </option>
             </select>
           </td>
@@ -38,7 +25,7 @@
       </table>
       <form @submit.prevent="saveFile" enctype="multipart/form-data" style="margin-top: 30px;">
         <div class="field">
-          <input type="file" ref="selectedFile" @change="selectFile" required />
+          <input type="file" :accept="acceptTypes" ref="selectedFile" @change="selectFile" required />
         </div>
         <div class="field">
           <button class="button is-info popup-saveBtn" :disabled="isSaveDisabled">
@@ -49,10 +36,9 @@
     </div>
   </div>
 </template>
-  
+
 <script src="../../modules/resources/resourcePopup.js">
 </script>
-  
+
 <style scoped src="../../assets/css/popupWindow.css">
 </style>
-  

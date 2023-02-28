@@ -1,5 +1,7 @@
 // this file is included in both createJobRecord.js and jobRecordDetail.js
 
+import router from '@/router'
+
 export default {
   data() {
     return {
@@ -23,6 +25,9 @@ export default {
     removeTag(tag) {
       this.tempTags.push(tag);
       this.selectedTags = this.selectedTags.filter(b => b !== tag);
+    },
+    navigateBackToJobRecords(){
+      router.push({name: 'JobRecords'})
     }
   },
 };

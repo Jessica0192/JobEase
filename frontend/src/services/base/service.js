@@ -52,7 +52,8 @@ export default {
       }
       return res
     } catch (e) {
-      return console.log(e)
+      console.log(e.response)
+      return e.response
     }
   },
 
@@ -65,7 +66,8 @@ export default {
       }
       return res
     } catch (e) {
-      return console.log(e)
+      console.log(e.response)
+      return e.response
     }
   },
 
@@ -77,7 +79,8 @@ export default {
       }
       return res
     } catch (e) {
-      return console.log(e)
+      console.log(e.response)
+      return e.response
     }
   },
 
@@ -89,7 +92,8 @@ export default {
       }
       return res
     } catch (e) {
-      return console.log(e)
+      console.log(e.response)
+      return e.response
     }
   }
 }

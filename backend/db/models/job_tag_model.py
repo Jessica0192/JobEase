@@ -18,7 +18,7 @@ class JobTag(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     tag_name = Column(Enum(JobTagEnum, values_callable=lambda obj: [e.value for e in obj]), nullable=False)
-    job_records = relationship("JobRecord", secondary=job_record_tag, back_populates="tags")
+    job_records = relationship("JobRecord", secondary=job_record_tag, back_populates="tags", cascade="all, delete")
 
     def __init__(self, tag_name):
         super(JobTag, self).__init__()

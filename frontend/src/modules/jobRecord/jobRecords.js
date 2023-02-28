@@ -1,9 +1,10 @@
-import { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardLink  } from "mdb-vue-ui-kit";
-import {jobRecordApi} from '../../services/JobRecordApi'
+import { MDBCol, MDBRow, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardLink, MDBIcon  } from "mdb-vue-ui-kit";
+import {jobRecordApi} from '@/services/JobRecordApi'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from '@/router'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 
 library.add(faPlus)
 
@@ -16,12 +17,16 @@ export default {
     MDBCardTitle,
     MDBCardText,
     MDBCardLink,
-    FontAwesomeIcon
+    MDBIcon,
+    FontAwesomeIcon,
+    ConfirmationDialog
   },
   data() {
     return {
       searchText: '',
-      jobs: []
+      jobs: [],
+      jobRecordIdToDelete: null,
+      openDeleteConfirmDialog: false,
     };
   },
   computed: {
@@ -33,7 +38,7 @@ export default {
       return this.jobs.filter(job => {
         return (
           job.job_title.toLowerCase().includes(searchTextLower) ||
-          job.status.toLowerCase().includes(searchTextLower) ||
+          job.status.status_name.toLowerCase().includes(searchTextLower) ||
           job.notes.toLowerCase().includes(searchTextLower)
         );
       });
@@ -47,12 +52,24 @@ export default {
       }
    });
  },
-   methods: {
-     navigateToCreatePage () {
-       router.push({ name: 'CreateJobRecord' })
-     },
-     navigateToDetailPage(id) {
-      router.push({ name: 'JobRecordDetail', params: { id } });
-    },
-   }
+ methods: {
+  openDeleteJobRecordDialog(id){
+    this.jobRecordIdToDelete = id
+    this.openDeleteConfirmDialog = true
+  },
+  deleteJobRecord () {
+      jobRecordApi.deleteJobRecord(this.jobRecordIdToDelete).then(response => {
+        if(response && response.status === 200) {
+          alert("Successfully deleted Job Record")
+          location.reload()
+        }
+      })
+   },
+   navigateToCreatePage () {
+     router.push({ name: 'CreateJobRecord' })
+   },
+   navigateToDetailPage(id) {
+    router.push({ name: 'JobRecordDetail', params: { id } });
+  },
+ }
 };

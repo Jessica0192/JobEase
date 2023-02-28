@@ -16,5 +16,8 @@ export const jobRecordApi = {
   },
   updateJobRecord(jobRecordId, data){
     return service.put(`${API.jobRecord('')}${jobRecordId}`, data)
+  },
+  deleteJobRecord(jobRecordId) {
+    return service.delete(`${API.jobRecord('')}${jobRecordId}`)
   }
 }

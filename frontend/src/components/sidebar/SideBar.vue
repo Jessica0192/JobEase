@@ -189,11 +189,6 @@ export default {
     z-index: 600;
   }
 
-  @media (max-width: 991.98px) {
-    .sidebar {
-      width: 100%;
-    }
-  }
   .sidebar .active {
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);

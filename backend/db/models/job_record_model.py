@@ -13,10 +13,10 @@ class JobRecord(Base, Timestamp):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))  # FK added
     status_id = Column(Integer, ForeignKey('job_status.id'))    # FK added
-    # portfolio
+    portfolio_id = Column(Integer, ForeignKey('portfolios.id'))    # FK added
     job_title = Column(String(45), nullable=False, unique=True)
-    deadline_date = Column(DateTime, default=datetime.datetime.utcnow, nullable=True)
-    interview_date = Column(DateTime, default=datetime.datetime.utcnow, nullable=True)
+    deadline_date = Column(DateTime(timezone=True), nullable=True, server_default=None)
+    interview_date = Column(DateTime(timezone=True), nullable=True, server_default=None)
     organization_name = Column(String(45), nullable=True)
     salary = Column(Float, nullable=True)
     notes = Column(String(100), nullable=True)
@@ -24,5 +24,6 @@ class JobRecord(Base, Timestamp):
     location = Column(String(45), nullable=True)
 
     user = relationship("User", backref="job_records")
-    status = relationship('JobStatus', back_populates='job_records')
-    tags = relationship("JobTag", secondary=job_record_tag, back_populates="job_records")
+    status = relationship('JobStatus', back_populates='job_records', cascade="all,delete")
+    portfolio = relationship('Portfolio', back_populates='job_records', cascade="all,delete")
+    tags = relationship("JobTag", secondary=job_record_tag, back_populates="job_records", cascade="all, delete")

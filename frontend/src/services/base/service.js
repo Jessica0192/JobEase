@@ -1,9 +1,10 @@
 import axios, { AxiosError } from 'axios'
 import store from '@/store'
+import {API_URL} from '@/services/base/config'
 
 // Provide basic information according to the project settings.
 const service = axios.create({
-  baseURL: 'http://localhost:8000/',
+  baseURL: API_URL,
   timeout: 30000
   // withCredentials,
 })

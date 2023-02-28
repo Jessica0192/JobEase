@@ -1,79 +1,103 @@
 import {jobRecordApi} from '@/services/JobRecordApi'
 import router from '@/router'
 import sharedMixin from '../../modules/jobRecord/shared';
+import PortfolioTab from '@/components/jobRecord/PortfolioTab.vue'
+import TagTab from '@/components/jobRecord/TagTab.vue'
+import JobInfoTab from '@/components/jobRecord/JobInfoTab.vue'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 
 export default {
   mixins: [sharedMixin],
   name: 'JobRecordDetailView',
+  components: {
+    JobInfoTab:JobInfoTab,
+    PortfolioTab,
+    TagTab,
+    ConfirmationDialog
+  },
   data() {
     return {
       id: null,
-      job: null
+      tempJob: null,
+      openDeleteConfirmDialog: false,
     };
   },
   mounted() {
-    // call fetchJob method to get data by calling api endpoint and update UI
-    this.fetchJob();
+    // api call to get data by calling api endpoint and update UI
+    this.fetchData();
   },
   methods: {
-    // call getJobRecordById endpoint and fill out fields in UI
-    async fetchJob() {
+    fetchData(){
       this.id = this.$route.params.id;
 
       // this is api call getting job record data by passing job record id
       try {
-        await jobRecordApi.getJobRecordByID(this.id).then(response => {
+        jobRecordApi.getJobRecordByID(this.id).then(response => {
           if(response && response.status===200) {
-            this.job = response.data;
-          }
-        });
+            this.tempJob = response.data;
 
-        let tempSelectedTags = this.job.tags
-         for (let i = 0; i < tempSelectedTags.length; i++) {
-            let tempId = tempSelectedTags[i].id;
-            for (let j = 0; j < this.tempTags.length; j++) {
-              if (tempId === this.tempTags[j].id) {
-                let foundTag = this.tempTags.splice(j, 1)[0];
-                this.selectedTags.push(foundTag);
-                break;
+            let tempSelectedTags = this.tempJob.tags
+            for (let i = 0; i < tempSelectedTags.length; i++) {
+              let tempId = tempSelectedTags[i].id;
+              for (let j = 0; j < this.$refs.tagTab.$data.tempTags.length; j++) {
+                if (tempId === this.$refs.tagTab.$data.tempTags[j].id) {
+                  let foundTag = this.$refs.tagTab.$data.tempTags.splice(j, 1)[0];
+                  this.$refs.tagTab.$data.selectedTags.push(foundTag);
+                  break;
+                }
               }
             }
           }
+        });
       } catch (error) {
           console.log(error)
-          alert(error)
       }
     },
+    deleteJobRecord () {
+      if(confirm("Do you really want to delete?")) {
+        jobRecordApi.deleteJobRecord(this.id).then(response => {
+          if (response && response.status === 200) {
+            alert("Successfully deleted Job Record")
+            router.push({name: 'JobRecords'})
+          }
+        })
+      }
+     },
     async saveJobRecord () {
-      if(this.job.job_title !== '' && this.job.status !== '')   //include tag later in if statement
-      {
-        // save Job Record by api call and navigate to Job Record page
-        let deadlineDateTime = new Date(this.job.deadline_date);
-        let interviewDateTime = new Date(this.job.interview_date);
+      if (this.$refs.jobInfoTab.$data.job !== null) {
+        let jobTemp = this.$refs.jobInfoTab.$data.job
+        if (jobTemp.job_title !== '' && JSON.stringify(jobTemp.status) !== JSON.stringify({}))
+        {
+          // save Job Record by api call and navigate to Job Record page
+          let deadlineDateTime = (jobTemp.deadline_date !== "") ? new Date(jobTemp.deadline_date).toISOString() : null;
+          let interviewDateTime = (jobTemp.interview_date !== "") ? new Date(jobTemp.interview_date).toISOString() : null;
 
-        const inputs = {
-            job_title: this.job.job_title,
-            status: this.statusOptions.find(s=> s.status_name === this.job.status.status_name),
-            deadline_date: deadlineDateTime.toISOString(),
-            interview_date: interviewDateTime.toISOString(),
-            organization_name: this.job.organization_name,
-            salary: +(this.job.salary),
-            notes: this.job.notes,
-            job_url: this.job.job_url,
-            location: this.job.location,
-            tags: this.tags.filter(tag => this.selectedTags.map(tag => tag.id).includes(tag.id))
+          const inputs = {
+            job_title: jobTemp.job_title,
+            status: this.$refs.jobInfoTab.$data.statusOptions.find(s => s.status_name === jobTemp.status.status_name),
+            deadline_date: deadlineDateTime,
+            interview_date: interviewDateTime,
+            organization_name: jobTemp.organization_name,
+            salary: +(jobTemp.salary),
+            notes: jobTemp.notes,
+            job_url: jobTemp.job_url,
+            location: jobTemp.location,
+            tags: this.$refs.tagTab.$data.tags.filter(tag => this.$refs.tagTab.$data.selectedTags.map(tag => tag.id).includes(tag.id)),
+            portfolio: null
           }
 
           console.log(inputs)
-        // update Job Record
-        jobRecordApi.updateJobRecord(this.id, JSON.stringify(inputs)).then(response => {
-          if(response && response.status===200) {
-            router.push({ name: 'JobRecords'})
-          }
-        });
 
-      } else {
-        alert("Please fill out all required fields")
+          // update Job Record
+          jobRecordApi.updateJobRecord(this.id, JSON.stringify(inputs)).then(response => {
+            if (response && response.status === 200) {
+              router.push({name: 'JobRecords'})
+            }
+          });
+
+        } else {
+          alert("Please fill out all required fields")
+        }
       }
     }
   },

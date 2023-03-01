@@ -2,6 +2,7 @@ import PortfolioViewModal from '../../views/portfolio/PortfolioViewModal.vue'
 import {portfolioApi} from '@/services/PortfolioApi'
 import {fileApi} from "@/services/FileApi";
 import {AxiosHeaders} from "axios";
+import JSZip from 'jszip';
 export default {
   components: {
     PortfolioViewModal
@@ -52,20 +53,40 @@ export default {
           }
         })
       },
+
       // TODO: send and API request to create a portfolio and save it the database
       newPortfolio () {
         alert('need a page or pop up for adding new portfolio')
       },
-      // TODO: send and API request to download a portfolio from the database
-      downloadPortfolio (row) {
-        alert('portfolio downloaded', row)
+
+      // Download the entire portfolio as a zip file
+      async downloadPortfolio (index) {
+        const resources = this.portfolios[index].resources
+        const zip = new JSZip();
+
+        for (const resource of resources) {
+          try {
+            const response = await fileApi.downloadFile (resource.id)
+            zip.file(resource.resource_name, response.data)
+          } catch (error) {
+            console.error('Error retrieving resource:', error)
+          }
+        }
+
+        zip.generateAsync({type: 'blob'}).then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = this.portfolios[index].portfolio_name + '.zip';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        });
       },
       viewPortfolio (index) {
         this.resourcesToShow = this.portfolios[index].resources
         this.isModalVisible = true
-      },
-      exportData() {
-        this.export = JSON.stringify(this.data);
       },
       async onResourceSelected(resource){
         let NameExtension = resource.resource_name.split('.').pop()
@@ -83,8 +104,12 @@ export default {
           }
         }
         else {
-          alert('Sorry! This type of file cannot be displayed.\nPlease download the file to be able to view it!')
+          alert('Sorry! This type of file cannot be displayed.\n' +
+              'Please download the file from the Resources tab to be able to view it!')
         }
+      },
+      exportData() {
+        this.export = JSON.stringify(this.data);
       }
     }
   }

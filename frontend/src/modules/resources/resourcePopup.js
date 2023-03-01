@@ -52,7 +52,7 @@ export default {
       formData.append('file', this.file)
 
       let lastDotIndex = this.file.name.lastIndexOf(".");
-      let fileExtension = this.file.name.substr(lastDotIndex);
+      let fileExtension = this.file.name.substr(lastDotIndex).toString().toLowerCase();
       let fileExtensionId = this.fileExtension.find(x=>x.resource_extension_type === fileExtension)?.id
 
       if(fileExtensionId !== undefined) {

@@ -8,7 +8,7 @@ from .mixins import Timestamp
 
 class ResourceExtensionTypeEnum(str, enum.Enum):
     plain_text = ".txt"
-    doc = ".doc"
+    doc = ".docx"
     pdf = ".pdf"
     image_jpeg = ".jpeg"
     image_jpg = ".jpg"

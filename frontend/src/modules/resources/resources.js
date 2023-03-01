@@ -1,5 +1,6 @@
 import ResourcePopup from '../../views/ResourcePage/ResourcePopup.vue'
 import { fileApi } from '../../services/FileApi'
+import {AxiosHeaders} from 'axios'
 export default {
   components: {
     ResourcePopup
@@ -19,7 +20,7 @@ export default {
       await this.loadResources()
     },
     methods: {
-      // This function sorts an array of data objects, stored in the property "data" of the current object. 
+      // This function sorts an array of data objects, stored in the property "data" of the current object.
       // The sorted array is stored in the local variable "sortedDataArray".
       // The sorting is done using the JavaScript built-in "sort" method and
       //  a comparison function that compares the "portfolioName" property of two data objects (a and b).
@@ -57,22 +58,22 @@ export default {
         await this.$nextTick()
         try {
           const response = await fileApi.downloadFile (this.resources[index].id)
-        
+
           // Convert the response data to a blob
           const blob = new Blob([response.data], { type: fileType })
-      
+
           // Create a URL for the blob
           const objectUrl = URL.createObjectURL(blob)
-      
+
           // Create a link to download the file
           const link = document.createElement('a')
           link.href = objectUrl
           link.download = filename
           document.body.appendChild(link)
-      
+
           // Click the link to download the file
           link.click()
-      
+
           // Clean up resources
           URL.revokeObjectURL(objectUrl)
           document.body.removeChild(link)
@@ -83,18 +84,25 @@ export default {
       // To display a file content on a browser
       async viewFile (index) {
         let NameExtension = this.resources[index].resource_name.split('.').pop()
-        if ( NameExtension !== 'docx') {
+        if ( NameExtension.toString().toLowerCase() !== 'docx') {
           const response = await fileApi.displayFile (this.resources[index].id)
 
-          // Convert the response data to a blob
-          const blob = new Blob([response.data], { type: this.resources[index].resource_extension_type.resource_extension_type })
-          const fileUrl = URL.createObjectURL(blob)
-          window.open(fileUrl, '_blank')
+          const headers = response.headers
+
+          if(headers instanceof AxiosHeaders) {
+            // Convert the response data to a blob
+            const blob = new Blob([response.data], { type: headers.getContentType() })
+            const fileUrl = URL.createObjectURL(blob)
+            window.open(fileUrl, '_blank')
+          } else {
+            alert("Issue occurred while trying to retrieve content-type from resource")
+          }
+
         }
         else {
           alert('Sorry! This type of file cannot be displayed.\nPlease download the file to be able to view it!')
         }
-        
+
       },
       selectOption(option, row) {
         row.selectedOption = option

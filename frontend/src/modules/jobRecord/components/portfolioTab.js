@@ -112,13 +112,12 @@ export default {
           formData.append('file', this.newResourceFile)
 
           let lastDotIndex = this.newResourceFile.name.lastIndexOf(".");
-          let fileExtension = this.newResourceFile.name.substr(lastDotIndex);
+          let fileExtension = this.newResourceFile.name.substr(lastDotIndex).toString().toLowerCase();
           let fileExtensionId = this.acceptableResourceExtensions.find(x=>x.resource_extension_type === fileExtension)?.id
 
           // API CALL
           if(fileExtensionId !== undefined) {
               fileApi.uploadFile(this.newResourceType.id, fileExtensionId, formData).then(response=> {
-              console.log(response)
               if (response && response.status === 200) {
                 const newResource = {
                   resource_name: response.data.resource_name,

@@ -101,9 +101,10 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
             new_status = db.query(JobStatus).filter_by(status_name=job_record.status.status_name).one()
             item.status = new_status
 
-            # Update status
+            # Update portfolio
             if job_record.portfolio is not None:
                 portfolio = db.query(Portfolio).filter_by(id=job_record.portfolio.id).one()
+                item.portfolio_id = portfolio.id
                 item.portfolio = portfolio
 
             db.commit()

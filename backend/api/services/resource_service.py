@@ -21,7 +21,9 @@ def get_resource_by_id(db: Session, resource_id: int):
                                         resource_type=db_resource.resource_type,
                                         resource_extension_type_id=db_resource.resource_extension_type_id,
                                         resource_extension_type=db_resource.resource_extension_type,
-                                        resource_user_id=db_resource.resource_user_id
+                                        resource_user_id=db_resource.resource_user_id,
+                                        created_at=db_resource.created_at,
+                                        updated_at=db_resource.updated_at
                                         )
     else:
         return None

@@ -14,8 +14,8 @@ class Portfolio(Base, Timestamp):
     portfolio_user_id = Column(Integer, ForeignKey("users.id"))
 
     user = relationship("User", back_populates="portfolios")
-    job_records = relationship("JobRecord", back_populates="portfolio")
-    resources = relationship("Resource", secondary=portfolio_resource, back_populates="portfolios")
+    job_records = relationship("JobRecord", back_populates="portfolio", cascade="all,delete")
+    resources = relationship("Resource", secondary=portfolio_resource, back_populates="portfolios", cascade="all,delete")
 
     def __init__(self, portfolio_name, portfolio_user_id):
         super(Portfolio, self).__init__()

@@ -57,10 +57,9 @@ export default {
     this.jobRecordIdToDelete = id
     this.openDeleteConfirmDialog = true
   },
-  deleteJobRecord () {
-      jobRecordApi.deleteJobRecord(this.jobRecordIdToDelete).then(response => {
+  async deleteJobRecord () {
+      await jobRecordApi.deleteJobRecord(this.jobRecordIdToDelete).then(response => {
         if(response && response.status === 200) {
-          alert("Successfully deleted Job Record")
           location.reload()
         }
       })

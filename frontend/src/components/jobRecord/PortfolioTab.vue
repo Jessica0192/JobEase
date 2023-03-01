@@ -28,7 +28,7 @@
             <div class="col-sm-9">
               <select id="portfolio-select" class="form-control" v-model="selectedPortfolio">
                 <option selected value="">--Select a portfolio--</option>
-                <option v-for="portfolio in portfolios" :key="portfolio.id" :value="portfolio.id">{{ portfolio.name }}</option>
+                <option v-for="portfolio in portfolios" :key="portfolio.id" :value="portfolio">{{ portfolio.portfolio_name }}</option>
               </select>
             </div>
           </div>
@@ -45,11 +45,14 @@
               <br/>
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Resources: </label>
-                <div class="card col-sm-9" style="height: 100px">
-                  <div class="card-body">
-                    <div v-for="resource in resources" :key="resource.id">
-                      <input type="checkbox" v-model="selectedResources" :value="resource.id">
-                      <span>{{ resource.name }}</span>
+                <div class="card col-sm-9" style="height: 200px">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search resources" v-model="searchQuery">
+                  </div>
+                  <div class="card-body" style="overflow-y: auto">
+                    <div v-for="resource in filteredResources" :key="resource.id" class="resource-item">
+                      <input type="checkbox" v-model="selectedResources" :value="resource" class="resource-checkbox">
+                      <span class="resource-name">{{ resource.resource_name }}</span>
                     </div>
                   </div>
                 </div>
@@ -61,14 +64,14 @@
                   <div class="col-sm-9">
                     <select id="resource-type" class="form-control" v-model="newResourceType">
                       <option selected value="">--Select a type--</option>
-                      <option v-for="type in resourceTypes" :key="type" :value="type">{{ type }}</option>
+                      <option v-for="type in resourceTypes" :key="type.id" :value="type">{{ type.resource_type }}</option>
                     </select>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label for="file-input" class="col-sm-3 col-form-label">Choose Files:</label>
                   <div class="col-sm-5">
-                    <input type="file" id="file-input" ref="fileInput" @change="onFileChange">
+                    <input type="file" :accept="acceptTypes" id="file-input" ref="fileInput" @change="onFileChange">
                   </div>
                   <div class="col-sm-4 d-flex justify-content-end">
                     <button type="button" class="btn btn-sm btn-primary delete-button" @click="addResource">Add</button>
@@ -79,10 +82,10 @@
             <div class="col-md-6  mb-3">
               <h5>Selected Resources</h5>
               <div class="card" style="height: 250px">
-                <div class="card-body">
+                <div class="card-body" style="overflow-y: auto">
                   <ul>
                     <li v-for="resource in selectedResources" :key="resource.id">
-                      {{ resource.name }}
+                      {{ resource.resource_name }}
                       <a style="float: right" href="#!" role="button" @click="removeResource(resource)">
                         <MDBIcon size="lg" class="fas fa-window-close text-muted "
                                id="deleteIcon"
@@ -112,4 +115,17 @@ label {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.resource-item {
+  display: flex;
+  align-items: center;
+}
+.resource-checkbox {
+  margin-right: 10px;
+}
+.resource-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 </style>

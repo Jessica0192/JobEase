@@ -7,13 +7,14 @@ from .mixins import Timestamp
 
 
 class ResourceExtensionTypeEnum(str, enum.Enum):
-    plain_text = "text/plain"
-    pdf = "application/pdf"
-    image_jpeg = "image/jpeg"
-    image_jpg = "image/jpg"
-    image_png = "image/png"
-    audio = "audio/mpeg"
-    video = "video/mp4"
+    plain_text = ".txt"
+    doc = ".docx"
+    pdf = ".pdf"
+    image_jpeg = ".jpeg"
+    image_jpg = ".jpg"
+    image_png = ".png"
+    audio = ".mp3"
+    video = ".mp4"
 
 
 class ResourceExtensionType(Base, Timestamp):

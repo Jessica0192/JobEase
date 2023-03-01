@@ -1,5 +1,5 @@
 
-import axios from 'axios'
+import axios, {AxiosError} from 'axios'
 import service from './base/service'
 import { API } from './base/config'
 
@@ -18,16 +18,13 @@ export const fileApi = {
           'Accept': 'application/json',
         },
       }
-      response = await axios.post (`${url}/resource/?resource_type_id=${resourceTypeId}&resource_extension_type_id=${resourceExtensionTypeId}`, formData, config) 
+      response = await axios.post (`${url}/resource/?resource_type_id=${resourceTypeId}&resource_extension_type_id=${resourceExtensionTypeId}`, formData, config)
+      if (response instanceof AxiosError) {
+        return response.response
+      }
     } catch (err) {
-      console.log(err)
-    }
-
-    if (response == null) {
-      alert('This file is already exist! Please select another file or change the nam!')
-    }
-    else {
-      alert('File has been saved successfully!')
+      console.log(err.response)
+      return err.response
     }
 
     return response
@@ -49,12 +46,11 @@ export const fileApi = {
     return service.get(`${API.fileResource('')}${resourceId}/display/`, { responseType: 'arraybuffer' })
   },
 
-  getFileTypeId () {
+  getFileType () {
     return service.get(`${API.fileType('')}`)
   },
 
-  getFileExtensionId () {
+  getFileExtension () {
     return service.get(`${API.fileExtension('')}`)
   }
 }
-  

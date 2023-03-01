@@ -1,14 +1,15 @@
 import {jobRecordApi} from '@/services/JobRecordApi'
-import router from '@/router'
 import sharedMixin from '../../modules/jobRecord/shared';
 import PortfolioTab from '@/components/jobRecord/PortfolioTab.vue'
 import TagTab from '@/components/jobRecord/TagTab.vue'
 import JobInfoTab from '@/components/jobRecord/JobInfoTab.vue'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
 
 export default {
   mixins: [sharedMixin],
   components: {
+    FontAwesomeIcon,
     JobInfoTab: JobInfoTab,
     PortfolioTab,
     TagTab
@@ -35,15 +36,13 @@ export default {
             job_url: jobTemp.job_url,
             location: jobTemp.location,
             tags: this.$refs.tagTab.$data.tags.filter(tag => this.$refs.tagTab.$data.selectedTags.map(tag => tag.id).includes(tag.id)),
-            portfolio: null
+            portfolio: this.$refs.portfolioTab.$data.selectedPortfolio ? this.$refs.portfolioTab.$data.selectedPortfolio : null
           }
 
-          console.log(inputs)
-
           // call api endpoint to create new job record
-          jobRecordApi.createJobRecord(JSON.stringify(inputs)).then(response => {
+          await jobRecordApi.createJobRecord(JSON.stringify(inputs)).then(response => {
             if (response && response.status === 200) {
-              router.push({name: 'JobRecords'})
+              this.navigateBackToJobRecords()
             }
           });
 

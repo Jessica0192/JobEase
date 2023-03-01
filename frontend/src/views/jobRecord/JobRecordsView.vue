@@ -12,7 +12,8 @@
   <div>
    <div class="container">
       <button class="plus-button" @click="navigateToCreatePage" style="float:left;">
-        <font-awesome-icon :icon="['fas', 'plus']"/>
+        <font-awesome-icon :icon="['fas', 'plus']"
+                           v-b-tooltip.hover title="Create job record"/>
       </button>
       <!-- Search form -->
       <div style="display:inline-block; float:right;"

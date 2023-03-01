@@ -9,7 +9,13 @@
       @close-modal="openDeleteConfirmDialog = false"
   />
   <div style="display: flex; justify-content: space-between;">
-    <h1 class="view-title">Job Record Detail</h1>
+    <div style="display: flex; justify-content: start;">
+      <font-awesome-icon class="btn btn-lg" style="margin-right: 10px"
+                         icon="fa-solid fa-arrow-left"
+                         v-b-tooltip.hover title="Back to Job Records page"
+                         @click="navigateBackToJobRecords"/>
+      <h1 class="view-title" id="jobTitleOnHeading"></h1>
+    </div>
     <div class="d-flex justify-content-end">
       <a class="btn btn-lg btn-primary delete-button"
           @click="openDeleteConfirmDialog = true">Delete</a>

@@ -15,10 +15,10 @@ class Resource(Base, Timestamp):
     resource_extension_type_id = Column(Integer, ForeignKey("resource_extension_types.id"))
     resource_user_id = Column(Integer, ForeignKey("users.id"))
 
-    resource_type = relationship("ResourceType", back_populates="resources")
-    resource_extension_type = relationship("ResourceExtensionType", back_populates="resources")
+    resource_type = relationship("ResourceType", back_populates="resources", cascade="all,delete")
+    resource_extension_type = relationship("ResourceExtensionType", back_populates="resources", cascade="all,delete")
     user = relationship("User", back_populates="resources")
-    portfolios = relationship("Portfolio", secondary=portfolio_resource, back_populates="resources")
+    portfolios = relationship("Portfolio", secondary=portfolio_resource, back_populates="resources", cascade="all,delete")
 
     def __init__(self, resource_name, resource_type_id, resource_extension_type_id, resource_user_id):
         super(Resource, self).__init__()

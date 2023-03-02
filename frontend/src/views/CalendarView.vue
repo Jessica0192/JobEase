@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="notificationMessage.length">
-      <h4>Event Reminders:</h4>
+      <h4>Event Reminder:</h4>
       <ul>
         <li v-for="(message, index) in notificationMessage" :key="index">{{ message }}</li>
       </ul>
@@ -9,6 +9,9 @@
     <FullCalendar :options="calendarOptions" />
     <dialog v-if="showPopup" class="popup">
       <div class="popup-content">
+        <a href="#!" @click="showPopup = false" title="close">
+          <i class="fas fa-times close-icon" aria-hidden="true"></i>
+        </a>
         <h3>Add Event</h3>
         <label for="title">Title</label>
         <input type="text" v-model="eventTitle" id="title" />
@@ -118,43 +121,52 @@ export default {
 
 <style scoped>
 
-li {
-  list-style: none; /* remove bullet point */
-  color: red; /* change color to red */
-}
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  li {
+    list-style: none; /* remove bullet point */
+    color: rgb(177, 2, 2); /* change color to red */
+  }
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.popup-content input[type="text"],
-.popup-content input[type="date"] {
-  margin-bottom: 10px;
-}
+  .popup-content input[type="text"],
+  .popup-content input[type="date"] {
+    margin-bottom: 10px;
+  }
 
-.popup-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
+  .popup-content {
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
 
+  .popup-content h3 {
+    margin-top: 0;
+  }
+  
+  .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
 
-.popup-content h3 {
-  margin-top: 0;
-}
-
+  .close-icon:hover {
+    color: red;
+  }
 
 </style>

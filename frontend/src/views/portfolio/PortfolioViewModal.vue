@@ -4,16 +4,15 @@
     <div class="modal-card">
       <h3>Resources</h3>
       <hr>
+      <a href="#!" @click="$emit('close-modal')" title="close">
+        <i class="fas fa-times close-icon" aria-hidden="true"></i>
+      </a>
       <ul class="resource-list">
         <li class="resource-item" v-for="(resource, index) in resources" :key="index" @click="selectResource(resource)">
           <span class="resource-name">{{ resource.resource_name }}</span>
           <span class="resource-type">{{ resource.resource_type.resource_type }}</span>
         </li>
       </ul>
-      <br>
-      <div class="modal-buttons">
-        <button class="btn btn-secondary" @click="$emit('close-modal')">Close</button>
-      </div>
     </div>
   </div>
 </template>
@@ -96,5 +95,17 @@ export default {
   display: block;
   font-size: 14px;
   color: #888;
+}
+.close-icon:hover {background-color: rgb(238, 102, 102); color: white;}
+.close-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  margin-left: 100%;
+  margin-bottom: 100%;
+  color: rgb(72, 70, 70);
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 1.6em;
 }
 </style>

@@ -1,11 +1,13 @@
-import PortfolioViewModal from '../../views/portfolio/PortfolioViewModal.vue'
-import {portfolioApi} from '@/services/PortfolioApi'
+import PortfolioViewModal from '../../views/portfolio/PortfolioViewModal.vue';
+import PortfolioCreationModal from '../../views/portfolio/PortfolioCreationModal.vue';
+import {portfolioApi} from '@/services/PortfolioApi';
 import {fileApi} from "@/services/FileApi";
 import {AxiosHeaders} from "axios";
 import JSZip from 'jszip';
 export default {
   components: {
-    PortfolioViewModal
+    PortfolioViewModal,
+    PortfolioCreationModal
   },
     data() {
       return {
@@ -13,7 +15,8 @@ export default {
         resourcesToShow: [],
         export: "",
         sortAscending: true,
-        isModalVisible: false
+        isViewModalVisible: false,
+        isCreateModalVisible: false
       };
     },
     async mounted(){
@@ -38,12 +41,10 @@ export default {
       this.portfolios = sortedDataArray;
       this.sortAscending = !this.sortAscending;
       },
-
       async loadPortfolios () {
         const response = await portfolioApi.getAllPortfoliosForUser()
         this.portfolios = response.data
       },
-
       // To delete the row of table
       remove(index) {
         portfolioApi.deletePortfolio(this.portfolios[index].id).then(response => {
@@ -53,12 +54,10 @@ export default {
           }
         })
       },
-
-      // TODO: send and API request to create a portfolio and save it the database
+      // Trigger opening the portfolio creation dialog
       newPortfolio () {
-        alert('need a page or pop up for adding new portfolio')
+        this.isCreateModalVisible = true
       },
-
       // Download the entire portfolio as a zip file
       async downloadPortfolio (index) {
         const resources = this.portfolios[index].resources
@@ -73,6 +72,7 @@ export default {
           }
         }
 
+        // zip all resources and trigger download
         zip.generateAsync({type: 'blob'}).then(blob => {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
@@ -86,8 +86,9 @@ export default {
       },
       viewPortfolio (index) {
         this.resourcesToShow = this.portfolios[index].resources
-        this.isModalVisible = true
+        this.isViewModalVisible = true
       },
+      // This method is responsible for displaying the resources of the portfolio on the browser
       async onResourceSelected(resource){
         let NameExtension = resource.resource_name.split('.').pop()
         if ( NameExtension.toString().toLowerCase() !== 'docx') {

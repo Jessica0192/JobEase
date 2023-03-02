@@ -12,10 +12,10 @@ The CSS styles are scoped to this component using the scoped attribute in the st
  -->
 <PortfolioViewModal
   style="align-content: center"
-  v-if="isModalVisible"
+  v-if="isViewModalVisible"
   :resources = "resourcesToShow"
   @resource-selected="onResourceSelected"
-  @close-modal="isModalVisible = false; resourcesToShow = null"
+  @close-modal="isViewModalVisible = false; resourcesToShow = null"
 />
 <div>
   <h1 class="view-title">Portfolio</h1>
@@ -26,6 +26,11 @@ The CSS styles are scoped to this component using the scoped attribute in the st
           <i class="fas fa-plus fa-2x sign-blue icon" aria-hidden="true"></i>
         </a>
       </span>
+      <PortfolioCreationModal
+        style="align-content: center"
+        v-if="isCreateModalVisible"
+        @close-modal="isCreateModalVisible = false"
+      />
       <div id="table" class="table-editable">
         <table class="table table-bordered table-responsive-md table-striped text-center">
           <thead>

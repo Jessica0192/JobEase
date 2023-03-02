@@ -17,6 +17,15 @@ The CSS styles are scoped to this component using the scoped attribute in the st
   @resource-selected="onResourceSelected"
   @close-modal="isViewModalVisible = false; resourcesToShow = null"
 />
+<ConfirmationDialog
+  style="align-content: center"
+  v-if="openDeleteConfirmDialog"
+  title="Confirmation"
+  message="Do you want to delete the portfolio?"
+  confirm-btn-label="Yes"
+  :on-confirm="remove"
+  @close-modal="openDeleteConfirmDialog = false; portfolioIdToDelete = null"
+/>
 <div>
   <h1 class="view-title">Portfolio</h1>
   <div class="card scrollable">
@@ -63,7 +72,7 @@ The CSS styles are scoped to this component using the scoped attribute in the st
                 </span>
               </td>
               <td>
-                <span class="table-remove" @click="remove(index)">
+                <span class="table-remove" @click="openDeletePortfolioDialog(index)">
                   <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
                     Remove
                   </button>

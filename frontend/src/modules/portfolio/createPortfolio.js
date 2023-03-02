@@ -130,16 +130,12 @@ export default {
       // whenever 'x' icon is clicked from Selected Resource box
       removeResource(resource) {
         // API CALL
-        fileApi.deleteFile(resource.id).then(response => {
-            if (response && response.status === 200){
-                // Find the index of the resource in the selectedResources array
-                const index = this.selectedResources.findIndex(r => r.resource_name === resource.resource_name);
-                if (index !== -1) {
-                  // Remove the resource from the selectedResources array
-                  this.selectedResources.splice(index, 1);
-                }
-            }
-        })
+        // Find the index of the resource in the selectedResources array
+        const index = this.selectedResources.findIndex(r => r.resource_name === resource.resource_name);
+        if (index !== -1) {
+          // Remove the resource from the selectedResources array
+          this.selectedResources.splice(index, 1);
+        }
       },
 
       // whenever selected file from File Explorer has changed

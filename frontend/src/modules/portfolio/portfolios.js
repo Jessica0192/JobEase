@@ -1,5 +1,6 @@
 import PortfolioViewModal from '../../views/portfolio/PortfolioViewModal.vue';
 import PortfolioCreationModal from '../../views/portfolio/PortfolioCreationModal.vue';
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 import {portfolioApi} from '@/services/PortfolioApi';
 import {fileApi} from "@/services/FileApi";
 import {AxiosHeaders} from "axios";
@@ -7,16 +8,19 @@ import JSZip from 'jszip';
 export default {
   components: {
     PortfolioViewModal,
-    PortfolioCreationModal
+    PortfolioCreationModal,
+    ConfirmationDialog
   },
     data() {
       return {
         portfolios: [],
         resourcesToShow: [],
         export: "",
+        portfolioIdToDelete: null,
         sortAscending: true,
         isViewModalVisible: false,
-        isCreateModalVisible: false
+        isCreateModalVisible: false,
+        openDeleteConfirmDialog: false
       };
     },
     async mounted(){
@@ -45,11 +49,14 @@ export default {
         const response = await portfolioApi.getAllPortfoliosForUser()
         this.portfolios = response.data
       },
+      openDeletePortfolioDialog(index){
+        this.portfolioIdToDelete = this.portfolios[index].id
+        this.openDeleteConfirmDialog = true
+      },
       // To delete the row of table
-      remove(index) {
-        portfolioApi.deletePortfolio(this.portfolios[index].id).then(response => {
+      remove() {
+        portfolioApi.deletePortfolio(this.portfolioIdToDelete).then(response => {
           if(response && response.status === 200){
-            alert("Successfully deleted the Portfolio")
             location.reload()
           }
         })

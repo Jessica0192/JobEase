@@ -71,6 +71,11 @@ export default {
         await this.$nextTick()
         try {
           const response = await fileApi.downloadFile (this.resources[index].id)
+          const headers = response.headers
+
+          if(headers instanceof AxiosHeaders) {
+            fileType = headers.getContentType()
+          }
 
           // Convert the response data to a blob
           const blob = new Blob([response.data], { type: fileType })

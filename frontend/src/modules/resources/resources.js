@@ -1,9 +1,11 @@
 import ResourcePopup from '../../views/ResourcePage/ResourcePopup.vue'
 import { fileApi } from '../../services/FileApi'
 import {AxiosHeaders} from 'axios'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 export default {
   components: {
-    ResourcePopup
+    ResourcePopup,
+    ConfirmationDialog
   },
     data() {
       return {
@@ -13,7 +15,9 @@ export default {
         isPopupVisible: false,
         resources: [],
         resourceDisplayed: null,
-        export: ""
+        export: "",
+        openDeleteConfirmDialog: false,
+        fileIdToDelete: null
       };
     },
     async mounted () {
@@ -43,10 +47,19 @@ export default {
         this.resources = sortedDataArray
         this.sortAscending = !this.sortAscending
       },
+      openDeleteFileDialog(index){
+        this.fileIdToDelete = this.resources[index].id
+        this.openDeleteConfirmDialog = true
+      },
       // To delete the row of table
-      remove(index) {
-        fileApi.deleteFile(this.resources[index].id)
-        this.resources.splice(index, 1)
+      async remove(index) {
+        fileApi.deleteFile(this.fileIdToDelete).then(response => {
+          if(response && response.status === 200){
+            this.resources.splice(index, 1)
+          }
+        })
+        // await fileApi.deleteFile(this.fileIdToDelete)
+        // this.resources.splice(index, 1)
       },
       exportData () {
         this.export = JSON.stringify(this.data)

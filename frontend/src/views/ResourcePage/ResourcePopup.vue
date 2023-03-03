@@ -3,7 +3,7 @@
     <div class="popup-inner">
       <div class="popup-header">
       <h5>Add a Resource</h5>
-      <a href="#!" @click="$emit('close')" title="close">
+      <a href="#!" @click="closeWindow" title="close">
         <i class="fas fa-times close-icon" aria-hidden="true"></i>
       </a>
     </div>

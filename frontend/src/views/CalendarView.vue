@@ -9,26 +9,40 @@
     <FullCalendar ref="myCalendar" :options="calendarOptions" />
     <dialog v-if="showPopup" class="popup">
       <div class="popup-content">
-        <a href="#!" @click="showPopup = false" title="close">
-          <i class="fas fa-times close-icon" aria-hidden="true"></i>
-        </a>
-        <h3>Event Details</h3>
-        <label for="title">Title</label>
-        <input type="text" v-model="eventTitle" id="title" />
-        <label for="startDate">Start Date</label>
-        <input type="date" v-model="eventStartDate" id="startDate" />
-        <label for="startTime">Start Time</label>
-        <input type="time" v-model="eventStartTime" id="startTime" />
-        <label for="endDate">End Date</label>
-        <input type="date" v-model="eventEndDate" id="endDate" />
-        <label for="endTime">End Time</label>
-        <input type="time" v-model="eventEndTime" id="endTime" />
-        <div>
-          <input type="checkbox" v-model="shouldNotify" id="shouldNotify" />
+        <div style="display: inline-block;">
+          <a href="#!" @click="showPopup = false" title="close">
+            <i class="fas fa-times close-icon" aria-hidden="true"></i>
+          </a>
+          <h3>Event Details</h3>
+        </div>
+        <div style="display: inline-block; margin-top: 10px;">
+          <label for="title" style="margin-right: 10px;">Title:</label>
+          <input type="text" v-model="eventTitle" id="title" style="padding-left: 5px;"/>
+        </div>        
+        <div style="display: inline-block;">
+          <label for="startDate" style="margin-right: 10px;">Start Date:</label>
+          <input type="date" v-model="eventStartDate" id="startDate" style="padding-left: 5px;">
+        </div>
+        <div style="display: inline-block;">
+          <label for="startTime" style="margin-right: 10px;">Start Time:</label>
+          <input type="time" v-model="eventStartTime" id="startTime" style="padding-left: 5px;">
+        </div>
+        <div style="display: inline-block; margin-top: 10px;">
+          <label for="endDate" style="margin-right: 10px;">End Date:</label>
+          <input type="date" v-model="eventEndDate" id="endDate" style="padding-left: 5px;">
+        </div>
+        <div style="display: inline-block;">
+          <label for="endTime" style="margin-right: 10px;">End Time:</label>
+          <input type="time" v-model="eventEndTime" id="endTime" style="padding-left: 5px;">
+        </div>
+        <div style="display: inline-block;  margin-top: 10px;">
+          <input type="checkbox" v-model="shouldNotify" id="shouldNotify" style="margin-right: 10px;"/>
           <label for="shouldNotify">Notify me</label>
         </div>
-        <button @click="addEvent">Add Event</button>
-        <button @click="removeEvent(currentEventId)">Remove Event</button>
+        <div style="display: inline-block; margin-top: 30px; text-align: center;">
+          <button class="addBtn" @click="addEvent">Add Event</button>
+          <button class="removeBtn" @click="removeEvent(currentEventId)">Remove</button>
+        </div>        
       </div>
     </dialog>
   </div>
@@ -205,10 +219,13 @@ export default {
     flex-direction: column;
     padding-top: 30px;
     padding-bottom: 30px;
+    text-align: left;
   }
 
   .popup-content h3 {
     margin-top: 0;
+    text-align: center;
+    color: rgb(37, 37, 149);
   }
   
   .close-icon {
@@ -219,6 +236,40 @@ export default {
 
   .close-icon:hover {
     color: red;
+  }
+
+  .removeBtn {
+    font-size: 12px;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    background-color: lightgray;
+    cursor: pointer;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    border: 1px solid rgb(124, 122, 122);
+  }
+
+  .addBtn {
+    font-size: 12px;
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    background-color: lightgray;
+    cursor: pointer;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    border: 1px solid rgb(124, 122, 122);
+  }
+
+  .addBtn:hover {border-color: rgb(74, 109, 225); background-color:rgb(186, 220, 248)}
+  .removeBtn:hover {border-color: rgb(137, 3, 3); background-color:rgb(221, 52, 5)}
+
+  input[type="checkbox"] {
+    transform: scale(1.5);
+    margin-right: 10px;
   }
 
 </style>

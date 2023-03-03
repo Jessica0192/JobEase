@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-if="notificationMessage.length">
+    <div v-if="notificationMessages.length">
       <h4>Event Reminder:</h4>
       <ul>
-        <li v-for="(message, index) in notificationMessage" :key="index">{{ message }}</li>
+        <li v-for="(messageObj, index) in notificationMessages" :key="index">{{ messageObj.message }}</li>
       </ul>
     </div>
     <FullCalendar ref="myCalendar" :options="calendarOptions" />
@@ -83,7 +83,7 @@ export default {
       eventLocation: '',
       eventNote:'',
       shouldNotify: false,
-      notificationMessage: [],
+      notificationMessages: [],
       counter: 1,
       removeSelectedEvent: false,
       currentEventId: ''
@@ -103,8 +103,6 @@ export default {
       this.eventNote = '';
     },
     eventClick: function(info) {
-      console.log(info.event)
-      
       // Set the form values to the clicked event's properties
       this.eventTitle = info.event.title;
       this.eventStartDate = info.event.startStr.substr(0, 10);
@@ -112,10 +110,7 @@ export default {
       this.eventStartTime = info.event.start.toLocaleTimeString('en-US', {hour12: false});
       this.eventEndTime = (info.event.end || info.event.start).toLocaleTimeString('en-US', {hour12: false});
       this.eventLocation = info.event._def.extendedProps.location
-
-
       this.eventNote = info.event._def.extendedProps.note
-
       this.currentEventId = info.event.id
 
       // Set the showPopup property to true to open the dialog
@@ -139,6 +134,16 @@ export default {
         }
 
         event.remove();
+
+        // Remove the notification message associated with the deleted event
+        for (let i=0; i< this.notificationMessages.length; i++) {
+          if (this.notificationMessages[i].id == eventId) {
+            this.notificationMessages.splice(i, 1);
+            break
+          }
+        }   
+
+
         this.showPopup = false;
       }
     },
@@ -148,11 +153,15 @@ export default {
         // Request permission if it hasn't been granted
         Notification.requestPermission().then(function(permission) {
           if (permission !== 'granted') {
-            this.notificationMessage = 'You need to grant notification permission to receive event reminders.';
+            alert('You need to grant notification permission to receive event reminders.');
           } else {
-            this.notificationMessage = 'Notification permission granted.';
+            alert('Notification permission granted.');
           }
         }.bind(this));
+      }
+
+      if (!this.notificationMessages) {
+        this.notificationMessages = [];
       }
 
       for(let i=0; i <this.calendarOptions.events.length; i++) {
@@ -172,7 +181,6 @@ export default {
       };
 
       this.calendarOptions.events.push(newEvent);
-      console.log('events', this.calendarOptions.events)
 
       if (this.shouldNotify) {
         newEvent.notified = false;
@@ -194,12 +202,15 @@ export default {
           Notification.requestPermission().then(function(permission) {
             if (permission === 'granted') {
               new Notification('Event reminder', {
-                body: 'Your event "' + newEvent.title + '" is tomorrow!'
+                body: 'Your event "' + newEvent.title + '" is due soon!'
               });
               var eventTime = new Date(newEvent.start).toLocaleTimeString();
-              this.notificationMessage.push ('Your event " ' + newEvent.title.toUpperCase() + '" at: '+ eventTime + ' is tomorrow! Do not miss it!');
+              this.notificationMessages.push({
+                id: newEvent.id,
+                message: 'Your event " ' + newEvent.title.toUpperCase() + ' at '+ eventTime + ' " is due soon! Do not miss it!'
+              });
             } else {
-              this.notificationMessage = 'Notification permission denied.';
+              alert('Notification permission denied.');
             }
           }.bind(this));
         }.bind(this), notificationTime);

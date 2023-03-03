@@ -34,8 +34,16 @@
         <div style="display: inline-block;">
           <label for="endTime" style="margin-right: 10px;">End Time:</label>
           <input type="time" v-model="eventEndTime" id="endTime" style="padding-left: 5px;">
+        </div>        
+        <div style="display: inline-block; margin-top: 10px;">
+          <label for="title" style="margin-right: 10px;">Location:</label>
+          <input type="text" v-model="eventLocation" id="location" style="padding-left: 5px; width: 150px;"/>
         </div>
-        <div style="display: inline-block;  margin-top: 10px;">
+        <div style="display: flex; flex-direction: column;">
+          <label for="title" style="margin-bottom: 5px;">Note:</label>
+          <textarea v-model="eventNote" id="note" rows="3" style="padding-left: 5px; overflow: auto;"></textarea>
+        </div>
+        <div style="display: inline-block;  margin-top: 15px;">
           <input type="checkbox" v-model="shouldNotify" id="shouldNotify" style="margin-right: 10px;"/>
           <label for="shouldNotify">Notify me</label>
         </div>
@@ -72,16 +80,17 @@ export default {
       eventEndDate: '',
       eventStartTime: '',
       eventEndTime: '',
+      eventLocation: '',
+      eventNote:'',
       shouldNotify: false,
       notificationMessage: [],
-      counter: 0,
+      counter: 1,
       removeSelectedEvent: false,
       currentEventId: ''
     }
   },
   methods: {
     handleDateClick: function(arg) {
-      console.log('arg', arg)
       this.showPopup = true;
       this.eventTitle = '';
       this.eventStartDate = arg.dateStr;
@@ -89,8 +98,12 @@ export default {
 
       this.eventStartTime = new Date().toLocaleTimeString('en-US', {hour12: false});
       this.eventEndTime = new Date().toLocaleTimeString('en-US', {hour12: false});
+
+      this.eventLocation = '';
+      this.eventNote = '';
     },
     eventClick: function(info) {
+      console.log(info.event)
       
       // Set the form values to the clicked event's properties
       this.eventTitle = info.event.title;
@@ -98,8 +111,11 @@ export default {
       this.eventEndDate = (info.event.endStr || info.event.startStr).substr(0, 10);      
       this.eventStartTime = info.event.start.toLocaleTimeString('en-US', {hour12: false});
       this.eventEndTime = (info.event.end || info.event.start).toLocaleTimeString('en-US', {hour12: false});
+      this.eventLocation = info.event._def.extendedProps.location
 
-      console.log('id', info.event.id)
+
+      this.eventNote = info.event._def.extendedProps.note
+
       this.currentEventId = info.event.id
 
       // Set the showPopup property to true to open the dialog
@@ -139,16 +155,24 @@ export default {
         }.bind(this));
       }
 
+      for(let i=0; i <this.calendarOptions.events.length; i++) {
+        if (this.calendarOptions.events[i].id == this.currentEventId) {
+          this.removeEvent(this.calendarOptions.events[i].id)
+        }
+      }
+      
       let newEvent = {
         id: this.counter++,
         title: this.eventTitle,
         start: new Date(this.eventStartDate + 'T' + this.eventStartTime).toISOString(),
         end: new Date(this.eventEndDate + 'T' + this.eventEndTime).toISOString(),
+        location: this.eventLocation,
+        note: this.eventNote,
         notified: false
       };
 
       this.calendarOptions.events.push(newEvent);
-      console.log(this.calendarOptions.events)
+      console.log('events', this.calendarOptions.events)
 
       if (this.shouldNotify) {
         newEvent.notified = false;
@@ -265,7 +289,7 @@ export default {
   }
 
   .addBtn:hover {border-color: rgb(74, 109, 225); background-color:rgb(186, 220, 248)}
-  .removeBtn:hover {border-color: rgb(137, 3, 3); background-color:rgb(221, 52, 5)}
+  .removeBtn:hover {border-color: rgb(137, 3, 3); background-color:rgb(207, 120, 117)}
 
   input[type="checkbox"] {
     transform: scale(1.5);

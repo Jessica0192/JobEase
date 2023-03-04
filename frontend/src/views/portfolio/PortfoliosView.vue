@@ -10,6 +10,22 @@
 The styles for the table are defined in the CSS file "table.css". The CSS uses styles for the Bootstrap framework to create a clean and modern-looking user interface. 
 The CSS styles are scoped to this component using the scoped attribute in the style tag, so they won't affect other components in the application.
  -->
+<PortfolioViewModal
+  style="align-content: center"
+  v-if="isViewModalVisible"
+  :resources = "resourcesToShow"
+  @resource-selected="onResourceSelected"
+  @close-modal="isViewModalVisible = false; resourcesToShow = null"
+/>
+<ConfirmationDialog
+  style="align-content: center"
+  v-if="openDeleteConfirmDialog"
+  title="Confirmation"
+  message="Do you want to delete the portfolio?"
+  confirm-btn-label="Yes"
+  :on-confirm="remove"
+  @close-modal="openDeleteConfirmDialog = false; portfolioIdToDelete = null"
+/>
 <div>
   <h1 class="view-title">Portfolio</h1>
   <div class="card scrollable">
@@ -19,6 +35,11 @@ The CSS styles are scoped to this component using the scoped attribute in the st
           <i class="fas fa-plus fa-2x sign-blue icon" aria-hidden="true"></i>
         </a>
       </span>
+      <PortfolioCreationModal
+        style="align-content: center"
+        v-if="isCreateModalVisible"
+        @close-modal="isCreateModalVisible = false"
+      />
       <div id="table" class="table-editable">
         <table class="table table-bordered table-responsive-md table-striped text-center">
           <thead>
@@ -34,24 +55,24 @@ The CSS styles are scoped to this component using the scoped attribute in the st
             </tr>
           </thead>
           <tbody> 
-            <tr v-for="(row, index) in data" :key="index">
-              <td class="pt-3-half" contenteditable="true">{{ row.portfolioName }}</td>
+            <tr v-for="(portfolio, index) in portfolios" :key="portfolio.id">
+              <td class="pt-3-half" contenteditable="false">{{ portfolio.portfolio_name }}</td>
               <td>
-                <span class="table-view" @click="viewPortfolio">
+                <span class="table-view" @click="viewPortfolio(index)">
                   <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
                     view
                   </button>
                 </span>
               </td>
               <td>
-                <span class="table-download" @click="downloadPortfolio">
+                <span class="table-download" @click="downloadPortfolio(index)">
                   <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
                     Download
                   </button>
                 </span>
               </td>
               <td>
-                <span class="table-remove" @click="remove(index)">
+                <span class="table-remove" @click="openDeletePortfolioDialog(index)">
                   <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
                     Remove
                   </button>
@@ -66,8 +87,8 @@ The CSS styles are scoped to this component using the scoped attribute in the st
 </div>
 </template>
 
-<script src="../modules/portfolios.js">
+<script src="../../modules/portfolio/portfolios.js">
 </script>
 
-<style scoped src="../assets/css/table.css">
+<style scoped src="../../assets/css/table.css">
 </style>

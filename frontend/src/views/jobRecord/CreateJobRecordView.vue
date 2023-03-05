@@ -11,6 +11,7 @@
        class="btn btn-lg btn-primary create-button"
       @click="createJobRecord">Create</a>
   </div>
+  <span style="color:darkred;font-size:4mm" v-if="jobMsg.failed">{{`* ${jobMsg.failed}`}}</span>
   <div class="container">
     <br>
       <!--tabs header-->

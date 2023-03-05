@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       activeItem: 'jobInfo',
+      jobMsg: []
     };
   },
   methods: {

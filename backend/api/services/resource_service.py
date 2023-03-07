@@ -33,9 +33,10 @@ def delete_resource_by_id(db: Session, resource_id: int):
     existing_resource = db.query(Resource).filter(Resource.id == resource_id)
     if not existing_resource.first():
         return False
-    existing_resource.delete()
+    existing_resource = existing_resource.first()
+    existing_resource.portfolios = []
+    db.delete(existing_resource)
     db.commit()
-
 
 def get_all_resources_for_user(db: Session, user_id: int, limit: int = 100):
     return db.query(Resource).filter(Resource.resource_user_id == user_id).limit(limit).all()

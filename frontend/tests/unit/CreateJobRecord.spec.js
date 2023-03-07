@@ -1,53 +1,97 @@
-import CreateJobRecord from '@/views/jobRecord/CreateJobRecordView.vue'
 import { mount } from '@vue/test-utils'
-import Login from '@/modules/login'
+import CreateJobRecord from '@/views/jobRecord/CreateJobRecordView.vue'
+import Login from '@/views/LoginView.vue'
+import {jobRecordApi} from '@/services/JobRecordApi'
 
-jest.mock('../../src/services/JobRecordApi.js', () => ({
-  createUser: jest.fn().mockResolvedValue({ status: 200 })
+
+jest.mock('@/services/JobRecordApi.js', () => ({
+  createJobRecord: jest.fn()
 }))
 
-describe('CreateJobRecord', () => {
+describe('JobRecordForm', () => {
   let wrapper
+  let loginWrapper
 
-  beforeAll(async () => {
+  beforeEach(() => {
+    // need to login first
+    loginWrapper = mount(Login)
+
    // create an instance of the Login class
-    const loginInstance = new Login()
+    loginWrapper.setData({
+      userNameLogin: 'Jessica012125',
+      passwordLogin: '11111111'
+    })
 
-    // set the desired properties
-    loginInstance.userNameLogin = 'Jessica012125';
-    loginInstance.passwordLogin = '11111111';
-
-    // call the doLogin method to log in and get the credentials
-    await loginInstance.doLogin()
+    // Call the doLogin method
+    loginWrapper.vm.doLogin()
 
     wrapper = mount(CreateJobRecord)
-    wrapper.setData({
-      job_title: "string",
-      status: {
-        "id": 0,
-        "status_name": "Interested"
-      },
-      notes: "string",
-      deadline_date: "2023-03-05T19:46:34.234Z",
-      interview_date: "2023-03-05T19:46:34.234Z",
-      organization_name: "string",
-      salary: 0,
-      job_url: "string",
-      location: "string",
+    // set up job and status data for testing
+    wrapper.vm.$refs.jobInfoTab.$data.job = {
+      job_title: 'Software Developer',
+      status: { id: 0, status_name: 'Interested' },
+      deadline_date: '2023-04-01T00:00:00.000Z',
+      interview_date: '2023-04-10T00:00:00.000Z',
+      organization_name: 'Acme Corp',
+      salary: 80000,
+      notes: 'Lorem ipsum',
+      job_url: 'https://www.acme.com/jobs/123',
+      location: 'San Francisco',
       tags: [],
-      portfolio: {}
-    })
+      portfolio: null
+    }
+    wrapper.vm.$refs.jobInfoTab.$data.statusOptions = [
+      { id: 0, status_name: 'Interested' },
+      { id: 1, status_name: 'Applied' },
+      { id: 2, status_name: 'Interviewing' },
+      { id: 3, status_name: 'Offered' },
+      { id: 4, status_name: 'Rejected' }
+    ]
   })
 
   afterEach(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
   })
 
-  it('should display error message when job title is empty', async () => {
-    wrapper.vm.$refs.jobInfoTab.$data.job.title = ''; // set job title to empty string
-    await wrapper.vm.createJobRecord(); // call createJobRecord method
+  it('calls jobRecordApi.createJobRecord with the correct inputs and navigates back to job records on success', () => {
+    // const expectedInputs = {
+    //   job_title: 'Software Developer',
+    //   status: { id: 0, status_name: 'Interested' },
+    //   deadline_date: '2023-04-01T00:00:00.000Z',
+    //   interview_date: '2023-04-10T00:00:00.000Z',
+    //   organization_name: 'Acme Corp',
+    //   salary: 80000,
+    //   notes: 'Lorem ipsum',
+    //   job_url: 'https://www.acme.com/jobs/123',
+    //   location: 'San Francisco',
+    //   tags: [],
+    //   portfolio: null
+    // };
+    const response = { status: 200 };
+    const jobRecordApiMock = {
+      createJobRecord: jest.fn().mockResolvedValueOnce(response)
+    };
 
-    expect(wrapper.vm.jobMsg.failed).toBe('Please fill out all required fields');
+    wrapper = mount(CreateJobRecord, {
+      mocks: {
+        jobRecordApi: jobRecordApiMock
+      }
+    });
+
+    wrapper.vm.createJobRecord();
+    //expect(jobRecordApiMock.createJobRecord).toHaveBeenCalledWith(JSON.stringify(expectedInputs));
+    expect(wrapper.vm.navigateBackToJobRecords).toHaveBeenCalled();
   });
 
+
+
+  it('sets jobMsg.failed when required fields are missing', async () => {
+    wrapper.vm.$refs.jobInfoTab.$data.job.job_title = ''
+    wrapper.vm.$refs.jobInfoTab.$data.job.status = {}
+
+    await wrapper.vm.createJobRecord()
+
+    expect(jobRecordApi.createJobRecord).not.toHaveBeenCalled()
+    expect(wrapper.vm.jobMsg.failed).toBe('Please fill out all required fields')
+  })
 })

@@ -1,3 +1,6 @@
+
+import { remove } from '@vue/shared';
+
 <template>
 <!-- This code is a Vue.js component that creates a table to display resources.
  The table has five columns: "Resources Name", "Type", "View", "Download", and "Remove".
@@ -10,6 +13,15 @@
  The code references an external JavaScript file "resources.js" and a stylesheet "table.css". 
  These files define the logic and styles for the component, respectively. -->
 <div>
+  <ConfirmationDialog
+    style="align-content: center"
+    v-if="openDeleteConfirmDialog"
+    title="Confirmation"
+    message="Are you sure you want to delete this record?"
+    confirm-btn-label="Yes"
+    :on-confirm="remove"
+    @close-modal="openDeleteConfirmDialog = false; fileIdToDelete = null"
+  />
   <h1 class="view-title">Resources</h1>
   <div class="card scrollable">
     <div class="card-body">
@@ -75,7 +87,8 @@
                   </div>
               </td>
               <td>
-                <span class="table-remove" @click="remove(index)">
+                <span class="table-remove" @click="remove(index)" />
+                <span class="table-remove" @click="openDeleteFileDialog(index)">
                   <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
                     Remove
                   </button>

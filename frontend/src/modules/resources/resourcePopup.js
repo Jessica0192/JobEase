@@ -46,6 +46,12 @@ export default {
       this.file = null
       this.$refs.selectedFile.value = ''
     },
+    closeWindow() {
+      // Reload the current page
+      location.reload();
+      // Emit the "close" event to notify the parent component
+      this.$emit('close');
+    },
     // Save the selected file using the file API
     saveFile () {
       const formData = new FormData()

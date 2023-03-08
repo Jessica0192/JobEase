@@ -11,6 +11,7 @@ from db.db_setup import Base
 from db.models import user_model
 from db.models import job_record_model
 from db.models import job_tag_model
+from db.models import event_model
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

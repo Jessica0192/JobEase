@@ -22,7 +22,7 @@ def check_if_event_exits_and_current_user_can_access(event_id: int,
                                                                   user_id=current_user.id)
     if db_event is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Event not found")
-    if current_user.id != db_event.event_user_id and current_user.is_super_user is False:
+    if current_user.id != db_event.user_id and current_user.is_super_user is False:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
     return db_event
 
@@ -50,7 +50,7 @@ async def retrieve_all_events_for_user(limit: int = 100,
 async def create_new_event(event: event_schema.Event,
                            db: Session = Depends(get_db),
                            current_user: User = Depends(auth_service.get_current_user_from_token)):
-    db_event = event_service.create_event(event_user_id=current_user.id, db=db, event=event)
+    db_event = event_service.create_event(user_id=current_user.id, db=db, event=event)
     if db_event is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail="Event with the same title already exists")
@@ -63,7 +63,7 @@ def delete_event(event_id: int,
                  current_user: User = Depends(auth_service.get_current_user_from_token)):
     db_event = event_service.get_event_by_id(db=db, event_id=event_id)
     if db_event is not None:
-        if current_user.id != db_event.event_user_id and current_user.is_super_user is False:
+        if current_user.id != db_event.user_id and current_user.is_super_user is False:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
 
         deleted_event = event_service.delete_event_by_id(db=db, event_id=event_id)
@@ -79,7 +79,7 @@ async def update_event(event_id: int,
                        event: event_schema.Event,
                        db: Session = Depends(get_db),
                        current_user: User = Depends(auth_service.get_current_user_from_token)):
-    event_user_id = db.query(Event).filter(Event.id == event_id).first().event_user_id
+    event_user_id = db.query(Event).filter(Event.id == event_id).first().user_id
 
     if event_user_id != current_user.id and current_user.is_super_user is False:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")

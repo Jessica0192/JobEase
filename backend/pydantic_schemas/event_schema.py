@@ -9,13 +9,13 @@ class EventBase(BaseModel):
 
 class Event(EventBase):
     id: int
-    event_user_id: int
-    event_title: str
-    event_start_date: Optional[datetime] = None
-    event_end_date: Optional[datetime] = None
-    event_location: Optional[str] = None
-    event_note: Optional[str] = None
-    event_notification: Optional[int] = 1
+    user_id: int
+    title: str
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+    location: Optional[str] = None
+    note: Optional[str] = None
+    notification: Optional[int] = 1
     
     class Config:
         orm_mode = True

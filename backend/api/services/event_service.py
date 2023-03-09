@@ -9,13 +9,13 @@ def get_event_by_id(db: Session, event_id: int):
     db_event = db.query(Event).filter(Event.id == event_id).first()
     if db_event:
         return event_schema.Event(id=db_event.id,
-                                  event_user_id=db_event.event_user_id,
-                                  event_title=db_event.event_title,
-                                  event_start=db_event.event_start_date,
-                                  event_end=db_event.event_end_date,
-                                  event_location=db_event.event_location,
-                                  event_note=db_event.event_note,
-                                  event_notification=db_event.event_notification
+                                  user_id=db_event.user_id,
+                                  title=db_event.title,
+                                  start=db_event.start_date,
+                                  end=db_event.end_date,
+                                  location=db_event.location,
+                                  note=db_event.note,
+                                  notification=db_event.notification
                                   )
     else:
         return None
@@ -31,11 +31,11 @@ def delete_event_by_id(db: Session, event_id: int):
 
 
 def get_all_events_for_user(db: Session, user_id: int, limit: int = 100):
-    return db.query(Event).filter(Event.event_user_id == user_id).limit(limit).all()
+    return db.query(Event).filter(Event.user_id == user_id).limit(limit).all()
 
 
 def check_by_id_if_event_exists_for_user(db: Session, event_id: int, user_id: int):
-    db_event = db.query(Event).filter(Event.id == event_id, Event.event_user_id == user_id).first()
+    db_event = db.query(Event).filter(Event.id == event_id, Event.user_id == user_id).first()
     if db_event:
         return db_event
     else:
@@ -43,25 +43,25 @@ def check_by_id_if_event_exists_for_user(db: Session, event_id: int, user_id: in
 
 
 def check_by_title_if_event_exists_for_user(db: Session, event_title: str, user_id: int):
-    db_event = db.query(Event).filter(Event.event_title == event_title, Event.event_user_id == user_id).first()
+    db_event = db.query(Event).filter(Event.title == event_title, Event.user_id == user_id).first()
     if db_event:
         return db_event
     else:
         return None
 
 
-def create_event(db: Session, event: event_schema.Event, event_user_id: int):
+def create_event(db: Session, event: event_schema.Event, user_id: int):
     try:
-        existing_event = check_by_title_if_event_exists_for_user(db=db, event_title=event.event_title, user_id=event_user_id)
+        existing_event = check_by_title_if_event_exists_for_user(db=db, event_title=event.title, user_id=user_id)
         if existing_event is not None:
             return None
-        db_event = Event(event_user_id=event_user_id,
-                         event_title=event.event_title,
-                         event_start_date=event.event_start_date,
-                         event_end_date=event.event_end_date,
-                         event_location=event.event_location,
-                         event_note=event.event_note,
-                         event_notification=event.event_notification,                       
+        db_event = Event(event_user_id=user_id,
+                         event_title=event.title,
+                         event_start_date=event.start_date,
+                         event_end_date=event.end_date,
+                         event_location=event.location,
+                         event_note=event.note,
+                         event_notification=event.notification,                       
                          )
         
 
@@ -80,13 +80,13 @@ def update_event(db: Session, event_id: int, event: event_schema.Event):
         item = db.query(Event).filter(Event.id == event_id).first()
         # item = db.query(Event).get(event_id)
         if item:
-            item.event_user_id = event.event_user_id
-            item.event_title = event.event_title
-            item.event_start_date = event.event_start_date
-            item.event_end_date = event.event_end_date
-            item.event_location = event.event_location
-            item.event_note = event.event_note
-            item.event_notification = event.event_notification            
+            item.user_id = event.user_id
+            item.title = event.title
+            item.start_date = event.start_date
+            item.end_date = event.end_date
+            item.location = event.location
+            item.note = event.note
+            item.notification = event.notification            
 
             db.commit()
             db.refresh(item)

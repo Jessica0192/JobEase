@@ -52,7 +52,6 @@ export default {
         await portfolioApi.getAllPortfoliosForUser().then(response => {
           if (response && response.status === 200) {
               this.portfolios = response.data
-              console.log(this.portfolios)
             }
         })
       },

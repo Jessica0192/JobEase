@@ -3,6 +3,7 @@ import sharedMixin from '../../modules/jobRecord/shared';
 import PortfolioTab from '@/components/jobRecord/PortfolioTab.vue'
 import TagTab from '@/components/jobRecord/TagTab.vue'
 import JobInfoTab from '@/components/jobRecord/JobInfoTab.vue'
+import NotesTab from '@/components/jobRecord/NotesTab.vue'
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
@@ -14,6 +15,7 @@ export default {
     JobInfoTab:JobInfoTab,
     PortfolioTab,
     TagTab,
+    NotesTab,
     ConfirmationDialog
   },
   data() {

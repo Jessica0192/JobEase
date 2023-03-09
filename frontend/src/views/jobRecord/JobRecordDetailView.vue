@@ -49,18 +49,18 @@
         </div>
         <!--end of first tab-->
         <!--second tab-->
-        <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
-          <TagTab ref="tagTab"/>
+        <div class="tab-pane fade" :class="{ 'active show': isActive('notes') }" id="notes">
+          <NotesTab ref="notesTab"/>
         </div>
         <!--end of second tab-->
         <!--third tab-->
-        <div class="tab-pane fade" :class="{ 'active show': isActive('portfolio') }" id="portfolio">
-          <PortfolioTab ref="portfolioTab"/>
+        <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
+          <TagTab ref="tagTab"/>
         </div>
         <!--end of third tab-->
         <!--fourth tab-->
-        <div class="tab-pane fade" :class="{ 'active show': isActive('Notes') }" id="notes">
-
+        <div class="tab-pane fade" :class="{ 'active show': isActive('portfolio') }" id="portfolio">
+          <PortfolioTab ref="portfolioTab"/>
         </div>
         <!--end of fourth tab-->
     </div>

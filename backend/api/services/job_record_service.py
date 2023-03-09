@@ -19,7 +19,7 @@ def get_job_record_by_id(db: Session, job_record_id: int):
                                               interview_date=job_record.interview_date,
                                               organization_name=job_record.organization_name,
                                               salary=job_record.salary,
-                                              notes=job_record.notes,
+                                              description=job_record.description,
                                               job_url=job_record.job_url,
                                               location=job_record.location,
                                               tags=job_record.tags
@@ -51,7 +51,7 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                                   interview_date=job_record.interview_date,
                                   organization_name=job_record.organization_name,
                                   salary=job_record.salary,
-                                  notes=job_record.notes,
+                                  description=job_record.description,
                                   job_url=job_record.job_url,
                                   location=job_record.location)
 
@@ -84,7 +84,7 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
             item.interview_date = job_record.interview_date
             item.organization_name = job_record.organization_name
             item.salary = job_record.salary
-            item.notes = job_record.notes
+            item.description = job_record.description
             item.job_url = job_record.job_url
             item.location = job_record.location
 

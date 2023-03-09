@@ -7,7 +7,7 @@ export default {
       job: {
         job_title: "",
         status: {},
-        notes: "",
+        description: "",
         deadline_date: "",
         interview_date: "",
         organization_name: "",
@@ -29,7 +29,7 @@ export default {
       default: () => ({
         job_title: "",
         status: {},
-        notes: "",
+        description: "",
         deadline_date: "",
         interview_date: "",
         organization_name: "",

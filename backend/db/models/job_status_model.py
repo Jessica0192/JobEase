@@ -10,6 +10,7 @@ class JobStatusEnum(str, enum.Enum):
     interested = "Interested",
     applied = "Applied"
     waiting_for_interview = "Waiting for interview"
+    interviewed = "Interviewed"
 
 
 class JobStatus(Base):

@@ -10,7 +10,8 @@ class JobRecordBase(BaseModel):
     # jobStatus, portfolio should be included later
     job_title: str
     status: JobStatus
-    notes: str
+    description: str
+    portfolio: Optional[Portfolio] = None
 
 
 class JobRecordAll(JobRecordBase):
@@ -21,7 +22,6 @@ class JobRecordAll(JobRecordBase):
     job_url: str
     location: str
     tags: List[JobTag]
-    portfolio: Optional[Portfolio] = None
 
 
 class JobRecord(JobRecordBase):

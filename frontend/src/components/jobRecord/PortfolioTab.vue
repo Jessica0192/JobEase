@@ -31,6 +31,16 @@
                 <option v-for="portfolio in portfolios" :key="portfolio.id" :value="portfolio">{{ portfolio.portfolio_name }}</option>
               </select>
             </div>
+            <br><br><br>
+            <div v-if="selectedPortfolio">
+              <label for="portfolio-select" class="align-content-start col-form-label fw-semibold">Resources inside portfolio:</label>
+              <ul class="col-sm-11 resource-list">
+                <li class="resource-item" v-for="(resource, index) in selectedPortfolio.resources" :key="index" @click="selectResource(resource)">
+                  <span class="resource-name">{{ resource.resource_name }}</span>
+                  <span class="resource-type">{{ resource.resource_type.resource_type }}</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div v-else>
@@ -52,7 +62,7 @@
                   <div class="card-body" style="overflow-y: auto">
                     <div v-for="resource in filteredResources" :key="resource.id" class="resource-item">
                       <input type="checkbox" v-model="selectedResources" :value="resource" class="resource-checkbox">
-                      <span class="resource-name">{{ resource.resource_name }}</span>
+                      <span class="resource-name" style="font-size: 14px">{{ resource.resource_name }}</span>
                     </div>
                   </div>
                 </div>
@@ -128,4 +138,34 @@ label {
   text-overflow: ellipsis;
 }
 
+/* resource list in portfolio */
+.resource-list {
+  list-style: none;
+  margin: 0;
+  padding-left: 40px;
+}
+.resource-item {
+  cursor: pointer;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid #dee2e6;
+}
+.resource-item:last-child {
+  border-bottom: none;
+}
+.resource-item:hover {
+  background-color: #e9ecef;
+}
+.resource-name {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.resource-type {
+  padding-left: 10px;
+  display: block;
+  font-size: 12px;
+  color: #888;
+}
 </style>

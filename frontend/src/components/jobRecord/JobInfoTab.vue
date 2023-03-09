@@ -73,10 +73,10 @@
         </tr>
         <tr>
           <td style="width: 25%; text-align: right;">
-            <label>Note</label>
+            <label>Description</label>
           </td>
           <td style="width: 90%;">
-            <textarea v-model="job.notes" rows="3" cols="60"></textarea>
+            <textarea v-model="job.description" rows="3" cols="60"></textarea>
           </td>
         </tr>
       </table>

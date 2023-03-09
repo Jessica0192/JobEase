@@ -12,7 +12,7 @@
     <div style="display: flex; justify-content: start;">
       <font-awesome-icon class="btn btn-lg" style="margin-right: 10px"
                          icon="fa-solid fa-arrow-left"
-                         v-b-tooltip.hover title="Back to Job Records page"
+                         title="Back to Job Records page"
                          @click="navigateBackToJobRecords"/>
       <h1 class="view-title" id="jobTitleOnHeading"></h1>
     </div>
@@ -30,6 +30,9 @@
       <ul class="nav nav-tabs nav-justified">
         <li class="nav-item">
           <a class="nav-link" @click.prevent="setActive('jobInfo')" :class="{ active: isActive('jobInfo') }" href="#jobInfo">Job Info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click.prevent="setActive('notes')" :class="{ active: isActive('notes') }" href="#notes">Notes</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" @click.prevent="setActive('tags')" :class="{ active: isActive('tags') }" href="#tags">Tags</a>
@@ -55,6 +58,11 @@
           <PortfolioTab ref="portfolioTab"/>
         </div>
         <!--end of third tab-->
+        <!--fourth tab-->
+        <div class="tab-pane fade" :class="{ 'active show': isActive('Notes') }" id="notes">
+
+        </div>
+        <!--end of fourth tab-->
     </div>
   </div>
 </template>

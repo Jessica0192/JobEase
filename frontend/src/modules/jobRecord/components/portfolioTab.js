@@ -1,6 +1,7 @@
 import { MDBIcon  } from "mdb-vue-ui-kit";
 import { portfolioApi } from '@/services/PortfolioApi'
 import { fileApi } from '@/services/FileApi'
+import { displaySelectedResource } from '../../portfolio/portfolios.js';
 
 export default {
   name: 'PortfolioTab',
@@ -51,6 +52,7 @@ export default {
         await portfolioApi.getAllPortfoliosForUser().then(response => {
           if (response && response.status === 200) {
               this.portfolios = response.data
+              console.log(this.portfolios)
             }
         })
       },
@@ -163,6 +165,11 @@ export default {
       resetAllInputsFromCreateNewPortfolio(){
         this.newPortfolioName = "";
         this.selectedResources = [];
+      },
+
+      // when resource is selected from list of resources inside Portfolio
+      selectResource(resource){
+        displaySelectedResource(resource)
       }
   }
 }

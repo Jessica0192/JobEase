@@ -32,7 +32,7 @@ export default {
             interview_date: interviewDateTime,
             organization_name: jobTemp.organization_name,
             salary: +(jobTemp.salary),
-            notes: jobTemp.notes,
+            description: jobTemp.description,
             job_url: jobTemp.job_url,
             location: jobTemp.location,
             tags: this.$refs.tagTab.$data.tags.filter(tag => this.$refs.tagTab.$data.selectedTags.map(tag => tag.id).includes(tag.id)),

@@ -4,25 +4,66 @@
   <div class="py-4 container-fluid">
     <div class="row">
       <div class="col-lg-12">
-        <div class="row"><div class="col-lg-3 col-md-6 col-12">
-          <div class="mb-4 card"><div class="p-3 card-body">
-            <div class="d-flex flex-row-reverse justify-content-between">
-              <div>
-                <div class="text-center icon icon-shape bg-gradient-primary border-radius-2xl">
-                  <i class="text-lg opacity-10 ni ni-money-coins" aria-hidden="true"></i>
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="mb-4 card"><div class="p-3 card-body">
+              <div class="d-flex flex-row-reverse justify-content-between">
+                <div>
+                  <div class="text-center icon icon-shape bg-gradient-primary border-radius-2xl">
+                    <i class="text-lg opacity-10 ni ni-money-coins" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <div class=""><div class="numbers">
+                  <p class="mb-0 text-sm text-uppercase font-weight-bold">Today's Money</p>
+                  <h5 class="font-weight-bolder">$53,000</h5>
+                  <span class="text-sm text-success">+55%</span>
+                  since yesterday
+                </div>
                 </div>
               </div>
-              <div class=""><div class="numbers">
-                <p class="mb-0 text-sm text-uppercase font-weight-bold">Today's Money</p>
-                <h5 class="font-weight-bolder">$53,000</h5>
-                <span class="text-sm text-success">+55%</span>
-                since yesterday
-              </div>
+            </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="mb-4 card">
+              <div class="p-3 card-body">
+                <div class="d-flex flex-row-reverse justify-content-between">
+                  <div>
+                    <div class="text-center icon icon-shape bg-gradient-danger border-radius-2xl">
+                      <i class="text-lg opacity-10 ni ni-world" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                  <div class="">
+                    <div class="numbers">
+                      <p class="mb-0 text-sm text-uppercase font-weight-bold">Today's Users</p>
+                      <h5 class="font-weight-bolder">2,300</h5><span class="text-sm text-success">+3%</span>
+                      since last week
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          <div class="col-lg-3 col-md-6 col-12">
+            <div class="mb-4 card">
+              <div class="p-3 card-body">
+                <div class="d-flex flex-row-reverse justify-content-between">
+                  <div>
+                    <div class="text-center icon icon-shape bg-gradient-danger border-radius-2xl">
+                      <i class="text-lg opacity-10 ni ni-world" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                  <div class="">
+                    <div class="numbers">
+                      <p class="mb-0 text-sm text-uppercase font-weight-bold">Today's Users</p>
+                      <h5 class="font-weight-bolder">2,300</h5><span class="text-sm text-success">+3%</span>
+                      since last week
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
           <div class="col-lg-3 col-md-6 col-12">
             <div class="mb-4 card">
               <div class="p-3 card-body">
@@ -165,71 +206,40 @@
                 <ul class="list-group">
                   <li class="mb-2 border-0 list-group-item d-flex justify-content-between border-radius-lg ps-0">
                     <div class="d-flex align-items-center">
-                      <div class="text-center shadow icon icon-shape icon-sm bg-gradient-dark me-3">
-                        <i class="ni ni-mobile-button text-white opacity-10"></i>
-                      </div><div class="d-flex flex-column">
-                      <h6 class="mb-1 text-sm text-dark">Devices</h6>
-                      <span class="text-xs">250 in stock,
-                        <span class="font-weight-bold">346+ sold</span>
-                      </span>
-                    </div>
-                    </div>
-                    <div class="d-flex">
-                      <button class="my-auto btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right">
-                        <i class="ni ni-bold-right" aria-hidden="true"></i>
-                      </button>
+                      <div class="d-flex flex-column">
+                        <h6 class="mb-1 text-sm text-dark">Devices</h6>
+                        <span class="fa-xs">250 in stock,
+                          <span class="font-weight-bold">346+ sold</span>
+                        </span>
+                      </div>
                     </div>
                   </li>
                   <li class="mb-2 border-0 list-group-item d-flex justify-content-between border-radius-lg ps-0">
                     <div class="d-flex align-items-center">
-                      <div class="text-center shadow icon icon-shape icon-sm bg-gradient-dark me-3">
-                        <i class="ni ni-tag text-white opacity-10"></i>
-                      </div>
                       <div class="d-flex flex-column">
                         <h6 class="mb-1 text-sm text-dark">Tickets</h6>
-                        <span class="text-xs">123 closed,
+                        <span class="fa-xs">123 closed,
                           <span class="font-weight-bold">15 open</span>
                         </span>
                       </div>
                     </div>
-                    <div class="d-flex">
-                      <button class="my-auto btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right">
-                        <i class="ni ni-bold-right" aria-hidden="true"></i>
-                      </button>
-                    </div>
                   </li>
                   <li class="border-0 list-group-item d-flex justify-content-between border-radius-lg ps-0">
                     <div class="d-flex align-items-center">
-                      <div class="text-center shadow icon icon-shape icon-sm bg-gradient-dark me-3">
-                        <i class="ni ni-box-2 text-white opacity-10"></i>
-                      </div>
                       <div class="d-flex flex-column">
                         <h6 class="mb-1 text-sm text-dark">Error logs</h6>
-                        <span class="text-xs">1 is active,
+                        <span class="fa-xs">1 is active,
                           <span class="font-weight-bold">40 closed</span>
                         </span>
                       </div>
                     </div>
-                    <div class="d-flex">
-                      <button class="my-auto btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right">
-                        <i class="ni ni-bold-right" aria-hidden="true"></i>
-                      </button>
-                    </div>
                   </li>
                   <li class="border-0 list-group-item d-flex justify-content-between border-radius-lg ps-0">
                     <div class="d-flex align-items-center">
-                      <div class="text-center shadow icon icon-shape icon-sm bg-gradient-dark me-3">
-                        <i class="ni ni-satisfied text-white opacity-10"></i>
-                      </div>
                       <div class="d-flex flex-column">
                         <h6 class="mb-1 text-sm text-dark">Happy Users</h6>
-                        <span class="text-xs font-weight-bold">+ 430</span>
+                        <span class="fa-xs font-weight-bold">+ 430</span>
                       </div>
-                    </div>
-                    <div class="d-flex">
-                      <button class="my-auto btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right">
-                        <i class="ni ni-bold-right" aria-hidden="true"></i>
-                      </button>
                     </div>
                   </li>
                 </ul>

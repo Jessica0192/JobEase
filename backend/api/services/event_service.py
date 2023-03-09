@@ -23,7 +23,7 @@ def get_event_by_id(db: Session, event_id: int):
 
 def delete_event_by_id(db: Session, event_id: int):
     existing_event = db.query(Event).filter(Event.id == event_id)
-    print(existing_event)
+    
     if not existing_event.first():
         return False
     existing_event.delete()

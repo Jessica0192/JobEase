@@ -15,7 +15,7 @@ class Event(EventBase):
     event_end_date: Optional[datetime] = None
     event_location: Optional[str] = None
     event_note: Optional[str] = None
-    event_notification: Optional[str] = None
+    event_notification: Optional[int] = 1
     
     class Config:
         orm_mode = True

@@ -62,7 +62,6 @@ def delete_event(event_id: int,
                  db: Session = Depends(get_db),
                  current_user: User = Depends(auth_service.get_current_user_from_token)):
     db_event = event_service.get_event_by_id(db=db, event_id=event_id)
-
     if db_event is not None:
         if current_user.id != db_event.event_user_id and current_user.is_super_user is False:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")

@@ -16,7 +16,7 @@ class Event(Base, Timestamp):
     event_end_date = Column(DateTime(timezone=True), nullable=True, server_default=None)    
     event_location = Column(String(85), nullable=True, server_default=None)    
     event_note = Column(String(200), nullable=True, server_default=None)
-    event_notification = Column(String(10), nullable=True, server_default=None)
+    event_notification = Column(Integer, nullable=True, server_default='1')
     
 
     user = relationship("User", back_populates="events")

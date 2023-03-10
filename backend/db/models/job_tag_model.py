@@ -11,6 +11,11 @@ class JobTagEnum(str, enum.Enum):
     interested = "Interested",
     applied = "Applied"
     waiting_for_interview = "Waiting for interview"
+    interviewed = "Interviewed"
+    offer_received = "Offer Received"
+    offer_accepted = "Offer Accepted"
+    offer_declined = "Offer Declined"
+    rejected = "Rejected"
 
 
 class JobTag(Base):

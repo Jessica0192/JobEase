@@ -5,6 +5,7 @@ from db.models.job_record_model import JobRecord
 from db.models.job_status_model import JobStatus
 from db.models.job_tag_model import JobTag
 from db.models.portfolio_model import Portfolio
+from db.models.job_note_model import JobNote
 from pydantic_schemas import job_record_schema
 
 
@@ -19,11 +20,11 @@ def get_job_record_by_id(db: Session, job_record_id: int):
                                               interview_date=job_record.interview_date,
                                               organization_name=job_record.organization_name,
                                               salary=job_record.salary,
-                                              notes=job_record.notes,
+                                              description=job_record.description,
                                               job_url=job_record.job_url,
                                               location=job_record.location,
-                                              tags=job_record.tags
-                                              )
+                                              tags=job_record.tags,
+                                              notes=job_record.job_notes)
     else:
         return None
 
@@ -51,7 +52,7 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                                   interview_date=job_record.interview_date,
                                   organization_name=job_record.organization_name,
                                   salary=job_record.salary,
-                                  notes=job_record.notes,
+                                  description=job_record.description,
                                   job_url=job_record.job_url,
                                   location=job_record.location)
 
@@ -63,6 +64,21 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                 print("\nJob tag not found")
                 return None
             db_job_record.tags.append(job_tag)
+
+        db.add(db_job_record)
+        db.commit()
+        db.refresh(db_job_record)
+
+        if job_record.notes is not None:
+            for note in job_record.notes:
+                db_note = JobNote(title=note.title,
+                                  note_content=note.note_content,
+                                  note_job_record_id=db_job_record.id)
+                db.add(db_note)
+                db.commit()
+                db.refresh(db_note)
+
+                db_job_record.job_notes.append(db_note)
 
         db.add(db_job_record)
         db.commit()
@@ -84,7 +100,7 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
             item.interview_date = job_record.interview_date
             item.organization_name = job_record.organization_name
             item.salary = job_record.salary
-            item.notes = job_record.notes
+            item.description = job_record.description
             item.job_url = job_record.job_url
             item.location = job_record.location
 

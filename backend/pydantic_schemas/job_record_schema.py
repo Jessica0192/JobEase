@@ -1,16 +1,19 @@
 from datetime import datetime
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 from typing import List, Optional
 from pydantic_schemas.job_status_schema import JobStatus
 from pydantic_schemas.job_tag_schema import JobTag
 from pydantic_schemas.portfolio_schema import Portfolio
+from pydantic_schemas.job_note_schema import JobNote
 
 
 class JobRecordBase(BaseModel):
     # jobStatus, portfolio should be included later
     job_title: str
     status: JobStatus
-    notes: str
+    description: str
+    portfolio: Optional[Portfolio] = None
+    notes: List[Optional[JobNote]] = None
 
 
 class JobRecordAll(JobRecordBase):
@@ -21,7 +24,6 @@ class JobRecordAll(JobRecordBase):
     job_url: str
     location: str
     tags: List[JobTag]
-    portfolio: Optional[Portfolio] = None
 
 
 class JobRecord(JobRecordBase):

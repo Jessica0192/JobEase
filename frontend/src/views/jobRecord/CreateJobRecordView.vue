@@ -1,16 +1,17 @@
 <template>
   <div style="display: flex; justify-content: space-between;">
     <div style="display: flex; justify-content: start;">
-      <font-awesome-icon class="btn btn-lg" style="margin-right: 10px"
-                         icon="fa-solid fa-arrow-left"
-                         v-b-tooltip.hover title="Back to Job Records page"
-                         @click="navigateBackToJobRecords"/>
+<!--      <font-awesome-icon class="btn btn-lg" style="margin-right: 10px"-->
+<!--                         icon="fa-solid fa-arrow-left"-->
+<!--                         v-b-tooltip.hover title="Back to Job Records page"-->
+<!--                         @click="navigateBackToJobRecords"/>-->
       <h1 class="view-title">Create Job Record</h1>
     </div>
     <a style="margin-right: 170px" href="javascript:void(0)"
        class="btn btn-lg btn-primary create-button"
       @click="createJobRecord">Create</a>
   </div>
+  <span style="color:darkred;font-size:4mm" v-if="jobMsg.failed">{{`* ${jobMsg.failed}`}}</span>
   <div class="container">
     <br>
       <!--tabs header-->

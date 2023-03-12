@@ -103,7 +103,7 @@ export default {
           });
 
         } else {
-          alert("Please fill out all required fields")
+          this.jobMsg.failed = 'Please fill out all required fields'
         }
       }
     }

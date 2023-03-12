@@ -8,12 +8,12 @@ from pydantic_schemas import job_search_metrics_schema
 from db.db_setup import get_db
 
 router = fastapi.APIRouter(
-    prefix="/metric",
-    tags=["metrics"]
+    prefix="/dashboard",
+    tags=["dashboard"]
 )
 
 
-@router.get("/", response_model=list[job_search_metrics_schema.JobSearchMetric])
+@router.get("/jobSearchMetrics", response_model=list[job_search_metrics_schema.JobSearchMetric])
 async def retrieve_job_search_metrics(db: Session = Depends(get_db),
                                       current_user: User = Depends(auth_service.get_current_user_from_token)):
 

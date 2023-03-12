@@ -138,5 +138,15 @@ def delete_job_record_by_id(db: Session, job_record_id: int):
     existing_job_record = db.query(JobRecord).filter(JobRecord.id == job_record_id)
     if not existing_job_record.first():
         return False
-    existing_job_record.delete()
-    db.commit()
+    existing_job_record = existing_job_record.first()
+    job_notes = existing_job_record.job_notes
+
+    try:
+        for note in job_notes:
+            db.delete(note)
+        db.delete(existing_job_record)
+        db.commit()
+    except IntegrityError as error:
+        # Handle the exception gracefully and log for being informative
+        print("\nError Args:" + str(error.args))
+        return None

@@ -13,7 +13,7 @@ class JobRecordBase(BaseModel):
     status: JobStatus
     description: str
     portfolio: Optional[Portfolio] = None
-    notes: List[Optional[JobNote]] = None
+    job_notes: List[Optional[JobNote]] = None
 
 
 class JobRecordAll(JobRecordBase):

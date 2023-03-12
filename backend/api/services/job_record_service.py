@@ -24,7 +24,7 @@ def get_job_record_by_id(db: Session, job_record_id: int):
                                               job_url=job_record.job_url,
                                               location=job_record.location,
                                               tags=job_record.tags,
-                                              notes=job_record.job_notes)
+                                              job_notes=job_record.job_notes)
     else:
         return None
 
@@ -69,8 +69,8 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
         db.commit()
         db.refresh(db_job_record)
 
-        if job_record.notes is not None:
-            for note in job_record.notes:
+        if job_record.job_notes is not None:
+            for note in job_record.job_notes:
                 db_note = JobNote(title=note.title,
                                   note_content=note.note_content,
                                   note_job_record_id=db_job_record.id)
@@ -125,6 +125,31 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
 
             db.commit()
             db.refresh(item)
+
+            # Clear existing notes to update
+            try:
+                for note in item.job_notes:
+                    db.delete(note)
+                db.commit()
+            except IntegrityError as error:
+                # Handle the exception gracefully and log for being informative
+                print("\nError Args:" + str(error.args))
+
+            # Update notes
+            if job_record.job_notes is not None:
+                for note in job_record.job_notes:
+                    db_note = JobNote(title=note.title,
+                                      note_content=note.note_content,
+                                      note_job_record_id=job_record_id)
+                    db.add(db_note)
+                    db.commit()
+                    db.refresh(db_note)
+
+                    item.job_notes.append(db_note)
+
+            db.commit()
+            db.refresh(item)
+
             return {"message": "JobRecord updated successfully"}
         else:
             return None

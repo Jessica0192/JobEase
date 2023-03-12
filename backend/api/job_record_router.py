@@ -66,6 +66,7 @@ async def update_job_record(job_record_id: int,
     if db_job_record is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail="Job Record with the same title already exists")
+    return {"message": "Successfully updated"}
 
 
 @router.delete("/{job_record_id}")

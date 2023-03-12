@@ -85,6 +85,7 @@ async def update_event(event_id: int,
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
 
     db_event = event_service.update_event(db=db, event_id=event_id, event=event)
+    return {"message": "Successfully updated"}
 
     if db_event is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,

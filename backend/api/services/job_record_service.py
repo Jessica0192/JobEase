@@ -6,6 +6,7 @@ from db.models.job_status_model import JobStatus
 from db.models.job_tag_model import JobTag
 from db.models.portfolio_model import Portfolio
 from db.models.job_note_model import JobNote
+from db.models.job_note_type_model import JobNoteType
 from pydantic_schemas import job_record_schema
 
 
@@ -71,9 +72,11 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
 
         if job_record.job_notes is not None:
             for note in job_record.job_notes:
+                new_note_type = db.query(JobNoteType).filter_by(note_type_name=note.job_note_type.note_type_name).one()
                 db_note = JobNote(title=note.title,
                                   note_content=note.note_content,
-                                  note_job_record_id=db_job_record.id)
+                                  note_job_record_id=db_job_record.id,
+                                  job_note_type_id=new_note_type.id)
                 db.add(db_note)
                 db.commit()
                 db.refresh(db_note)
@@ -138,9 +141,12 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
             # Update notes
             if job_record.job_notes is not None:
                 for note in job_record.job_notes:
+                    new_note_type = db.query(JobNoteType)\
+                        .filter_by(note_type_name=note.job_note_type.note_type_name).one()
                     db_note = JobNote(title=note.title,
                                       note_content=note.note_content,
-                                      note_job_record_id=job_record_id)
+                                      note_job_record_id=job_record_id,
+                                      job_note_type_id=new_note_type.id)
                     db.add(db_note)
                     db.commit()
                     db.refresh(db_note)

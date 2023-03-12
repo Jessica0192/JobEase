@@ -11,13 +11,16 @@ class JobNote(Base, Timestamp):
 
     id = Column(Integer, primary_key=True, index=True)
     note_job_record_id = Column(Integer, ForeignKey("job_record.id"))   # FK added
+    job_note_type_id = Column(Integer, ForeignKey("job_note_types.id"))     # FK added
     title = Column(String(45), nullable=True)
     note_content = Column(LONGTEXT, nullable=True)
 
+    job_note_type = relationship("JobNoteType", back_populates="job_notes")
     job_record = relationship("JobRecord", back_populates="job_notes")
 
-    def __init__(self, title, note_content, note_job_record_id):
+    def __init__(self, title, note_content, note_job_record_id, job_note_type_id):
         super(JobNote, self).__init__()
         self.title = title
         self.note_content = note_content
         self.note_job_record_id = note_job_record_id
+        self.job_note_type_id = job_note_type_id

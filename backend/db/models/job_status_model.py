@@ -7,9 +7,10 @@ from .mixins import Timestamp
 
 
 class JobStatusEnum(str, enum.Enum):
-    interested = "Interested",
+    interested = "Interested"
     applied = "Applied"
     waiting_for_interview = "Waiting for interview"
+    interviewed = "Interviewed"
 
 
 class JobStatus(Base):

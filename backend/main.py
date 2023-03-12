@@ -5,11 +5,12 @@ from sqlalchemy import event
 from core.config import settings
 from db.db_setup import engine, Base
 from db.models import user_model, job_record_model, job_tag_model, job_status_model, \
-    resource_type_model, resource_model, resource_extension_type_model, portfolio_model, job_note_model
+    resource_type_model, resource_model, resource_extension_type_model, portfolio_model, job_note_model, \
+    job_note_type_model
 from api import user_router, auth_router, job_record_router, job_tag_router, job_status_router, \
     resource_type_router, resource_router, resource_extension_type_router, portfolio_router, dashboard_router
 from api.services import resource_type_service, resource_extension_type_service, \
-    job_status_service, job_tag_service
+    job_status_service, job_tag_service, job_note_type_service
 
 
 # Event listener that is executed after create_all method has been called for tables
@@ -30,6 +31,9 @@ def receive_after_create(target, connection, tables, **kw):
             if str(i) == job_tag_model.JobTag.__tablename__:
                 job_tag_service.populate_initial_data()
                 print("Initial data for job tag Type table has been populated")
+            if str(i) == job_note_type_model.JobNoteType.__tablename__:
+                job_note_type_service.populate_initial_data()
+                print("Initial data for Job Note Type table has been populated")
 
 
 # Bind models
@@ -42,6 +46,7 @@ resource_type_model.Base.metadata.create_all(bind=engine)
 resource_extension_type_model.Base.metadata.create_all(bind=engine)
 resource_model.Base.metadata.create_all(bind=engine)
 portfolio_model.Base.metadata.create_all(bind=engine)
+job_note_type_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title=settings.PROJECT_NAME,
               description=settings.PROJECT_DESCRIPTION,

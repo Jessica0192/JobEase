@@ -47,7 +47,7 @@ async def retrieve_all_events_for_user(limit: int = 100,
 
 
 @router.post("/")
-async def create_new_event(event: event_schema.Event,
+async def create_new_event(event: event_schema.EventCreate,
                            db: Session = Depends(get_db),
                            current_user: User = Depends(auth_service.get_current_user_from_token)):
     db_event = event_service.create_event(user_id=current_user.id, db=db, event=event)

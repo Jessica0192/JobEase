@@ -66,16 +66,17 @@ async def update_job_record(job_record_id: int,
     if db_job_record is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail="Job Record with the same title already exists")
+    return {"message": "Successfully updated"}
 
 
 @router.delete("/{job_record_id}")
 def delete_job_record(job_record_id: int,
                       db: Session = Depends(get_db),
                       current_user: User = Depends(auth_service.get_current_user_from_token)):
-    job_record_user_id = db.query(JobRecord).filter(JobRecord.id == job_record_id).first().user_id
+    job_record_user = db.query(JobRecord).filter(JobRecord.id == job_record_id).first()
 
-    if job_record_user_id is not None:
-        if current_user.id != job_record_user_id and current_user.is_super_user is False:
+    if job_record_user is not None:
+        if current_user.id != job_record_user.user_id and current_user.is_super_user is False:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
 
         deleted_resource = job_record_service.delete_job_record_by_id(db=db, job_record_id=job_record_id)

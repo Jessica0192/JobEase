@@ -34,7 +34,7 @@ def get_all_job_records_for_user(current_user_id: int, db: Session, limit: int =
     return db.query(JobRecord).filter(JobRecord.user_id == current_user_id).limit(limit).all()
 
 
-def create_job_record(current_user_id: int, db: Session, job_record: job_record_schema.JobRecordAll):
+def create_job_record(current_user_id: int, db: Session, job_record: job_record_schema.JobRecordCreateUpdate):
     try:
         print(job_record)
         # Update status
@@ -94,7 +94,7 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
         return None
 
 
-def update_job_record(db: Session, job_record_id: int, job_record: job_record_schema.JobRecordAll):
+def update_job_record(db: Session, job_record_id: int, job_record: job_record_schema.JobRecordCreateUpdate):
     try:
         item = db.query(JobRecord).filter(JobRecord.id == job_record_id).first()
         if item:

@@ -37,9 +37,11 @@ export default {
             description: jobTemp.description,
             job_url: jobTemp.job_url,
             location: jobTemp.location,
+            job_notes: this.$refs.notesTab.$data.notes,
             tags: this.$refs.tagTab.$data.tags.filter(tag => this.$refs.tagTab.$data.selectedTags.map(tag => tag.id).includes(tag.id)),
             portfolio: this.$refs.portfolioTab.$data.selectedPortfolio ? this.$refs.portfolioTab.$data.selectedPortfolio : null
           }
+          console.log(inputs)
 
           // call api endpoint to create new job record
           await jobRecordApi.createJobRecord(JSON.stringify(inputs)).then(response => {

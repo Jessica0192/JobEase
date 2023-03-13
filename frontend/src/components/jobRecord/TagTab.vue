@@ -55,9 +55,15 @@ export default {
 </script>
 
 <style scoped>
+.badge-list {
+  padding-inline: 70px;
+  display: flex;
+  justify-content: center; /* Centers the badges horizontally */
+  flex-wrap: wrap;
+  gap: 10px; /* Adds 10px gap between each badge */
+}
 .padded-badge {
-  padding: 10px 20px;
-  margin-right: 10px;
+  padding: 6px 12px; /* Adds 6px padding on top/bottom and 12px padding on left/right */
 }
 .selected-badges {
   align-items: center;

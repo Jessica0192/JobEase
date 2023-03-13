@@ -11,8 +11,8 @@
         <label for="type" style="margin-top: 5px">Type:</label>
       </div>
       <div class="col-sm-3">
-        <select id="type" v-model="type" class="form-control">
-          <option v-for="type in typeOptions" :key="type.id" :value="type.name">{{ type.name }}</option>
+        <select id="type" v-model="job_note_type" class="form-control" required>
+          <option v-for="type in note_type_options" :key="type.id" :value="type">{{ type.note_type_name }}</option>
         </select>
       </div>
     </div>
@@ -21,7 +21,7 @@
         <label for="content">Content:</label>
       </div>
       <div class="col-sm-10">
-        <textarea id="content" v-model="content" rows="5" class="form-control" required></textarea>
+        <textarea id="content" v-model="note_content" rows="5" class="form-control" required></textarea>
       </div>
     </div>
     <button type="submit" class="btn btn-primary">Create Note</button>
@@ -30,28 +30,34 @@
 
 <script>
 export default {
+  props: {
+    note_type_options: {
+      type: Array,
+      required: true,
+      validator: (options) => {
+        return options.every((option) => {
+          return typeof option === 'object';
+        });
+      }
+    },
+  },
   data () {
     return {
       title: '',
-      type: '',
-      typeOptions: [
-        {id: 1, name: "default"},
-        {id: 2, name: "pre-interviewed"},
-        {id: 3, name: "post-interviewed"},
-      ],
-      content: ''
+      job_note_type: '',
+      note_content: ''
     }
   },
   methods: {
     createNote () {
       const note = {
         title: this.title,
-        type: this.type,
-        content: this.content
+        job_note_type: this.job_note_type,
+        note_content: this.note_content
       }
       this.$emit('create-note', note)
       this.title = ''
-      this.content = ''
+      this.note_content = ''
     }
   }
 }

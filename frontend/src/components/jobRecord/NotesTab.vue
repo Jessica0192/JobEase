@@ -1,7 +1,8 @@
 <template>
   <div class="note-container">
     <div class="note-form-container">
-      <note-form @create-note="addNote"></note-form>
+      <note-form :note_type_options="noteTypeOptions"
+                @create-note="addNote"></note-form>
     </div>
     <div>
       <div v-if="notes.length === 0" class="empty-state">
@@ -12,8 +13,9 @@
         <note-card v-for="(note, index) in notes"
                    :key="index"
                    :title="note.title"
-                   :type="note.type"
-                   :content="note.content"
+                   :note_type_options="noteTypeOptions"
+                   :job_note_type="note.job_note_type"
+                   :note_content="note.note_content"
                    @update-note="updateNote(index, $event)"
                    @delete-note="deleteNote(index)"></note-card>
       </div>
@@ -25,6 +27,7 @@
 <script>
 import NoteForm from './notesComponent/NoteForm.vue'
 import NoteCard from './notesComponent/NoteCard.vue'
+import {jobNoteTypeApi} from '@/services/JobNoteTypeApi'
 
 export default {
   components: {
@@ -33,8 +36,16 @@ export default {
   },
   data() {
     return {
-      notes: []
+      notes: [],
+      noteTypeOptions:[]
     }
+  },
+  async mounted () {
+    await jobNoteTypeApi.getAllJobNoteTypes().then(response => {
+      if (response && response.status === 200) {
+        this.noteTypeOptions = response.data;
+      }
+    });
   },
   methods: {
     addNote: function(note) {
@@ -43,8 +54,8 @@ export default {
     },
     updateNote: function(index, updated) {
       this.notes[index].title = updated.title;
-      this.notes[index].type = updated.type;
-      this.notes[index].content = updated.content;
+      this.notes[index].job_note_type = updated.job_note_type;
+      this.notes[index].note_content = updated.note_content;
       this.notes[index].editing = false;
     },
     deleteNote: function(index) {

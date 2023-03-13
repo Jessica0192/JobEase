@@ -1,17 +1,19 @@
 <template>
   <div class="note-card">
     <div v-if="editable">
-      <input v-model="editedTitle" class="title-input" placeholder="Title" />
-      <select id="type" v-model="editedType" class="form-control">
-        <option v-for="type in typeOptions" :key="type.id" :value="type.name">{{ type.name }}</option>
-      </select>
-      <textarea v-model="editedContent" placeholder="Type your note here..."></textarea>
-      <button class="save-button" @click="saveNote">Save</button>
+      <form @submit.prevent="saveNote">
+        <input v-model="editedTitle" class="title-input" placeholder="Title" required/>
+        <select id="type" v-model="editedType" class="form-control" required>
+          <option v-for="type in note_type_options" :key="type.id" :value="type">{{ type.note_type_name }}</option>
+        </select>
+        <textarea v-model="editedContent" placeholder="Type your note here..." required></textarea>
+        <button type="submit" class="save-button">Save</button>
+      </form>
     </div>
     <div v-else>
       <h2 @dblclick="editable = true">{{ title }}</h2>
-      <h5 @dblclick="editable = true">{{ type }}</h5>
-      <p>{{ content }}</p>
+      <h5 @dblclick="editable = true">{{ job_note_type.note_type_name }}</h5>
+      <p>{{ note_content }}</p>
       <div class="button-container">
         <button class="edit-button" @click="editable = true"><i class="fas fa-edit"></i></button>
         <button class="delete-button" @click="$emit('delete-note')"><i class="fas fa-trash"></i></button>
@@ -27,11 +29,20 @@ export default {
       type: String,
       required: true
     },
-    type: {
-      type: String,
+    note_type_options: {
+      type: Array,
+      required: true,
+      validator: (options) => {
+        return options.every((option) => {
+          return typeof option === 'object';
+        });
+      }
+    },
+    job_note_type: {
+      type: Object,
       required: true
     },
-    content: {
+    note_content: {
       type: String,
       required: true
     }
@@ -40,21 +51,16 @@ export default {
     return {
       editable: false,
       editedTitle: this.title,
-      editedType: this.type,
-      editedContent: this.content,
-      typeOptions: [
-        {id: 1, name: "default"},
-        {id: 2, name: "pre-interviewed"},
-        {id: 3, name: "post-interviewed"},
-      ]
+      editedType: this.job_note_type,
+      editedContent: this.note_content,
     };
   },
   methods: {
     saveNote() {
       this.$emit('update-note', {
         title: this.editedTitle,
-        type: this.editedType,
-        content: this.editedContent
+        job_note_type: this.editedType,
+        note_content: this.editedContent
       });
       this.editable = false;
     }

@@ -40,7 +40,7 @@ async def retrieve_all_job_records_for_user(limit: int = 100,
 
 
 @router.post("/")
-async def create_new_job_record(job_record: job_record_schema.JobRecordAll,
+async def create_new_job_record(job_record: job_record_schema.JobRecordCreateUpdate,
                                 db: Session = Depends(get_db),
                                 current_user: User = Depends(auth_service.get_current_user_from_token)):
     db_job_record = job_record_service.create_job_record(current_user_id=current_user.id, db=db, job_record=job_record)
@@ -53,7 +53,7 @@ async def create_new_job_record(job_record: job_record_schema.JobRecordAll,
 # need update job record endpoint
 @router.put("/{job_record_id}")
 async def update_job_record(job_record_id: int,
-                            job_record: job_record_schema.JobRecordAll,
+                            job_record: job_record_schema.JobRecordCreateUpdate,
                             db: Session = Depends(get_db),
                             current_user: User = Depends(auth_service.get_current_user_from_token)):
     job_record_user_id = db.query(JobRecord).filter(JobRecord.id == job_record_id).first().user_id

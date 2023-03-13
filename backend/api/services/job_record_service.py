@@ -5,6 +5,8 @@ from db.models.job_record_model import JobRecord
 from db.models.job_status_model import JobStatus
 from db.models.job_tag_model import JobTag
 from db.models.portfolio_model import Portfolio
+from db.models.job_note_model import JobNote
+from db.models.job_note_type_model import JobNoteType
 from pydantic_schemas import job_record_schema
 
 
@@ -19,11 +21,11 @@ def get_job_record_by_id(db: Session, job_record_id: int):
                                               interview_date=job_record.interview_date,
                                               organization_name=job_record.organization_name,
                                               salary=job_record.salary,
-                                              notes=job_record.notes,
+                                              description=job_record.description,
                                               job_url=job_record.job_url,
                                               location=job_record.location,
-                                              tags=job_record.tags
-                                              )
+                                              tags=job_record.tags,
+                                              job_notes=job_record.job_notes)
     else:
         return None
 
@@ -51,7 +53,7 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                                   interview_date=job_record.interview_date,
                                   organization_name=job_record.organization_name,
                                   salary=job_record.salary,
-                                  notes=job_record.notes,
+                                  description=job_record.description,
                                   job_url=job_record.job_url,
                                   location=job_record.location)
 
@@ -63,6 +65,23 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                 print("\nJob tag not found")
                 return None
             db_job_record.tags.append(job_tag)
+
+        db.add(db_job_record)
+        db.commit()
+        db.refresh(db_job_record)
+
+        if job_record.job_notes is not None:
+            for note in job_record.job_notes:
+                new_note_type = db.query(JobNoteType).filter_by(note_type_name=note.job_note_type.note_type_name).one()
+                db_note = JobNote(title=note.title,
+                                  note_content=note.note_content,
+                                  note_job_record_id=db_job_record.id,
+                                  job_note_type_id=new_note_type.id)
+                db.add(db_note)
+                db.commit()
+                db.refresh(db_note)
+
+                db_job_record.job_notes.append(db_note)
 
         db.add(db_job_record)
         db.commit()
@@ -84,7 +103,7 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
             item.interview_date = job_record.interview_date
             item.organization_name = job_record.organization_name
             item.salary = job_record.salary
-            item.notes = job_record.notes
+            item.description = job_record.description
             item.job_url = job_record.job_url
             item.location = job_record.location
 
@@ -109,6 +128,34 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
 
             db.commit()
             db.refresh(item)
+
+            # Clear existing notes to update
+            try:
+                for note in item.job_notes:
+                    db.delete(note)
+                db.commit()
+            except IntegrityError as error:
+                # Handle the exception gracefully and log for being informative
+                print("\nError Args:" + str(error.args))
+
+            # Update notes
+            if job_record.job_notes is not None:
+                for note in job_record.job_notes:
+                    new_note_type = db.query(JobNoteType)\
+                        .filter_by(note_type_name=note.job_note_type.note_type_name).one()
+                    db_note = JobNote(title=note.title,
+                                      note_content=note.note_content,
+                                      note_job_record_id=job_record_id,
+                                      job_note_type_id=new_note_type.id)
+                    db.add(db_note)
+                    db.commit()
+                    db.refresh(db_note)
+
+                    item.job_notes.append(db_note)
+
+            db.commit()
+            db.refresh(item)
+
             return {"message": "JobRecord updated successfully"}
         else:
             return None
@@ -122,5 +169,15 @@ def delete_job_record_by_id(db: Session, job_record_id: int):
     existing_job_record = db.query(JobRecord).filter(JobRecord.id == job_record_id)
     if not existing_job_record.first():
         return False
-    existing_job_record.delete()
-    db.commit()
+    existing_job_record = existing_job_record.first()
+    job_notes = existing_job_record.job_notes
+
+    try:
+        for note in job_notes:
+            db.delete(note)
+        db.delete(existing_job_record)
+        db.commit()
+    except IntegrityError as error:
+        # Handle the exception gracefully and log for being informative
+        print("\nError Args:" + str(error.args))
+        return None

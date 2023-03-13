@@ -80,7 +80,7 @@ export default {
       // Get the current year's data point and calculate its percentage
       const currentYear = new Date().getFullYear();
       const jobsThisYear = this.jobs.filter(job => new Date(job.created_at).getFullYear() === currentYear);
-      const usagePercentage = Math.round((jobsThisYear.length / this.jobs.length) * 100);
+      const usagePercentage = (!Math.round((jobsThisYear.length / this.jobs.length) * 100)) ? 0 : Math.round((jobsThisYear.length / this.jobs.length) * 100);
       const arrowIcon = usagePercentage < 100 ?
       '<i class="fa fa-arrow-down text-danger" aria-hidden="true"></i>' :
       '<i class="fa fa-arrow-up text-success" aria-hidden="true"></i>';

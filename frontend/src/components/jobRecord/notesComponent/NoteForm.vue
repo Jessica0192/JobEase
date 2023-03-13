@@ -63,7 +63,7 @@ export default {
 
 label {
   display: block;
-  font-weight: 700;
+  font-weight: 530;
   margin-bottom: 5px;
 }
 

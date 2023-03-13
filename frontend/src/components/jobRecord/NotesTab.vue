@@ -84,18 +84,4 @@ export default {
   justify-content: center;
   margin-top: 50px;
 }
-
-.note-card {
-  background-color: #fff;
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  padding: 20px;
-  margin: 10px;
-  width: 350px;
-  max-width: 100%;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  font-size: 1rem;
-  line-height: 1.5;
-}
 </style>

@@ -56,7 +56,7 @@
               <MDBCardLink class="cursor-pointer" @click="downloadLinkPortfolioOnClick(job.id)">Download Portfolio</MDBCardLink>
             </MDBCardBody>
             <div class="card-footer">
-              <small class="text-muted">Last updated: {{job.updated_at }}</small>
+              <small class="text-muted">Last updated: {{ formattedDatetime(job.updated_at) }}</small>
             </div>
           </MDBCard>
         </MDBCol>

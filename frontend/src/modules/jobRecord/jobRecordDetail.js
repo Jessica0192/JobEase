@@ -66,13 +66,11 @@ export default {
       }
     },
     async deleteJobRecord () {
-      if(confirm("Do you really want to delete?")) {
-        await jobRecordApi.deleteJobRecord(this.id).then(response => {
-          if (response && response.status === 200) {
-            this.navigateBackToJobRecords()
-          }
-        })
-      }
+      await jobRecordApi.deleteJobRecord(this.id).then(response => {
+        if (response && response.status === 200) {
+          this.navigateBackToJobRecords()
+        }
+      })
      },
     async saveJobRecord () {
       if (this.$refs.jobInfoTab.$data.job !== null) {

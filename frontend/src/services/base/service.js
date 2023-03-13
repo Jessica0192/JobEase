@@ -26,7 +26,7 @@ service.interceptors.request.use(
 
 // Include the necessary processing in the response.
 service.interceptors.response.use(resp => resp, async error => {
-  alert(error.response.data.detail);
+  console.log(error.response.data.detail);
 
   if (error.response) {
     if (error.response.status === 401) {

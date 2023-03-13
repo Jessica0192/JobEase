@@ -5,82 +5,11 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-12">
-            <div class="mb-4 card"><div class="p-3 card-body">
-              <div class="d-flex flex-row-reverse justify-content-between">
-                <div>
-                  <div class="text-center icon icon-shape bg-gradient-primary border-radius-2xl">
-                    <i class="text-lg opacity-10 ni ni-money-coins" aria-hidden="true"></i>
-                  </div>
-                </div>
-                <div class=""><div class="numbers">
-                  <p class="mb-0 text-sm text-uppercase font-weight-bold">Today's Money</p>
-                  <h5 class="font-weight-bolder">$53,000</h5>
-                  <span class="text-sm text-success">+55%</span>
-                  since yesterday
-                </div>
-                </div>
-              </div>
-            </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
+          <div class="col-lg-3 col-md-6 col-12" v-for="(metric, index) in metrics" :key="index">
             <div class="mb-4 card">
-              <div class="p-3 card-body">
-                <div class="d-flex flex-row-reverse justify-content-between">
-                  <div>
-                    <div class="text-center icon icon-shape bg-gradient-danger border-radius-2xl">
-                      <i class="text-lg opacity-10 ni ni-world" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                  <div class="">
-                    <div class="numbers">
-                      <p class="mb-0 text-sm text-uppercase font-weight-bold">Today's Users</p>
-                      <h5 class="font-weight-bolder">2,300</h5><span class="text-sm text-success">+3%</span>
-                      since last week
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <div class="mb-4 card">
-              <div class="p-3 card-body">
-                <div class="d-flex flex-row-reverse justify-content-between">
-                  <div>
-                    <div class="text-center icon icon-shape bg-gradient-danger border-radius-2xl">
-                      <i class="text-lg opacity-10 ni ni-world" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                  <div class="">
-                    <div class="numbers">
-                      <p class="mb-0 text-sm text-uppercase font-weight-bold">Today's Users</p>
-                      <h5 class="font-weight-bolder">2,300</h5><span class="text-sm text-success">+3%</span>
-                      since last week
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-12">
-            <div class="mb-4 card">
-              <div class="p-3 card-body">
-                <div class="d-flex flex-row-reverse justify-content-between">
-                  <div>
-                    <div class="text-center icon icon-shape bg-gradient-danger border-radius-2xl">
-                      <i class="text-lg opacity-10 ni ni-world" aria-hidden="true"></i>
-                    </div>
-                  </div>
-                  <div class="">
-                    <div class="numbers">
-                      <p class="mb-0 text-sm text-uppercase font-weight-bold">Today's Users</p>
-                      <h5 class="font-weight-bolder">2,300</h5><span class="text-sm text-success">+3%</span>
-                      since last week
-                    </div>
-                  </div>
-                </div>
+              <div class="p-3 card-body d-flex justify-content-between align-items-center flex-column">
+                <p class="mb-0 text-sm text-uppercase align-self-start">{{metric.title}}</p>
+                <h5 class="fw-semibold text-center" style="color: darkslateblue">{{metric.value}}</h5>
               </div>
             </div>
           </div>
@@ -89,11 +18,9 @@
               <div class="card z-index-2">
                 <div class="card">
                   <div class="pb-0 card-header mb-0">
-                    <h6>Something overview</h6>
+                    <h6>Job Created Overview</h6>
                     <p class="text-sm">
-                      <i class="fa fa-arrow-up text-success" aria-hidden="true"></i>
-                      <span class="font-weight-bold">4% more</span>
-                      in 2021
+                      <span class="current-year-percentage" id="currentYearPercentage"></span>
                     </p>
                   </div>
                   <div class="p-3 card-body">
@@ -159,42 +86,42 @@
                     <h6 class="mb-2">Job Records</h6>
                   </div>
                 </div>
-                <div class="table-responsive">
-                  <table class="table align-items-center">
-                    <tbody>
-                      <tr>
-                        <td class="w-30">
-                          <div class="px-2 py-1 d-flex align-items-center">
-                            <div>
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAARCAYAAAA2cze9AAAAAXNSR0IArs4c6QAABD9JREFUOBGVlMluG0cQhv9eZiM54ipRqy2LsWzIC5IIQWDAh1yCPIF9CZBLAD+HrkHexH4JX3MJjCSSYctgFmuLKHLI2Zee6dTIQHLIyQUUZzjT83f1V383w0fGwcGB+Xg8dnM/65ipapYVHEBbWVEwrSiKKilN08PQ/ovRC/b4ux+27uy45tYyLvaWl5MnT59WL54/50eeZ2VTo6n6q0sbvx/1Ho1fbbDe8l2j1dwRjrOtwddLXfUKVbTTNBV5XqScsYkoyndp6X/LsP/M2Ow1fhyNRt90ltxTKdiVIXgKyW0w2ZOm5U5z0d6X0eDZStZxG01DVFRSkqAIQsQLH5HnIQxD5LqE1e7AWV3BZZZvSaQeC0PuTmN2N+HiriEBITiEYYFTysrAhDJOQrTiM1RhhAIasG1o2wIcG6K1DiNLUfo+dBAheXOMKgo1SVEVnOd5plBSwUIKcGlAqgqiKGAZQE5jKgKI7S3Ya0Og1ay/gopiaG+OYjYDK3KIbgf2JzuQ3S5kUuBavP4xJFVLFTPGwSkJz/X/+rlJyrK9BCYWKF79BnU5JSwplK6QcaBgDCpNkAUBFOEyGi0sePVBHKARFJwLEiDxOnmdDIyukCbK8xPo+TnkrU2Yn94H73VR0cRJmkGQqI4iiKqE6Thg9EzOgg/iBflJo173f0FUKWozaeg0BRvdgny4Bz6ZIH99DHV2jnw2R0po4jhGmMTI8xSGacMabSOVLch7JJG0DaRFiSDMYBFkJglDSWiIt8g1itYSzPEY2c+vrrmKzXXYj76A1WlfjzcrBUkTpIREUtX6/TnSyyvIJ0/uoSEbsDZu46q0cOnnKJkgMzjoLzlY6zax2rHxwFqDW30OnZNXZh7U6QWyw7eIriaIp7MPVmQVrJUhnHt30NjaJSwvXqDTG+LLB+/R3b0NLPfBnRYckcPOL2FeEMsjWv50gcBPoMkVjLiKQQ+s34G1tQZN7CtqKPcX4LMF8sM38Io5ie/tQbkDzBRH8dMvZEEFS0hkpglBHpaNJsx+D3I0gj2kiVsutYJRA2MUiwWy6RTFhDIKyMqEcrgC88Ee+op8ULdNxz7Mh5/BXh2SxyXZ0qDGmJD1PQmJXIHRTlSv36HyFkBK1ZOTSiHo8CArkCVZXkKHC6iTv1GJI3hZLX50BOzcMdSvh7ScY3ASBe08RtXrusLa85ZF3nXAXRfsxiYKAUTEfh6GOgiDLA7iLEkTrSTM5vqgMej2kPkRk2e2rXF6Pnu7znDz5g00yRkV4VC1eFmiJJGAtrV/cTKPovA0D+NxFPh/Eo4/wsn0IvC8qwgR+YyGA422cDcGO9v7RSFCWhTY98Cua/W/doeD+41Gc8O0jCZjQrGqnFZKTUjwJPXmx2FwPr4A5mfA4iUQElEi+//4CuhQ+v/unH06AQaAu0RHEdlb0sFXxXSs+AAVhfQlJV0/Kv4BBjMI848b/CoAAAAASUVORK5CYII=" alt="Country flag">
+                <div class="job-table-container">
+                  <div class="table-responsive">
+                    <table class="table align-items-center">
+                      <tbody>
+                        <tr v-for="(job, index) in jobs" :key="index">
+                          <td class="w-30">
+                            <div class="px-2 py-1 d-flex align-items-center">
+                              <div class="ms-4">
+                                <p class="mb-0 text-xs job-record-label">Name:</p>
+                                <label class="job-record-data mb-0">{{ job.job_title }}</label>
+                              </div>
                             </div>
-                            <div class="ms-4">
-                              <p class="mb-0 text-xs font-weight-bold">Country:</p>
-                              <h6 class="mb-0 text-sm">United States</h6>
+                          </td>
+                          <td>
+                            <div class="text-center">
+                              <p class="mb-0 text-xs job-record-label">Status:</p>
+                              <label class="job-record-data mb-0">{{ job.status.status_name }}</label>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="text-center">
-                            <p class="mb-0 text-xs font-weight-bold">Sales:</p>
-                            <h6 class="mb-0 text-sm">2500</h6>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="text-center">
-                            <p class="mb-0 text-xs font-weight-bold">Value:</p>
-                            <h6 class="mb-0 text-sm">$230,900</h6>
-                          </div>
-                        </td>
-                        <td class="text-sm align-middle">
-                          <div class="text-center col">
-                            <p class="mb-0 text-xs font-weight-bold">Bounce:</p>
-                            <h6 class="mb-0 text-sm">29.9%</h6>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                          </td>
+                          <td>
+                            <div class="text-center">
+                              <p class="mb-0 text-xs job-record-label">Portfolio:</p>
+                              <label class="job-record-data mb-0"
+                                     v-if="job.portfolio !== null">{{ job.portfolio.portfolio_name }}</label>
+                            </div>
+                          </td>
+                          <td class="text-sm">
+                            <div class="text-center">
+                              <p class="mb-0 text-xs job-record-label">Last updated:</p>
+                              <label class="job-record-data mb-0">{{formattedDatetime(job.updated_at)}}</label>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -202,48 +129,39 @@
               <div class="card">
                 <div class="p-3 pb-0 card-header">
                   <h6 class="mb-2">Tags</h6>
-                </div><div class="p-3 card-body">
-                <ul class="list-group">
-                  <li class="mb-2 border-0 list-group-item d-flex justify-content-between border-radius-lg ps-0">
-                    <div class="d-flex align-items-center">
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-sm text-dark">Devices</h6>
-                        <span class="fa-xs">250 in stock,
-                          <span class="font-weight-bold">346+ sold</span>
-                        </span>
-                      </div>
+                </div>
+                <div class="p-3 card-body">
+                  <div class="row">
+                    <div class="col">
+                      <ul class="list-group"
+                          v-for="(tag, index) in tags.slice(0, Math.ceil(tags.length/2))"
+                          :key="index">
+                        <li class="mb-1 border-0 list-group-item d-flex justify-content-between">
+                            <div class="d-flex flex-column">
+                              <div class="d-flex align-items-center">
+                                <h6 class="me-3 tag-label">{{ tag.tag_name }}</h6>
+                                <span class="tag-num-label" >{{ tag.num_of_items_for_tag }}</span>
+                              </div>
+                            </div>
+                        </li>
+                      </ul>
                     </div>
-                  </li>
-                  <li class="mb-2 border-0 list-group-item d-flex justify-content-between border-radius-lg ps-0">
-                    <div class="d-flex align-items-center">
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-sm text-dark">Tickets</h6>
-                        <span class="fa-xs">123 closed,
-                          <span class="font-weight-bold">15 open</span>
-                        </span>
-                      </div>
+                    <div class="col">
+                      <ul class="list-group"
+                          v-for="(tag, index) in tags.slice(Math.ceil(tags.length/2))"
+                          :key="index">
+                        <li class="mb-1 border-0 list-group-item d-flex justify-content-between">
+                            <div class="d-flex flex-column">
+                              <div class="d-flex align-items-center">
+                                <h6 class="me-3 tag-label">{{ tag.tag_name }}</h6>
+                                <span class="tag-num-label">{{ tag.num_of_items_for_tag }}</span>
+                              </div>
+                            </div>
+                        </li>
+                      </ul>
                     </div>
-                  </li>
-                  <li class="border-0 list-group-item d-flex justify-content-between border-radius-lg ps-0">
-                    <div class="d-flex align-items-center">
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-sm text-dark">Error logs</h6>
-                        <span class="fa-xs">1 is active,
-                          <span class="font-weight-bold">40 closed</span>
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="border-0 list-group-item d-flex justify-content-between border-radius-lg ps-0">
-                    <div class="d-flex align-items-center">
-                      <div class="d-flex flex-column">
-                        <h6 class="mb-1 text-sm text-dark">Happy Users</h6>
-                        <span class="fa-xs font-weight-bold">+ 430</span>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -256,61 +174,200 @@
 
 <script>
 import Chart from 'chart.js/auto';
+import {jobRecordApi} from '@/services/JobRecordApi'
+import {dashboardApi} from '@/services/DashboardApi'
 export default {
-  mounted() {
-    const ctx = document.getElementById('chart-line').getContext('2d');
-    const chartData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      datasets: [
+  data(){
+    return{
+      jobs: [],
+      metrics: [],
+      tags:[
         {
-          label: 'My Dataset',
-          backgroundColor: 'rgba(0,0,0,0)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [0, 10, 5, 2, 20, 30, 45],
-          lineTension: 0.4
+          tag_name: "Interviewed",
+          num_of_items_for_tag: 10
         },
-      ],
-    };
-
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: chartData,
-      options: {
-        elements: {
-          point: {
-            radius: 0, // set the radius to 0 to remove the dots
-          },
+        {
+          tag_name: "Interested",
+          num_of_items_for_tag: 34
         },
-        plugins: {
-          tooltip: {
-            enabled: true, // enable the tooltip
-            intersect: false, // show the tooltip for all data points that intersect with the mouse
-            mode: 'nearest', // show the tooltip for the data point that is closest to the mouse
-          },
-          legend: {
-            display: false, // set this to false to remove the legend
-          },
-        },
-        scales: {
-          // set the x-axis grid lines to be hidden
-          x: {
-            grid: {
-              display: false,
-            },
-          },
-          // set the y-axis grid lines to be dashed
-          y: {
-            grid: {
-              borderDash: [2],
-              borderWidth: 1,
-            },
-          },
-        },
-      },
+        {
+          tag_name: "Offer received",
+          num_of_items_for_tag: 5
+        }
+      ]
+    }
+  },
+  async mounted () {
+    // Job Records
+    await jobRecordApi.getAllJobRecords().then(response => {
+      if (response && response.status === 200) {
+        this.jobs = response.data;
+      }
     });
+
+    //Tags Count
+    // await dashboardApi.getAllJobRecordsTagCountForUser().then(response => {
+    //   if (response && response.status === 200) {
+    //     this.tags = response.data;
+    //   }
+    // });
+
+    this.drawLineChartWithData();
+    this.addMetricsData();
   },
   unmounted () {
     this.chart.destroy();
+  },
+  methods:{
+    formattedDatetime(isoDatetime) {
+      const date = new Date(isoDatetime)
+      return date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      })
+    },
+    addMetricsData(){
+      this.metrics = [
+        {
+          title: "Total Job Records",
+          value: `${this.jobs.length}`
+        },
+          {
+          title: "Sample 1",
+          value: `something 1`
+        },
+          {
+          title: "Sample 2",
+          value: `something 2`
+        },
+          {
+          title: "Sample 3",
+          value: `something 3`
+        }
+      ]
+    },
+    drawLineChartWithData(){
+      // PERCENTAGE TEXT AT THE TOP OF GRAPH
+      // Get the current year's data point and calculate its percentage
+      const currentYear = new Date().getFullYear();
+      const jobsThisYear = this.jobs.filter(job => new Date(job.created_at).getFullYear() === currentYear);
+      const usagePercentage = Math.round((jobsThisYear.length / this.jobs.length) * 100);
+      const arrowIcon = usagePercentage < 100 ?
+      '<i class="fa fa-arrow-down text-danger" aria-hidden="true"></i>' :
+      '<i class="fa fa-arrow-up text-success" aria-hidden="true"></i>';
+      document.getElementById('currentYearPercentage').innerHTML = `<b>${usagePercentage}%</b> ${arrowIcon} in ${new Date().getFullYear()}`;
+
+      // DRAW LINE GRAPH
+      // Group jobs by month
+      const jobsByMonth = this.jobs.reduce((acc, job) => {
+        const month = new Date(job.created_at).getMonth();
+        acc[month] = (acc[month] || 0) + 1;
+        return acc;
+      }, {});
+
+      // Initialize dataPoints array with 0 values for each month
+      const dataPoints = new Array(12).fill(0);
+
+      // Populate dataPoints array with actual job counts
+      Object.keys(jobsByMonth).forEach(month => {
+        dataPoints[month] = jobsByMonth[month];
+      });
+
+      const ctx = document.getElementById('chart-line').getContext('2d');
+      const chartData = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [
+          {
+            label: 'Created jobs',
+            backgroundColor: 'rgba(0,0,0,0)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: dataPoints,
+            lineTension: 0.4
+          },
+        ],
+      };
+
+      this.chart = new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: {
+          elements: {
+            point: {
+              radius: 0, // set the radius to 0 to remove the dots
+            },
+          },
+          plugins: {
+            tooltip: {
+              enabled: true, // enable the tooltip
+              intersect: false, // show the tooltip for all data points that intersect with the mouse
+              mode: 'nearest', // show the tooltip for the data point that is closest to the mouse
+            },
+            legend: {
+              display: false, // to remove the legend
+            },
+          },
+          scales: {
+            // set the x-axis grid lines to be hidden
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            // set the y-axis grid lines to be dashed
+            y: {
+              grid: {
+                borderDash: [2],
+                borderWidth: 1,
+              },
+              suggestedMin: 1,
+              suggestedMax: 5,
+              ticks: {
+                stepSize: 1
+              }
+            },
+          },
+        },
+      });
+
+      // resize the chart when the window size changes
+      window.addEventListener('resize', () => {
+        this.chart.resize();
+      });
+    }
   }
 }
 </script>
+
+<style scoped>
+.job-record-data {
+  color: #212529;
+  font-size: 1rem;
+}
+.job-record-label,
+.tag-label,
+.current-year-percentage{
+  color: 	#888888;
+}
+.tag-num-label{
+  color: darkgoldenrod;
+  font-size: 1.2rem;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+.list-group-item{
+  margin-bottom: 0px;
+}
+
+/* Job Records Table Style */
+.job-table-container {
+  height: 350px; /* set the height of the container */
+  overflow-y: scroll; /* add a vertical scrollbar */
+}
+.table-responsive {
+  width: 100%; /* make the table fill the container */
+}
+</style>

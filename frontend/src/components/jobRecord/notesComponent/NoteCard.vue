@@ -65,12 +65,18 @@ export default {
 <style scoped>
 p {
   flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
 }
 
 h2 {
   font-size: 1.5rem;
   margin-bottom: 3px;
   color: #444;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
 }
 
 h5 {
@@ -79,13 +85,33 @@ h5 {
   color: dimgrey;
 }
 
+.note-card {
+  background-color: #fff;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  min-width: 350px;
+  max-width: 365px;
+  max-height: 300px;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
 .button-container {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
 }
 
-.edit-button, .delete-button {
+.edit-button,
+.delete-button {
   border: none;
   background-color: transparent;
   margin-left: 10px;
@@ -101,7 +127,8 @@ h5 {
   color: #444;
 }
 
-.title-input, select {
+.title-input,
+select {
   display: block;
   width: 100%;
   margin-bottom: 10px;
@@ -138,3 +165,4 @@ textarea {
   background-color: #2e7d32;
 }
 </style>
+

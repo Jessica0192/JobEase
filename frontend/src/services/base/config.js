@@ -10,7 +10,8 @@ export const API = {
   portfolio: (args) => `portfolio/${args}`,
   fileResource: (args) => `resource/${args}`,
   fileType: (args) => `resource_type/${args}`,
-  fileExtension: (args) => `resource_extension_type/${args}`
+  fileExtension: (args) => `resource_extension_type/${args}`,
+  dashboard: (args) => `dashboard/${args}`,
 }
 
 export const ETC_API = {

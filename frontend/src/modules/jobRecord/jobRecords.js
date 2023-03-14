@@ -5,6 +5,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from '@/router'
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
+import {downloadPortfolio} from '@/modules/portfolio/portfolios'
 
 library.add(faPlus)
 
@@ -39,7 +40,7 @@ export default {
         return (
           job.job_title.toLowerCase().includes(searchTextLower) ||
           job.status.status_name.toLowerCase().includes(searchTextLower) ||
-          job.notes.toLowerCase().includes(searchTextLower)
+          job.description.toLowerCase().includes(searchTextLower)
         );
       });
     },
@@ -53,6 +54,10 @@ export default {
    });
  },
  methods: {
+  formattedDatetime(isoDatetime) {
+    const date = new Date(isoDatetime)
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}, ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+  },
   openDeleteJobRecordDialog(id){
     this.jobRecordIdToDelete = id
     this.openDeleteConfirmDialog = true
@@ -70,5 +75,13 @@ export default {
    navigateToDetailPage(id) {
     router.push({ name: 'JobRecordDetail', params: { id } });
   },
+   downloadLinkPortfolioOnClick(id){
+    const selectedJob = this.jobs.find(x=>x.id === id)
+    if(selectedJob.portfolio) {
+      downloadPortfolio(selectedJob.portfolio.resources, selectedJob.portfolio.portfolio_name)
+    } else {
+      alert("There's no portfolio linked to this Job Record")
+    }
+   }
  }
 };

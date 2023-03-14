@@ -6,11 +6,13 @@ export const API = {
   user: (args) => `user/${args}`,
   jobRecord: (args) => `job_record/${args}`,
   jobTag: (args) => `job_tag/${args}`,
+  jobNoteType: (args) => `job_note_type/${args}`,
   jobStatus: (args) => `job_status/${args}`,
   portfolio: (args) => `portfolio/${args}`,
   fileResource: (args) => `resource/${args}`,
   fileType: (args) => `resource_type/${args}`,
-  fileExtension: (args) => `resource_extension_type/${args}`
+  fileExtension: (args) => `resource_extension_type/${args}`,
+  dashboard: (args) => `dashboard/${args}`,
 }
 
 export const ETC_API = {

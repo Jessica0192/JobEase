@@ -1,0 +1,28 @@
+.job-record-data {
+  color: #212529;
+  font-size: 1rem;
+}
+.metric-title,
+.job-record-label,
+.tag-label,
+.current-year-percentage{
+  color: 	#808080;
+}
+.tag-num-label{
+  color: darkgoldenrod;
+  font-size: 1.2rem;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+.list-group-item{
+  margin-bottom: 0px;
+}
+
+/* Job Records Table Style */
+.job-table-container {
+  height: 350px; /* set the height of the container */
+  overflow-y: scroll; /* add a vertical scrollbar */
+}
+.table-responsive {
+  width: 100%; /* make the table fill the container */
+}

@@ -27,7 +27,7 @@ export default {
       await this.loadPortfolios()
     },
     methods: {
-      // This function sorts an array of data objects, stored in the property "data" of the current object. 
+      // This function sorts an array of data objects, stored in the property "data" of the current object.
       // The sorted array is stored in the local variable "sortedDataArray".
       // The sorting is done using the JavaScript built-in "sort" method and
       //  a comparison function that compares the "portfolioName" property of two data objects (a and b).
@@ -66,58 +66,71 @@ export default {
         this.isCreateModalVisible = true
       },
       // Download the entire portfolio as a zip file
-      async downloadPortfolio (index) {
+      async downloadOnClick (index) {
         const resources = this.portfolios[index].resources
-        const zip = new JSZip();
 
-        for (const resource of resources) {
-          try {
-            const response = await fileApi.downloadFile (resource.id)
-            zip.file(resource.resource_name, response.data)
-          } catch (error) {
-            console.error('Error retrieving resource:', error)
-          }
-        }
-
-        // zip all resources and trigger download
-        zip.generateAsync({type: 'blob'}).then(blob => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = this.portfolios[index].portfolio_name + '.zip';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
-        });
+        downloadPortfolio(resources, this.portfolios[index].portfolio_name)
       },
       viewPortfolio (index) {
         this.resourcesToShow = this.portfolios[index].resources
         this.isViewModalVisible = true
       },
       // This method is responsible for displaying the resources of the portfolio on the browser
-      async onResourceSelected(resource){
-        let NameExtension = resource.resource_name.split('.').pop()
-        if ( NameExtension.toString().toLowerCase() !== 'docx') {
-          const response = await fileApi.displayFile (resource.id)
-          const headers = response.headers
-
-          if(headers instanceof AxiosHeaders) {
-            // Convert the response data to a blob
-            const blob = new Blob([response.data], { type: headers.getContentType() })
-            const fileUrl = URL.createObjectURL(blob)
-            window.open(fileUrl, '_blank')
-          } else {
-            alert("Issue occurred while trying to retrieve content-type from resource")
-          }
-        }
-        else {
-          alert('Sorry! This type of file cannot be displayed.\n' +
-              'Please download the file from the Resources tab to be able to view it!')
-        }
+      onResourceSelected(resource){
+        displaySelectedResource(resource)
       },
       exportData() {
         this.export = JSON.stringify(this.data);
       }
     }
   }
+
+
+// This method is responsible for displaying the resources of the portfolio on the browser
+// this method is also referenced from portfolioTab.js
+export async function displaySelectedResource(resource){
+  let NameExtension = resource.resource_name.split('.').pop()
+  if ( NameExtension.toString().toLowerCase() !== 'docx') {
+    const response = await fileApi.displayFile (resource.id)
+    const headers = response.headers
+
+    if(headers instanceof AxiosHeaders) {
+      // Convert the response data to a blob
+      const blob = new Blob([response.data], { type: headers.getContentType() })
+      const fileUrl = URL.createObjectURL(blob)
+      window.open(fileUrl, '_blank')
+    } else {
+      alert("Issue occurred while trying to retrieve content-type from resource")
+    }
+  }
+  else {
+    alert('Sorry! This type of file cannot be displayed.\n' +
+        'Please download the file from the Resources tab to be able to view it!')
+  }
+}
+
+// Download the entire portfolio as a zip file
+export async function downloadPortfolio (resources, portfolioName) {
+  const zip = new JSZip();
+
+  for (const resource of resources) {
+    try {
+      const response = await fileApi.downloadFile (resource.id)
+      zip.file(resource.resource_name, response.data)
+    } catch (error) {
+      console.error('Error retrieving resource:', error)
+    }
+  }
+
+  // zip all resources and trigger download
+  zip.generateAsync({type: 'blob'}).then(blob => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = portfolioName + '.zip';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  });
+}

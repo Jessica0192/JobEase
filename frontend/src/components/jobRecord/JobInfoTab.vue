@@ -73,10 +73,10 @@
         </tr>
         <tr>
           <td style="width: 25%; text-align: right;">
-            <label>Note</label>
+            <label>Description</label>
           </td>
           <td style="width: 90%;">
-            <textarea v-model="job.notes" rows="3" cols="60"></textarea>
+            <textarea v-model="job.description" rows="3" cols="60"></textarea>
           </td>
         </tr>
       </table>
@@ -84,7 +84,70 @@
   </div>
 </template>
 
-<script src="../../modules/jobRecord/components/jobInfoTab.js"/>
+<script>
+import {jobStatusApi} from '@/services/JobStatusApi'
+
+export default {
+  name: 'JobInfoTab',
+  data() {
+    return{
+      job: {
+        job_title: "",
+        status: {},
+        description: "",
+        deadline_date: "",
+        interview_date: "",
+        organization_name: "",
+        salary: 0,
+        job_url: "",
+        location: "",
+        tags: [
+          {}
+        ],
+        portfolio: {}
+      },
+      statusOptions: [],  // status data with status_name and id
+    }
+  },
+  props: {
+    detailViewJobProp: {
+      type: Object,
+      required: false,
+      default: () => ({
+        job_title: "",
+        status: {},
+        description: "",
+        deadline_date: "",
+        interview_date: "",
+        organization_name: "",
+        salary: 0,
+        job_url: "",
+        location: "",
+        tags: [
+          {}
+        ],
+        portfolio: {}
+      })
+    }
+  },
+  watch: {
+    detailViewJobProp: {
+      handler(newVal) {
+        // Use the data from the parent component
+        this.job = newVal
+      },
+      immediate: true
+    }
+  },
+  mounted () {
+    jobStatusApi.getAllStatus().then(response => {
+      if (response && response.status === 200 && Array.isArray(response.data)) {
+        this.statusOptions = response.data
+      }
+    });
+  }
+}
+</script>
 
 <style scoped>
 .jobInfoContainer {

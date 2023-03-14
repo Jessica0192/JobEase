@@ -1,10 +1,10 @@
 <template>
   <div style="display: flex; justify-content: space-between;">
     <div style="display: flex; justify-content: start;">
-<!--      <font-awesome-icon class="btn btn-lg" style="margin-right: 10px"-->
-<!--                         icon="fa-solid fa-arrow-left"-->
-<!--                         v-b-tooltip.hover title="Back to Job Records page"-->
-<!--                         @click="navigateBackToJobRecords"/>-->
+      <font-awesome-icon class="btn btn-lg" style="margin-right: 10px"
+                         icon="fa-solid fa-arrow-left"
+                         title="Back to Job Records page"
+                         @click="navigateBackToJobRecords"/>
       <h1 class="view-title">Create Job Record</h1>
     </div>
     <a style="margin-right: 170px" href="javascript:void(0)"
@@ -18,6 +18,9 @@
       <ul class="nav nav-tabs nav-justified">
         <li class="nav-item">
           <a class="nav-link" @click.prevent="setActive('jobInfo')" :class="{ active: isActive('jobInfo') }" href="#jobInfo">Job Info</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" @click.prevent="setActive('notes')" :class="{ active: isActive('notes') }" href="#notes">Notes</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" @click.prevent="setActive('tags')" :class="{ active: isActive('tags') }" href="#tags">Tags</a>
@@ -34,16 +37,21 @@
         </div>
         <!--end of first tab-->
         <!--second tab-->
+        <div class="tab-pane fade" :class="{ 'active show': isActive('notes') }" id="notes">
+          <NotesTab ref="notesTab"/>
+        </div>
+        <!--end of second tab-->
+        <!--third tab-->
         <!--badge: https://getbootstrap.com/docs/4.0/components/badge/-->
         <div class="tab-pane fade" :class="{ 'active show': isActive('tags') }" id="tags">
           <TagTab ref="tagTab"/>
         </div>
-        <!--end of second tab-->
-        <!--third tab-->
+        <!--end of third tab-->
+        <!--fourth tab-->
         <div class="tab-pane fade" :class="{ 'active show': isActive('portfolio') }" id="portfolio">
           <PortfolioTab ref="portfolioTab"/>
         </div>
-        <!--end of third tab-->
+        <!--end of fourth tab-->
     </div>
   </div>
 </template>

@@ -13,7 +13,7 @@
    <div class="container">
       <button class="plus-button" @click="navigateToCreatePage" style="float:left;">
         <font-awesome-icon :icon="['fas', 'plus']"
-                           v-b-tooltip.hover title="Create job record"/>
+                            title="Create job record"/>
       </button>
       <!-- Search form -->
       <div style="display:inline-block; float:right;"
@@ -50,10 +50,14 @@
               <MDBCardTitle>{{ job.job_title }}</MDBCardTitle>
               <MDBCardTitle subtitle class="mb-2 text-muted">{{ job.status.status_name }}</MDBCardTitle>
               <MDBCardText>
-                {{ job.notes }}
+                {{ job.description }}
               </MDBCardText>
               <MDBCardLink class="cursor-pointer" @click="navigateToDetailPage(job.id)">Open Detail</MDBCardLink>
+              <MDBCardLink class="cursor-pointer" @click="downloadLinkPortfolioOnClick(job.id)">Download Portfolio</MDBCardLink>
             </MDBCardBody>
+            <div class="card-footer">
+              <small class="text-muted">Last updated: {{ formattedDatetime(job.updated_at) }}</small>
+            </div>
           </MDBCard>
         </MDBCol>
       </MDBRow>

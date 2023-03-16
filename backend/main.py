@@ -6,10 +6,10 @@ from core.config import settings
 from db.db_setup import engine, Base
 from db.models import user_model, job_record_model, job_tag_model, job_status_model, \
     resource_type_model, resource_model, resource_extension_type_model, portfolio_model, job_note_model, \
-    job_note_type_model, event_model, post_model
+    job_note_type_model, event_model, post_model, comment_model
 from api import user_router, auth_router, job_record_router, job_tag_router, job_status_router, \
     resource_type_router, resource_router, resource_extension_type_router, portfolio_router, dashboard_router, \
-    event_router, job_note_type_router, post_router
+    event_router, job_note_type_router, post_router, comment_router
 from api.services import resource_type_service, resource_extension_type_service, \
     job_status_service, job_tag_service, job_note_type_service
 
@@ -50,6 +50,7 @@ portfolio_model.Base.metadata.create_all(bind=engine)
 event_model.Base.metadata.create_all(bind=engine)
 job_note_type_model.Base.metadata.create_all(bind=engine)
 post_model.Base.metadata.create_all(bind=engine)
+comment_model.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title=settings.PROJECT_NAME,
               description=settings.PROJECT_DESCRIPTION,
@@ -78,6 +79,7 @@ app.include_router(event_router.router)
 app.include_router(dashboard_router.router)
 app.include_router(job_note_type_router.router)
 app.include_router(post_router.router)
+app.include_router(comment_router.router)
 
 
 @app.get("/")

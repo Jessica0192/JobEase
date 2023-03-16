@@ -1,3 +1,4 @@
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import DataError
 from db.models.post_model import Post
@@ -41,5 +42,14 @@ def delete_post_by_id(db: Session, post_id: int):
     if not existing_post.first():
         return False
     existing_post = existing_post.first()
-    db.delete(existing_post)
-    db.commit()
+    post_comments = existing_post.comments
+
+    try:
+        for comment in post_comments:
+            db.delete(comment)
+        db.delete(existing_post)
+        db.commit()
+    except IntegrityError as error:
+        # Handle the exception gracefully and log for being informative
+        print("\nError Args:" + str(error.args))
+        return None

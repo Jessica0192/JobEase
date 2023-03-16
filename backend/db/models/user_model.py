@@ -20,6 +20,7 @@ class User(Base, Timestamp):
     portfolios = relationship("Portfolio", back_populates="user")
     events = relationship("Event", back_populates="user")
     posts = relationship("Post", back_populates="user")
+    comments = relationship("Comment", back_populates="user")
 
     def __init__(self, first_name, last_name, email, username, hashed_password):
         self.first_name = first_name

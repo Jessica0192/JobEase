@@ -38,8 +38,7 @@ async def retrieve_all_posts_for_user(limit: int = 100,
 async def retrieve_all_posts(limit: int = 100,
                              db: Session = Depends(get_db),
                              current_user: User = Depends(auth_service.get_current_user_from_token)):
-    if current_user.is_super_user is False:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
+
     return post_service.get_all_posts(db=db, limit=limit)
 
 

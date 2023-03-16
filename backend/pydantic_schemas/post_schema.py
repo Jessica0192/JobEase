@@ -1,5 +1,7 @@
 from datetime import datetime
+from typing import List
 from pydantic import BaseModel
+from pydantic_schemas.comment_schema import Comment
 
 
 class PostBase(BaseModel):
@@ -13,6 +15,7 @@ class PostCreate(PostBase):
 class Post(PostBase):
     id: int
     post_user_id: int
+    comments: List[Comment] = None
     created_at: datetime
     updated_at: datetime
 

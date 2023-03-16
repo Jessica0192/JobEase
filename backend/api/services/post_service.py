@@ -6,11 +6,11 @@ from pydantic_schemas import post_schema
 
 
 def get_all_posts_for_user(db: Session, user_id: int, limit: int = 100):
-    return db.query(Post).filter(Post.post_user_id == user_id).limit(limit).all()
+    return db.query(Post).filter(Post.user_id == user_id).limit(limit).all()
 
 
 def check_by_id_if_post_exists_for_user(db: Session, post_id: int, user_id: int):
-    db_post = db.query(Post).filter(Post.id == post_id, Post.post_user_id == user_id).first()
+    db_post = db.query(Post).filter(Post.id == post_id, Post.user_id == user_id).first()
     if db_post:
         return db_post
     else:
@@ -24,7 +24,7 @@ def get_all_posts(db: Session, limit: int = 100):
 def create_post(db: Session, post: post_schema.PostCreate, user_id: int):
     try:
         db_post = Post(content=post.content,
-                       post_user_id=user_id)
+                       user_id=user_id)
 
         db.add(db_post)
         db.commit()

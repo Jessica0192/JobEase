@@ -14,7 +14,7 @@ class PostCreate(PostBase):
 
 class Post(PostBase):
     id: int
-    post_user_id: int
+    user_id: int
     comments: List[Comment] = None
     created_at: datetime
     updated_at: datetime

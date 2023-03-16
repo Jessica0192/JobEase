@@ -22,7 +22,7 @@ async def retrieve_post_info_by_id(post_id: int,
                                                                user_id=current_user.id)
     if db_post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
-    if current_user.id != db_post.post_user_id and current_user.is_super_user is False:
+    if current_user.id != db_post.user_id and current_user.is_super_user is False:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
     return db_post
 
@@ -64,7 +64,7 @@ async def delete_post(post_id: int,
                                                                user_id=current_user.id)
     if db_post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
-    if current_user.id != db_post.post_user_id and current_user.is_super_user is False:
+    if current_user.id != db_post.user_id and current_user.is_super_user is False:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
     post_service.delete_post_by_id(db=db, post_id=post_id)
     return {"message": "Successfully deleted"}

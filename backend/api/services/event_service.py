@@ -11,8 +11,8 @@ def get_event_by_id(db: Session, event_id: int):
         return event_schema.Event(id=db_event.id,
                                   user_id=db_event.user_id,
                                   title=db_event.title,
-                                  start=db_event.start_date,
-                                  end=db_event.end_date,
+                                  start=db_event.start,
+                                  end=db_event.end,
                                   location=db_event.location,
                                   note=db_event.note,
                                   notification=db_event.notification
@@ -57,14 +57,14 @@ def create_event(db: Session, event: event_schema.Event, user_id: int):
             return None
         db_event = Event(event_user_id=user_id,
                          event_title=event.title,
-                         event_start_date=event.start_date,
-                         event_end_date=event.end_date,
+                         event_start=event.start,
+                         event_end=event.end,
                          event_location=event.location,
                          event_note=event.note,
                          event_notification=event.notification,                       
                          )
         
-
+        print("db_event: " + str(db_event.start))
         db.add(db_event)
         db.commit()
         db.refresh(db_event)
@@ -82,8 +82,8 @@ def update_event(db: Session, event_id: int, event: event_schema.Event):
         if item:
             item.user_id = event.user_id
             item.title = event.title
-            item.start_date = event.start_date
-            item.end_date = event.end_date
+            item.start = event.start
+            item.end = event.end
             item.location = event.location
             item.note = event.note
             item.notification = event.notification            

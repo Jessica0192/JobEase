@@ -60,11 +60,15 @@
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { eventApi } from '../../src/services/EventApi'
 
 export default {
   components: {
     FullCalendar
   },
+  async mounted () {
+      await this.loadEvents()
+    },
   data() {
     return {
       calendarOptions: {
@@ -84,7 +88,6 @@ export default {
       eventNote:'',
       shouldNotify: false,
       notificationMessages: [],
-      counter: 1,
       removeSelectedEvent: false,
       currentEventId: ''
     }
@@ -115,6 +118,15 @@ export default {
 
       // Set the showPopup property to true to open the dialog
       this.showPopup = true;      
+    },
+    async loadEvents () {
+      try {
+        const events = await eventApi.getAllEvents()
+        this.calendarOptions.events = events.data
+        console.log('calendarOptions.events', this.calendarOptions.events)
+      } catch (error) {
+        console.error('Error loading events', error)
+      }
     },
     removeEvent(eventId) {
       let calendarApi = this.$refs.myCalendar.getApi();
@@ -169,23 +181,30 @@ export default {
           this.removeEvent(this.calendarOptions.events[i].id)
         }
       }
-      
-      let newEvent = {
-        id: this.counter++,
+    
+
+      if (!this.eventTitle) {
+        alert('Please enter a title for the event.');
+        return;
+      }
+
+      const newEvent = {
         title: this.eventTitle,
-        start: new Date(this.eventStartDate + 'T' + this.eventStartTime).toISOString(),
-        end: new Date(this.eventEndDate + 'T' + this.eventEndTime).toISOString(),
+        start: new Date(`${this.eventStartDate}T${this.eventStartTime}`),
+        end: new Date(`${this.eventEndDate}T${this.eventEndTime}`),
         location: this.eventLocation,
         note: this.eventNote,
-        notified: false
+        notification: 1
       };
 
+      console.log('newEvent', newEvent)
       this.calendarOptions.events.push(newEvent);
+      eventApi.createEvent(newEvent)
 
       if (this.shouldNotify) {
-        newEvent.notified = false;
+        newEvent.notified = 0;
       } else {
-        newEvent.notified = true;
+        newEvent.notified = 1;
       }
       
       this.showPopup = false;
@@ -197,7 +216,7 @@ export default {
       timeDifference /= (60 * 60);
       const notificationTime = Math.abs(Math.round(timeDifference));
 
-      if (notificationTime <= 24 && !newEvent.notified) {
+      if (notificationTime <= 24 && newEvent.notified == 1) {
         setTimeout(function() {
           Notification.requestPermission().then(function(permission) {
             if (permission === 'granted') {

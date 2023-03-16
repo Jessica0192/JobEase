@@ -12,8 +12,8 @@ class Event(Base, Timestamp):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     title = Column(String(85), nullable=False)
-    start_date = Column(DateTime(timezone=True), nullable=False)
-    end_date = Column(DateTime(timezone=True), nullable=True, server_default=None)    
+    start = Column(DateTime(timezone=True), nullable=False)
+    end = Column(DateTime(timezone=True), nullable=True, server_default=None)    
     location = Column(String(85), nullable=True, server_default=None)    
     note = Column(String(200), nullable=True, server_default=None)
     notification = Column(Integer, nullable=True, server_default='1')
@@ -21,11 +21,11 @@ class Event(Base, Timestamp):
 
     user = relationship("User", back_populates="events")
 
-    def __init__(self, event_title, event_start_date, event_end_date, event_location, event_note, event_notification, event_user_id):
+    def __init__(self, event_title, event_start, event_end, event_location, event_note, event_notification, event_user_id):
         super(Event, self).__init__()
         self.title = event_title
-        self.start_date = event_start_date
-        self.end_date = event_end_date
+        self.start = event_start
+        self.end = event_end
         self.location = event_location
         self.note = event_note
         self.notification = event_notification

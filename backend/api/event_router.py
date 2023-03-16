@@ -76,7 +76,7 @@ def delete_event(event_id: int,
 
 @router.put("/{event_id}")
 async def update_event(event_id: int,
-                       event: event_schema.Event,
+                       event: event_schema.EventCreate,
                        db: Session = Depends(get_db),
                        current_user: User = Depends(auth_service.get_current_user_from_token)):
     event_user_id = db.query(Event).filter(Event.id == event_id).first().user_id

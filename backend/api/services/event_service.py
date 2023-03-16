@@ -26,7 +26,8 @@ def delete_event_by_id(db: Session, event_id: int):
     
     if not existing_event.first():
         return False
-    existing_event.delete()
+    existing_event = existing_event.first()
+    db.delete(existing_event)
     db.commit()
 
 
@@ -73,14 +74,13 @@ def create_event(db: Session, event: event_schema.Event, user_id: int):
         print("Error Args:" + str(error.args))
         return None
 
-def update_event(db: Session, event_id: int, event: event_schema.Event):
-    if not isinstance(event, event_schema.Event):
+def update_event(db: Session, event_id: int, event: event_schema.EventCreate):
+    if not isinstance(event, event_schema.EventCreate):
         raise TypeError("event must be of type Event")
     try:
         item = db.query(Event).filter(Event.id == event_id).first()
         # item = db.query(Event).get(event_id)
         if item:
-            item.user_id = event.user_id
             item.title = event.title
             item.start = event.start
             item.end = event.end

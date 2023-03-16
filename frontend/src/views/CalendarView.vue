@@ -106,6 +106,7 @@ export default {
       this.eventNote = '';
     },
     eventClick: function(info) {
+      console.log(info)
       // Set the form values to the clicked event's properties
       this.eventTitle = info.event.title;
       this.eventStartDate = info.event.startStr.substr(0, 10);
@@ -116,8 +117,14 @@ export default {
       this.eventNote = info.event._def.extendedProps.note
       this.currentEventId = info.event.id
 
+      if (info.event._def.extendedProps.notification == 1) {
+        this.shouldNotify = true
+      } else {
+        this.shouldNotify = false
+      }
+       
       // Set the showPopup property to true to open the dialog
-      this.showPopup = true;      
+      this.showPopup = true;
     },
     async loadEvents () {
       try {
@@ -126,11 +133,17 @@ export default {
         console.log('calendarOptions.events', this.calendarOptions.events)
 
         // loop through the events array and schedule notifications for each event that has notification property value of 1
-        this.calendarOptions.events.forEach(event => {
-          if (event.notification === 1) {
-            this.scheduleNotification(event);
+        // this.calendarOptions.events.forEach(event => {
+        //   if (event.notification === 1) {
+        //     this.scheduleNotification(event);
+        //   }
+        // });
+
+        for (let i=0; i < this.calendarOptions.events.length; i++) {
+          if (this.calendarOptions.events[i].notification == 1) {
+            this.scheduleNotification(this.calendarOptions.events[i]);
           }
-        });
+        }
 
       } catch (error) {
         console.error('Error loading events', error)
@@ -153,6 +166,7 @@ export default {
           this.calendarOptions.events.splice(index, 1);
         }
 
+        eventApi.deleteEvent(eventId)
         event.remove();
 
         // Remove the notification message associated with the deleted event
@@ -168,6 +182,22 @@ export default {
       }
     },
     scheduleNotification: function(newEvent) {
+      // Check if notification permission has been granted
+      if (Notification.permission !== 'granted') {
+        // Request permission if it hasn't been granted
+        Notification.requestPermission().then(function(permission) {
+          if (permission !== 'granted') {
+            alert('You need to grant notification permission to receive event reminders.');
+          } else {
+            alert('Notification permission granted.');
+          }
+        }.bind(this));
+      }
+
+      if (!this.notificationMessages) {
+        this.notificationMessages = [];
+      }
+
       // Calculate the time difference between the event start time and the current time
       let eventStartTime = new Date(newEvent.start);
       let currentTime = new Date();
@@ -195,50 +225,40 @@ export default {
       }
     },
     addEvent: function() {
-      // Check if notification permission has been granted
-      if (Notification.permission !== 'granted') {
-        // Request permission if it hasn't been granted
-        Notification.requestPermission().then(function(permission) {
-          if (permission !== 'granted') {
-            alert('You need to grant notification permission to receive event reminders.');
-          } else {
-            alert('Notification permission granted.');
-          }
-        }.bind(this));
-      }
-
-      if (!this.notificationMessages) {
-        this.notificationMessages = [];
-      }
-
-      for(let i=0; i <this.calendarOptions.events.length; i++) {
-        if (this.calendarOptions.events[i].id == this.currentEventId) {
-          this.removeEvent(this.calendarOptions.events[i].id)
-        }
-      }
-    
-
       if (!this.eventTitle) {
         alert('Please enter a title for the event.');
         return;
       }
 
-      const newEvent = {
-        title: this.eventTitle,
-        start: new Date(`${this.eventStartDate}T${this.eventStartTime}`),
-        end: new Date(`${this.eventEndDate}T${this.eventEndTime}`),
-        location: this.eventLocation,
-        note: this.eventNote,
-        notification: this.shouldNotify ? 1 : 0
-      };
+      // Check if the event already exists
+      const existingEvent = this.calendarOptions.events.find(event => event.title === this.eventTitle);
+      if (existingEvent) {
+        // Update the existing event with new data
+        existingEvent.start = new Date(`${this.eventStartDate}T${this.eventStartTime}`);
+        existingEvent.end = new Date(`${this.eventEndDate}T${this.eventEndTime}`);
+        existingEvent.location = this.eventLocation;
+        existingEvent.note = this.eventNote;
+        existingEvent.notification = this.shouldNotify ? 1 : 0;
 
-      console.log('newEvent', newEvent)
-      this.calendarOptions.events.push(newEvent);
-      eventApi.createEvent(newEvent)
+        eventApi.updateEvent(existingEvent.id, existingEvent); // assuming there is an ID property in the event object
+      } else {
+        // Create a new event
+        const newEvent = {
+          title: this.eventTitle,
+          start: new Date(`${this.eventStartDate}T${this.eventStartTime}`),
+          end: new Date(`${this.eventEndDate}T${this.eventEndTime}`),
+          location: this.eventLocation,
+          note: this.eventNote,
+          notification: this.shouldNotify ? 1 : 0
+        };
+
+        this.calendarOptions.events.push(newEvent);
+        eventApi.createEvent(newEvent);
+        this.scheduleNotification(newEvent);
+      }
       
       this.showPopup = false;
-
-      this.scheduleNotification(newEvent);
+      //location.reload()
     }
   }
 }

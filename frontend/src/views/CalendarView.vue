@@ -67,8 +67,8 @@ export default {
     FullCalendar
   },
   async mounted () {
-      await this.loadEvents()
-    },
+    await this.loadEvents()
+  },
   data() {
     return {
       calendarOptions: {
@@ -124,6 +124,14 @@ export default {
         const events = await eventApi.getAllEvents()
         this.calendarOptions.events = events.data
         console.log('calendarOptions.events', this.calendarOptions.events)
+
+        // loop through the events array and schedule notifications for each event that has notification property value of 1
+        this.calendarOptions.events.forEach(event => {
+          if (event.notification === 1) {
+            this.scheduleNotification(event);
+          }
+        });
+
       } catch (error) {
         console.error('Error loading events', error)
       }
@@ -157,6 +165,33 @@ export default {
 
 
         this.showPopup = false;
+      }
+    },
+    scheduleNotification: function(newEvent) {
+      // Calculate the time difference between the event start time and the current time
+      let eventStartTime = new Date(newEvent.start);
+      let currentTime = new Date();
+      let timeDifference = (eventStartTime.getTime() - currentTime.getTime()) / 1000;
+      timeDifference /= (60 * 60);
+      const notificationTime = Math.abs(Math.round(timeDifference));
+
+      if (notificationTime <= 24 && newEvent.notification == 1) {
+        setTimeout(function() {
+          Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+              new Notification('JobEase Event Reminder', {
+                body: 'Your event "' + newEvent.title + '" is due soon!'
+              });
+              var eventTime = new Date(newEvent.start).toLocaleTimeString();
+              this.notificationMessages.push({
+                id: newEvent.id,
+                message: 'Your event " ' + newEvent.title.toUpperCase() + ' at '+ eventTime + ' " is due soon! Do not miss it!'
+              });
+            } else {
+              alert('Notification permission denied.');
+            }
+          }.bind(this));
+        }.bind(this), notificationTime);
       }
     },
     addEvent: function() {
@@ -194,46 +229,16 @@ export default {
         end: new Date(`${this.eventEndDate}T${this.eventEndTime}`),
         location: this.eventLocation,
         note: this.eventNote,
-        notification: 1
+        notification: this.shouldNotify ? 1 : 0
       };
 
       console.log('newEvent', newEvent)
       this.calendarOptions.events.push(newEvent);
       eventApi.createEvent(newEvent)
-
-      if (this.shouldNotify) {
-        newEvent.notified = 0;
-      } else {
-        newEvent.notified = 1;
-      }
       
       this.showPopup = false;
 
-      // Calculate the time difference between the event start time and the current time
-      let eventStartTime = new Date(newEvent.start);
-      let currentTime = new Date();
-      let timeDifference = (eventStartTime.getTime() - currentTime.getTime()) / 1000;
-      timeDifference /= (60 * 60);
-      const notificationTime = Math.abs(Math.round(timeDifference));
-
-      if (notificationTime <= 24 && newEvent.notified == 1) {
-        setTimeout(function() {
-          Notification.requestPermission().then(function(permission) {
-            if (permission === 'granted') {
-              new Notification('Event reminder', {
-                body: 'Your event "' + newEvent.title + '" is due soon!'
-              });
-              var eventTime = new Date(newEvent.start).toLocaleTimeString();
-              this.notificationMessages.push({
-                id: newEvent.id,
-                message: 'Your event " ' + newEvent.title.toUpperCase() + ' at '+ eventTime + ' " is due soon! Do not miss it!'
-              });
-            } else {
-              alert('Notification permission denied.');
-            }
-          }.bind(this));
-        }.bind(this), notificationTime);
-      }
+      this.scheduleNotification(newEvent);
     }
   }
 }

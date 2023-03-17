@@ -64,8 +64,7 @@ def create_event(db: Session, event: event_schema.Event, user_id: int):
                          event_note=event.note,
                          event_notification=event.notification,                       
                          )
-        
-        print("db_event: " + str(db_event.start))
+
         db.add(db_event)
         db.commit()
         db.refresh(db_event)

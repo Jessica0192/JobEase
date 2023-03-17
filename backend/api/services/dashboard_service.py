@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
-
+from datetime import datetime
 from db.models.tables.job_record_tag_table import job_record_tag
 from api.services import job_tag_service
+from api.services import event_service
 from pydantic_schemas import job_search_metrics_schema
 
 
@@ -15,3 +16,9 @@ def get_job_search_metrics_for_user(db: Session, user_id: int):
                                                                     tag_name=job_tag.tag_name,
                                                                     num_of_items_for_tag=num_of_tags))
     return result
+
+def get_upcoming_events_for_user(db: Session, user_id: int):
+    current_date = datetime.now()
+    events = event_service.get_all_events_for_user(db=db)
+    filtered_events = [event for event in events if event.start_date >= current_date]
+    return filtered_events

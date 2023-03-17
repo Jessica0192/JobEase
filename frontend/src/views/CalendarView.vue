@@ -106,7 +106,6 @@ export default {
       this.eventNote = '';
     },
     eventClick: function(info) {
-      console.log(info)
       // Set the form values to the clicked event's properties
       this.eventTitle = info.event.title;
       this.eventStartDate = info.event.startStr.substr(0, 10);
@@ -130,7 +129,6 @@ export default {
       try {
         const events = await eventApi.getAllEvents()
         this.calendarOptions.events = events.data
-        console.log('calendarOptions.events', this.calendarOptions.events)
 
         for (let i=0; i < this.calendarOptions.events.length; i++) {
           if (this.calendarOptions.events[i].notification == 1) {
@@ -218,52 +216,51 @@ export default {
       }
     },
     addEvent: function() {
-    if (!this.eventTitle) {
-      alert('Please enter a title for the event.');
-      return;
-    }
+      if (!this.eventTitle) {
+        alert('Please enter a title for the event.');
+        return;
+      }
 
-    const inputDateStart = new Date(`${this.eventStartDate}T${this.eventStartTime}`);
-    const yearStart = inputDateStart.getFullYear();
-    const monthStart = inputDateStart.getMonth() + 1; // Note: months are zero-indexed
-    const dayStart = inputDateStart.getDate();
-    const hourStart = inputDateStart.getHours();
-    const minuteStart = inputDateStart.getMinutes();
-    const secondStart = inputDateStart.getSeconds();
+      const inputDateStart = new Date(`${this.eventStartDate}T${this.eventStartTime}`);
+      const yearStart = inputDateStart.getFullYear();
+      const monthStart = inputDateStart.getMonth() + 1;
+      const dayStart = inputDateStart.getDate();
+      const hourStart = inputDateStart.getHours();
+      const minuteStart = inputDateStart.getMinutes();
+      const secondStart = inputDateStart.getSeconds();
 
-    const inputDateEnd = new Date(`${this.eventEndDate}T${this.eventEndTime}`);
-    const yearEnd = inputDateEnd.getFullYear();
-    const monthEnd = inputDateEnd.getMonth() + 1; // Note: months are zero-indexed
-    const dayEnd = inputDateEnd.getDate();
-    const hourEnd = inputDateEnd.getHours();
-    const minuteEnd = inputDateEnd.getMinutes();
-    const secondEnd = inputDateEnd.getSeconds();
+      const inputDateEnd = new Date(`${this.eventEndDate}T${this.eventEndTime}`);
+      const yearEnd = inputDateEnd.getFullYear();
+      const monthEnd = inputDateEnd.getMonth() + 1;
+      const dayEnd = inputDateEnd.getDate();
+      const hourEnd = inputDateEnd.getHours();
+      const minuteEnd = inputDateEnd.getMinutes();
+      const secondEnd = inputDateEnd.getSeconds();
 
-    // Check if the event already exists
-    const existingEvent = this.calendarOptions.events.find(event => event.title === this.eventTitle);
-    if (existingEvent) {
-      // Update the existing event with new data
-      existingEvent.start = `${yearStart}-${monthStart.toString().padStart(2, '0')}-${dayStart.toString().padStart(2, '0')}T${hourStart.toString().padStart(2, '0')}:${minuteStart.toString().padStart(2, '0')}:${secondStart.toString().padStart(2, '0')}`;
-      existingEvent.end = `${yearEnd}-${monthEnd.toString().padStart(2, '0')}-${dayEnd.toString().padStart(2, '0')}T${hourEnd.toString().padStart(2, '0')}:${minuteEnd.toString().padStart(2, '0')}:${secondEnd.toString().padStart(2, '0')}`;
-      existingEvent.location = this.eventLocation;
-      existingEvent.note = this.eventNote;
-      existingEvent.notification = this.shouldNotify ? 1 : 0;
+      // Check if the event already exists
+      const existingEvent = this.calendarOptions.events.find(event => event.title === this.eventTitle);
+      if (existingEvent) {
+        // Update the existing event with new data
+        existingEvent.start = `${yearStart}-${monthStart.toString().padStart(2, '0')}-${dayStart.toString().padStart(2, '0')}T${hourStart.toString().padStart(2, '0')}:${minuteStart.toString().padStart(2, '0')}:${secondStart.toString().padStart(2, '0')}`;
+        existingEvent.end = `${yearEnd}-${monthEnd.toString().padStart(2, '0')}-${dayEnd.toString().padStart(2, '0')}T${hourEnd.toString().padStart(2, '0')}:${minuteEnd.toString().padStart(2, '0')}:${secondEnd.toString().padStart(2, '0')}`;
+        existingEvent.location = this.eventLocation;
+        existingEvent.note = this.eventNote;
+        existingEvent.notification = this.shouldNotify ? 1 : 0;
 
-      eventApi.updateEvent(existingEvent.id, existingEvent); // assuming there is an ID property in the event object
-    } else {
-      // Create a new event
-      const newEvent = {
-        title: this.eventTitle,
-        start: `${yearStart}-${monthStart.toString().padStart(2, '0')}-${dayStart.toString().padStart(2, '0')}T${hourStart.toString().padStart(2, '0')}:${minuteStart.toString().padStart(2, '0')}:${secondStart.toString().padStart(2, '0')}`,
-        end: `${yearEnd}-${monthEnd.toString().padStart(2, '0')}-${dayEnd.toString().padStart(2, '0')}T${hourEnd.toString().padStart(2, '0')}:${minuteEnd.toString().padStart(2, '0')}:${secondEnd.toString().padStart(2, '0')}`,
-        location: this.eventLocation,
-        note: this.eventNote,
-        notification: this.shouldNotify ? 1 : 0
-      };
+        eventApi.updateEvent(existingEvent.id, existingEvent); // assuming there is an ID property in the event object
+      } else {
+        // Create a new event
+        const newEvent = {
+          title: this.eventTitle,
+          start: `${yearStart}-${monthStart.toString().padStart(2, '0')}-${dayStart.toString().padStart(2, '0')}T${hourStart.toString().padStart(2, '0')}:${minuteStart.toString().padStart(2, '0')}:${secondStart.toString().padStart(2, '0')}`,
+          end: `${yearEnd}-${monthEnd.toString().padStart(2, '0')}-${dayEnd.toString().padStart(2, '0')}T${hourEnd.toString().padStart(2, '0')}:${minuteEnd.toString().padStart(2, '0')}:${secondEnd.toString().padStart(2, '0')}`,
+          location: this.eventLocation,
+          note: this.eventNote,
+          notification: this.shouldNotify ? 1 : 0
+        };
 
-      console.log('newEvent', newEvent)
-      this.calendarOptions.events.push(newEvent);
-      eventApi.createEvent(newEvent)
+        this.calendarOptions.events.push(newEvent);
+        eventApi.createEvent(newEvent)
 
         this.scheduleNotification(newEvent);
       }

@@ -38,6 +38,7 @@ def delete_resource_by_id(db: Session, resource_id: int):
     db.delete(existing_resource)
     db.commit()
 
+
 def get_all_resources_for_user(db: Session, user_id: int, limit: int = 100):
     return db.query(Resource).filter(Resource.resource_user_id == user_id).limit(limit).all()
 

@@ -132,13 +132,6 @@ export default {
         this.calendarOptions.events = events.data
         console.log('calendarOptions.events', this.calendarOptions.events)
 
-        // loop through the events array and schedule notifications for each event that has notification property value of 1
-        // this.calendarOptions.events.forEach(event => {
-        //   if (event.notification === 1) {
-        //     this.scheduleNotification(event);
-        //   }
-        // });
-
         for (let i=0; i < this.calendarOptions.events.length; i++) {
           if (this.calendarOptions.events[i].notification == 1) {
             this.scheduleNotification(this.calendarOptions.events[i]);
@@ -225,35 +218,53 @@ export default {
       }
     },
     addEvent: function() {
-      if (!this.eventTitle) {
-        alert('Please enter a title for the event.');
-        return;
-      }
+    if (!this.eventTitle) {
+      alert('Please enter a title for the event.');
+      return;
+    }
 
-      // Check if the event already exists
-      const existingEvent = this.calendarOptions.events.find(event => event.title === this.eventTitle);
-      if (existingEvent) {
-        // Update the existing event with new data
-        existingEvent.start = new Date(`${this.eventStartDate}T${this.eventStartTime}`);
-        existingEvent.end = new Date(`${this.eventEndDate}T${this.eventEndTime}`);
-        existingEvent.location = this.eventLocation;
-        existingEvent.note = this.eventNote;
-        existingEvent.notification = this.shouldNotify ? 1 : 0;
+    const inputDateStart = new Date(`${this.eventStartDate}T${this.eventStartTime}`);
+    const yearStart = inputDateStart.getFullYear();
+    const monthStart = inputDateStart.getMonth() + 1; // Note: months are zero-indexed
+    const dayStart = inputDateStart.getDate();
+    const hourStart = inputDateStart.getHours();
+    const minuteStart = inputDateStart.getMinutes();
+    const secondStart = inputDateStart.getSeconds();
 
-        eventApi.updateEvent(existingEvent.id, existingEvent); // assuming there is an ID property in the event object
-      } else {
-        // Create a new event
-        const newEvent = {
-          title: this.eventTitle,
-          start: new Date(`${this.eventStartDate}T${this.eventStartTime}`),
-          end: new Date(`${this.eventEndDate}T${this.eventEndTime}`),
-          location: this.eventLocation,
-          note: this.eventNote,
-          notification: this.shouldNotify ? 1 : 0
-        };
+    const inputDateEnd = new Date(`${this.eventEndDate}T${this.eventEndTime}`);
+    const yearEnd = inputDateEnd.getFullYear();
+    const monthEnd = inputDateEnd.getMonth() + 1; // Note: months are zero-indexed
+    const dayEnd = inputDateEnd.getDate();
+    const hourEnd = inputDateEnd.getHours();
+    const minuteEnd = inputDateEnd.getMinutes();
+    const secondEnd = inputDateEnd.getSeconds();
 
-        this.calendarOptions.events.push(newEvent);
-        eventApi.createEvent(newEvent);
+    // Check if the event already exists
+    const existingEvent = this.calendarOptions.events.find(event => event.title === this.eventTitle);
+    if (existingEvent) {
+      // Update the existing event with new data
+      existingEvent.start = `${yearStart}-${monthStart.toString().padStart(2, '0')}-${dayStart.toString().padStart(2, '0')}T${hourStart.toString().padStart(2, '0')}:${minuteStart.toString().padStart(2, '0')}:${secondStart.toString().padStart(2, '0')}`;
+      existingEvent.end = `${yearEnd}-${monthEnd.toString().padStart(2, '0')}-${dayEnd.toString().padStart(2, '0')}T${hourEnd.toString().padStart(2, '0')}:${minuteEnd.toString().padStart(2, '0')}:${secondEnd.toString().padStart(2, '0')}`;
+      existingEvent.location = this.eventLocation;
+      existingEvent.note = this.eventNote;
+      existingEvent.notification = this.shouldNotify ? 1 : 0;
+
+      eventApi.updateEvent(existingEvent.id, existingEvent); // assuming there is an ID property in the event object
+    } else {
+      // Create a new event
+      const newEvent = {
+        title: this.eventTitle,
+        start: `${yearStart}-${monthStart.toString().padStart(2, '0')}-${dayStart.toString().padStart(2, '0')}T${hourStart.toString().padStart(2, '0')}:${minuteStart.toString().padStart(2, '0')}:${secondStart.toString().padStart(2, '0')}`,
+        end: `${yearEnd}-${monthEnd.toString().padStart(2, '0')}-${dayEnd.toString().padStart(2, '0')}T${hourEnd.toString().padStart(2, '0')}:${minuteEnd.toString().padStart(2, '0')}:${secondEnd.toString().padStart(2, '0')}`,
+        location: this.eventLocation,
+        note: this.eventNote,
+        notification: this.shouldNotify ? 1 : 0
+      };
+
+      console.log('newEvent', newEvent)
+      this.calendarOptions.events.push(newEvent);
+      eventApi.createEvent(newEvent)
+
         this.scheduleNotification(newEvent);
       }
       

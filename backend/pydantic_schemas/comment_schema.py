@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
+from pydantic_schemas.user_schema import User
 
 
 class CommentBase(BaseModel):
@@ -13,7 +14,7 @@ class CommentCreate(CommentBase):
 
 class Comment(CommentBase):
     id: int
-    user_id: int
+    user: User
     created_at: datetime
     updated_at: datetime
 

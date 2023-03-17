@@ -19,7 +19,7 @@ class JobRecord(Base, Timestamp):
     interview_date = Column(DateTime(timezone=True), nullable=True, server_default=None)
     organization_name = Column(String(45), nullable=True)
     salary = Column(Float, nullable=True)
-    description = Column(String(100), nullable=True)
+    description = Column(String(280), nullable=True)
     job_url = Column(String(45), nullable=True)
     location = Column(String(45), nullable=True)
 

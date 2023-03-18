@@ -38,7 +38,6 @@ async def retrieve_all_posts_for_user(limit: int = 100,
 async def retrieve_all_posts(limit: int = 100,
                              db: Session = Depends(get_db),
                              current_user: User = Depends(auth_service.get_current_user_from_token)):
-
     return post_service.get_all_posts(db=db, limit=limit)
 
 
@@ -49,6 +48,27 @@ async def create_new_post(post: post_schema.PostCreate,
     db_post = post_service.create_post(db=db,
                                        post=post,
                                        user_id=current_user.id)
+    if db_post is None:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            detail="Content cannot be longer than 280 characters")
+    return db_post
+
+
+@router.put("/{post_id}", response_model=post_schema.Post)
+async def update_post_by_id(post_id: int,
+                            post: post_schema.PostCreate,
+                            db: Session = Depends(get_db),
+                            current_user: User = Depends(auth_service.get_current_user_from_token)):
+    db_post = post_service.check_by_id_if_post_exists_for_user(db=db,
+                                                               post_id=post_id,
+                                                               user_id=current_user.id)
+    if db_post is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
+    if current_user.id != db_post.user_id and current_user.is_super_user is False:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
+
+    db_post = post_service.update_post(db=db, post=post, user_id=current_user.id, post_id=post_id)
+
     if db_post is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
                             detail="Content cannot be longer than 280 characters")

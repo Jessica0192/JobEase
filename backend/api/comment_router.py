@@ -41,6 +41,27 @@ async def create_new_comment(comment: comment_schema.CommentCreate,
     return db_comment
 
 
+@router.put("/{comment_id}", response_model=comment_schema.Comment)
+async def updated_comment_by_id(comment_id: int,
+                                comment: comment_schema.CommentCreate,
+                                db: Session = Depends(get_db),
+                                current_user: User = Depends(auth_service.get_current_user_from_token)):
+    db_comment = comment_service.check_by_id_if_comment_exists_for_user(db=db,
+                                                                        comment_id=comment_id,
+                                                                        user_id=current_user.id)
+    if db_comment is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Comment not found")
+    if current_user.id != db_comment.user_id and current_user.is_super_user is False:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
+
+    db_comment = comment_service.update_comment(db=db, comment=comment, user_id=current_user.id, comment_id=comment_id)
+
+    if db_comment is None:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            detail="Content cannot be longer than 280 characters or Post Id is not valid")
+    return db_comment
+
+
 @router.delete("/{comment_id}")
 async def delete_comment(comment_id: int,
                          db: Session = Depends(get_db),

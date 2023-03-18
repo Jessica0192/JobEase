@@ -38,6 +38,7 @@
   margin-right: 10px;
 }
 
+.comment-menu,
 .post-menu {
   position: relative;
 }
@@ -50,6 +51,7 @@
   cursor: pointer;
 }
 
+.comment-options,
 .post-options {
   position: absolute;
   top: 30px;
@@ -75,12 +77,8 @@
 .comment-content {
   flex-grow: 1;
 }
-.comment-options {
-  margin-left: 10px;
-  display: flex;
-  flex-direction: column;
-}
 
+/*BUTTONS*/
 .comment-save-button,
 .comment-cancel-button,
 .comment-edit-button,
@@ -94,22 +92,41 @@
   padding: 5px 0;
 }
 
+.comment-save-button:hover,
+.comment-cancel-button:hover,
 .comment-edit-button:hover
 .post-edit-button:hover,
 .delete-button:hover {
   background-color: #f7fafc;
 }
 
+.comment-button,
+.cancel-button,
 .save-button,
 .post-button {
-  padding: 12px 24px;
+  padding: 5px 20px;
   background-color: #0077b5;
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  height: 40px;
 }
+
+.comment-button:hover,
+.cancel-button:hover,
+.save-button:hover,
+.post-button:hover {
+  background-color: cornflowerblue;
+}
+
+.cancel-button {
+  margin-right: 10px;
+  background-color: grey;
+}
+/*END OF BUTTONS*/
+
 
 .post {
   margin-bottom: 40px;
@@ -143,16 +160,6 @@
   resize: none;
   margin-right: 16px;
   width: 100%;
-}
-
-.comment-button {
-  padding: 12px 24px;
-  background-color: #0077b5;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
 }
 
 .comments {

@@ -21,6 +21,9 @@ export const communityBlogApi = {
   deletePost (postId) {
     return service.delete(`${API.post('')}${postId}`)
   },
+  updatePost(postId, data) {
+    return service.put(`${API.post('')}${postId}`, data)
+  },
 
   // Comment
   getAllCommentsForPost (postId) {
@@ -34,5 +37,8 @@ export const communityBlogApi = {
   },
   deleteComment (commentId) {
     return service.delete(`${API.comment('')}${commentId}`)
+  },
+  updateComment(commentId, data) {
+    return service.put(`${API.comment('')}${commentId}`, data)
   },
 }

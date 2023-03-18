@@ -13,6 +13,7 @@ export const API = {
   fileType: (args) => `resource_type/${args}`,
   fileExtension: (args) => `resource_extension_type/${args}`,
   dashboard: (args) => `dashboard/${args}`,
+  event: (args) => `event/${args}`,
   post: (args) => `post/${args}`,
   comment: (args) => `comment/${args}`,
 }

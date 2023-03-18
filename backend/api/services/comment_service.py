@@ -43,6 +43,24 @@ def create_comment(db: Session, comment: comment_schema.CommentCreate, user_id: 
         return None
 
 
+def update_comment(db: Session, comment: comment_schema.CommentUpdate, user_id: int, comment_id: int):
+    try:
+        db_comment = check_by_id_if_comment_exists_for_user(db=db, comment_id=comment_id, user_id=user_id)
+
+        if db_comment:
+            db_comment.content = comment.content
+            db.commit()
+            db.refresh(db_comment)
+            return db_comment
+        else:
+            return None
+    except DataError as error:
+        # Handle the exception gracefully and log for being informative
+        print("\nHandled Exception: Trying to create a new comment that has more than 280 characters for content\n"
+              "Error Args:" + str(error.args))
+        return None
+
+
 def delete_comment_by_id(db: Session, comment_id: int):
     existing_comment = db.query(Comment).filter(Comment.id == comment_id)
     if not existing_comment.first():

@@ -9,7 +9,7 @@
       <div class="posts">
         <div v-for="(post, index) in posts" :key="index" class="post">
           <div class="post-header">
-            <div class="post-author">{{ post.author }}</div>
+            <div class="post-author">{{ post.user }}</div>
             <div class="post-menu" v-if="isAuthor(post)">
               <button class="ellipsis-button" @click="togglePostMenu(index)">
                 <i class="fa fa-ellipsis-h"></i>
@@ -32,7 +32,7 @@
           <div class="comments">
             <div v-for="(comment, commentIndex) in post.comments" :key="commentIndex" class="comment">
               <div class="comment-content">
-                <div class="post-author">{{ comment.author }}</div>
+                <div class="post-author">{{ comment.user }}</div>
                 <template v-if="comment.editing">
                   <textarea class="edit-comment" v-model="comment.content"></textarea>
                 </template>
@@ -45,13 +45,13 @@
                   <button class="comment-edit-button" @click="editComment(comment)">
                     <i class="fa fa-edit"></i>Edit
                   </button>
+                  <button class="delete-button" @click="deleteComment(index, commentIndex, comment)">
+                    <i class="fa fa-trash"></i>Delete
+                  </button>
                 </template>
                 <template v-else>
                   <button class="comment-save-button" @click="saveComment(comment)">
                     <i class="fa fa-save"></i>Save
-                  </button>
-                  <button class="comment-cancel-button" @click="cancelEditComment(comment)">
-                    <i class="fa fa-times"></i>Cancel
                   </button>
                 </template>
               </div>

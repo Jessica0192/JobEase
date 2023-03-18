@@ -13,6 +13,8 @@ export const API = {
   fileType: (args) => `resource_type/${args}`,
   fileExtension: (args) => `resource_extension_type/${args}`,
   dashboard: (args) => `dashboard/${args}`,
+  post: (args) => `post/${args}`,
+  comment: (args) => `comment/${args}`,
 }
 
 export const ETC_API = {

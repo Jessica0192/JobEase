@@ -8,6 +8,7 @@ from db.models.portfolio_model import Portfolio
 from db.models.job_note_model import JobNote
 from db.models.job_note_type_model import JobNoteType
 from pydantic_schemas import job_record_schema
+from db.models.event_model import Event
 
 
 def get_job_record_by_id(db: Session, job_record_id: int):
@@ -56,6 +57,31 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                                   description=job_record.description,
                                   job_url=job_record.job_url,
                                   location=job_record.location)
+        
+        db_job_record_deadline = Event(user_id=current_user_id,
+                                        title=job_record.job_title,
+                                        start=job_record.deadline_date,
+                                        end=job_record.deadline_date,
+                                        location=job_record.location,
+                                        note=None,
+                                        notification=1)
+        
+        db.add(db_job_record_deadline)
+        db.commit()
+        db.refresh(db_job_record_deadline)
+        
+        db_job_record_interview = Event(user_id=current_user_id,
+                                        title=job_record.job_title,
+                                        start=job_record.interview_date,
+                                        end=job_record.interview_date,
+                                        location=job_record.location,
+                                        note=None,
+                                        notification=1)
+        
+        db.add(db_job_record_interview)
+        db.commit()
+        db.refresh(db_job_record_interview)
+
 
         # Append each tag objects to tags property
         for tag in job_record.tags:

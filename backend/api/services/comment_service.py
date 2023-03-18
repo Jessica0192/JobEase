@@ -43,21 +43,11 @@ def create_comment(db: Session, comment: comment_schema.CommentCreate, user_id: 
         return None
 
 
-def update_comment(db: Session, comment: comment_schema.CommentCreate, user_id: int, comment_id: int):
+def update_comment(db: Session, comment: comment_schema.CommentUpdate, user_id: int, comment_id: int):
     try:
-        db_post = db.query(Post).filter(Post.id == comment.post_id).first()
-
-        if not db_post:
-            print("\nPost not found with the ID:", comment.post_id)
-            return None
-
         db_comment = check_by_id_if_comment_exists_for_user(db=db, comment_id=comment_id, user_id=user_id)
 
         if db_comment:
-            if db_post.id != db_comment.post_id:
-                print("\nComment doesn't belong to the provided post ID:", comment.post_id)
-                return None
-
             db_comment.content = comment.content
             db.commit()
             db.refresh(db_comment)

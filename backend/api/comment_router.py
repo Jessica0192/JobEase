@@ -43,7 +43,7 @@ async def create_new_comment(comment: comment_schema.CommentCreate,
 
 @router.put("/{comment_id}", response_model=comment_schema.Comment)
 async def updated_comment_by_id(comment_id: int,
-                                comment: comment_schema.CommentCreate,
+                                comment: comment_schema.CommentUpdate,
                                 db: Session = Depends(get_db),
                                 current_user: User = Depends(auth_service.get_current_user_from_token)):
     db_comment = comment_service.check_by_id_if_comment_exists_for_user(db=db,

@@ -37,6 +37,24 @@ def create_post(db: Session, post: post_schema.PostCreate, user_id: int):
         return None
 
 
+def update_post(db: Session, post: post_schema.PostCreate, user_id: int, post_id: int):
+    try:
+        db_post = check_by_id_if_post_exists_for_user(db=db, post_id=post_id, user_id=user_id)
+
+        if db_post:
+            db_post.content = post.content
+            db.commit()
+            db.refresh(db_post)
+            return db_post
+        else:
+            return None
+    except DataError as error:
+        # Handle the exception gracefully and log for being informative
+        print("\nHandled Exception: Trying to create a new post that has more than 280 characters for content\n"
+              "Error Args:" + str(error.args))
+        return None
+
+
 def delete_post_by_id(db: Session, post_id: int):
     existing_post = db.query(Post).filter(Post.id == post_id)
     if not existing_post.first():

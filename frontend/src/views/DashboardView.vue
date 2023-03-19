@@ -1,7 +1,7 @@
 <template>
 <div>
   <h1 class="view-title">Dashboard</h1>
-  <div class="py-4 container-fluid">
+  <div>
     <div class="row">
       <div class="col-lg-12">
         <!--      FIRST ROW       -->
@@ -40,6 +40,7 @@
             <!--      BOX ON THE RIGHT SIDE OF LINE CHART       -->
             <div class="col-lg-5">
               <div class="card card-carousel overflow-hidden h-100 p-0">
+
               </div>
             </div>
           </div>
@@ -55,11 +56,11 @@
                 </div>
                 <div class="job-table-container">
                   <div class="table-responsive">
-                    <table class="table align-items-center">
+                    <table class="table" >
                       <tbody>
                         <tr v-for="(job, index) in jobs" :key="index">
-                          <td class="w-30">
-                            <div class="px-2 py-1 d-flex align-items-center">
+                          <td >
+                            <div>
                               <div class="ms-4">
                                 <p class="mb-0 text-xs job-record-label">Name:</p>
                                 <label class="job-record-data mb-0">{{ job.job_title }}</label>
@@ -67,20 +68,13 @@
                             </div>
                           </td>
                           <td>
-                            <div class="text-center">
+                            <div>
                               <p class="mb-0 text-xs job-record-label">Status:</p>
-                              <label class="job-record-data mb-0">{{ job.status.status_name }}</label>
+                              <label class="job-record-data mb-0" >{{ job.status.status_name }}</label>
                             </div>
                           </td>
                           <td>
-                            <div class="text-center">
-                              <p class="mb-0 text-xs job-record-label">Portfolio:</p>
-                              <label class="job-record-data mb-0"
-                                     v-if="job.portfolio !== null">{{ job.portfolio.portfolio_name }}</label>
-                            </div>
-                          </td>
-                          <td class="text-sm">
-                            <div class="text-center">
+                            <div>
                               <p class="mb-0 text-xs job-record-label">Last updated:</p>
                               <label class="job-record-data mb-0">{{formattedDatetime(job.updated_at)}}</label>
                             </div>

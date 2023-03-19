@@ -66,7 +66,8 @@ export default {
         await communityBlogApi.createComment(data).then(response => {
           if (response && response.status === 200) {
             // add into UI
-            const comment = { content: newComment, user: this.currentUserName ? this.currentUserName : "" };
+            let comment = response.data
+            comment.user = comment.user.username
             this.posts[index].comments.push(comment);
             this.newComments[index] = '';
           }
@@ -122,8 +123,10 @@ export default {
         // API Call
         await communityBlogApi.createPost({content: this.newPost}).then(response => {
           if (response && response.status === 200) {
+            let post = response.data
             // add into UI
             this.posts.unshift({
+              id: post.id,
               user: this.currentUserName ? this.currentUserName : "",
               content: this.newPost,
               comments: [],
@@ -149,7 +152,10 @@ export default {
       this.posts[index].editing = false;
     },
     async saveEditedPost(index) {
-      await communityBlogApi.updatePost(this.posts[index].id,{content: this.posts[index].content}).then(response => {
+      const data = {
+        content: this.posts[index].content
+      }
+      await communityBlogApi.updatePost(this.posts[index].id, data).then(response => {
         if (response && response.status === 200) {
           // cancel selection of edit button
           this.posts[index].editing = false;

@@ -207,7 +207,7 @@ export default {
       }
       
       this.showPopup = false;
-      location.reload()
+      //location.reload()
     }
   }
 }

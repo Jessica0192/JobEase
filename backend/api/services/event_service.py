@@ -53,9 +53,6 @@ def check_by_title_if_event_exists_for_user(db: Session, event_title: str, user_
 
 def create_event(db: Session, event: event_schema.Event, user_id: int):
     try:
-        # existing_event = check_by_title_if_event_exists_for_user(db=db, event_title=event.title, user_id=user_id)
-        # if existing_event is not None:
-        #     return None
         db_event = Event(event_user_id=user_id,
                          event_title=event.title,
                          event_start=event.start,

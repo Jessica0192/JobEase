@@ -60,7 +60,7 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
         
         if job_record.deadline_date is not None:
             db_job_record_deadline = Event(event_user_id=current_user_id,
-                                            event_title=job_record.job_title,
+                                            event_title=job_record.job_title + "-Deadline",
                                             event_start=job_record.deadline_date,
                                             event_end=job_record.deadline_date,
                                             event_location=job_record.location,
@@ -74,7 +74,7 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
         
         if job_record.interview_date is not None:
             db_job_record_interview = Event(event_user_id=current_user_id,
-                                            event_title=job_record.job_title,
+                                            event_title=job_record.job_title + "-Interview",
                                             event_start=job_record.interview_date,
                                             event_end=job_record.interview_date,
                                             event_location=job_record.location,

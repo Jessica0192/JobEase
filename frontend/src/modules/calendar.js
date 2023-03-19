@@ -161,6 +161,16 @@ export default {
         return;
       }
 
+      // Parse the start and end dates and times as Date objects
+      const startDate = new Date(this.eventStartDate + 'T' + this.eventStartTime);
+      const endDate = new Date(this.eventEndDate + 'T' + this.eventEndTime);
+
+      // Validate the start and end dates
+      if (startDate > endDate) {
+        alert('The start date cannot be later than the end date.');
+        return;
+      }
+
       const inputDateStart = new Date(`${this.eventStartDate}T${this.eventStartTime}`);
       const yearStart = inputDateStart.getFullYear();
       const monthStart = inputDateStart.getMonth() + 1;

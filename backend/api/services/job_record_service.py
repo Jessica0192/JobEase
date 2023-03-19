@@ -58,29 +58,32 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                                   job_url=job_record.job_url,
                                   location=job_record.location)
         
-        db_job_record_deadline = Event(event_user_id=current_user_id,
-                                        event_title=job_record.job_title,
-                                        event_start=job_record.deadline_date,
-                                        event_end=job_record.deadline_date,
-                                        event_location=job_record.location,
-                                        event_note=None,
-                                        event_notification=1)
+        if job_record.deadline_date is not None:
+            db_job_record_deadline = Event(event_user_id=current_user_id,
+                                            event_title=job_record.job_title,
+                                            event_start=job_record.deadline_date,
+                                            event_end=job_record.deadline_date,
+                                            event_location=job_record.location,
+                                            event_note=None,
+                                            event_notification=1)
         
-        db.add(db_job_record_deadline)
-        db.commit()
-        db.refresh(db_job_record_deadline)
+            db.add(db_job_record_deadline)
+            db.commit()
+            db.refresh(db_job_record_deadline)
+
         
-        db_job_record_interview = Event(event_user_id=current_user_id,
-                                        event_title=job_record.job_title,
-                                        event_start=job_record.interview_date,
-                                        event_end=job_record.interview_date,
-                                        event_location=job_record.location,
-                                        event_note=None,
-                                        event_notification=1)
-        
-        db.add(db_job_record_interview)
-        db.commit()
-        db.refresh(db_job_record_interview)
+        if job_record.interview_date is not None:
+            db_job_record_interview = Event(event_user_id=current_user_id,
+                                            event_title=job_record.job_title,
+                                            event_start=job_record.interview_date,
+                                            event_end=job_record.interview_date,
+                                            event_location=job_record.location,
+                                            event_note=None,
+                                            event_notification=1)
+            
+            db.add(db_job_record_interview)
+            db.commit()
+            db.refresh(db_job_record_interview)
 
 
         # Append each tag objects to tags property

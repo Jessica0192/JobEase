@@ -181,6 +181,7 @@ export default {
       const existingEvent = this.calendarOptions.events.find(event => event.title === this.eventTitle);
       if (existingEvent) {
         // Update the existing event with new data
+        existingEvent.title = this.eventTitle,
         existingEvent.start = `${yearStart}-${monthStart.toString().padStart(2, '0')}-${dayStart.toString().padStart(2, '0')}T${hourStart.toString().padStart(2, '0')}:${minuteStart.toString().padStart(2, '0')}:${secondStart.toString().padStart(2, '0')}`;
         existingEvent.end = `${yearEnd}-${monthEnd.toString().padStart(2, '0')}-${dayEnd.toString().padStart(2, '0')}T${hourEnd.toString().padStart(2, '0')}:${minuteEnd.toString().padStart(2, '0')}:${secondEnd.toString().padStart(2, '0')}`;
         existingEvent.location = this.eventLocation;
@@ -188,7 +189,6 @@ export default {
         existingEvent.notification = this.shouldNotify ? 1 : 0;
 
         eventApi.updateEvent(existingEvent.id, existingEvent);
-        
       } else {
         // Create a new event
         const newEvent = {
@@ -207,7 +207,7 @@ export default {
       }
       
       this.showPopup = false;
-      //location.reload()
+      location.reload()
     }
   }
 }

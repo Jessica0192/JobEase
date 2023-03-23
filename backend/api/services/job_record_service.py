@@ -37,7 +37,6 @@ def get_all_job_records_for_user(current_user_id: int, db: Session, limit: int =
 
 def create_job_record(current_user_id: int, db: Session, job_record: job_record_schema.JobRecordCreateUpdate):
     try:
-        print(job_record)
         # Update status
         new_status = db.query(JobStatus).filter_by(status_name=job_record.status.status_name).one()
         # Update portfolio
@@ -156,25 +155,32 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
                 portfolio = db.query(Portfolio).filter_by(id=job_record.portfolio.id).one()
                 item.portfolio_id = portfolio.id
                 item.portfolio = portfolio
-                
-            # Get existing event if it exists
-            deadline_event = db.query(Event).filter_by(job_record_id=job_record_id, title=item.job_title + "-Deadline").first()
-            print(f"deadline_event: {deadline_event}")
-            if deadline_event:
-                # Update the deadline event with new data
-                deadline_event.event_start = job_record.deadline_date
-                deadline_event.event_end = job_record.deadline_date
-                deadline_event.event_location = job_record.location
-                try:
-                    db.add(deadline_event)
-                    db.commit()
-                    db.refresh(deadline_event)
-                    print("deadline_event updated successfully")
-                    print("Deadline event updated in database:", deadline_event.event_start, deadline_event.event_end, deadline_event.event_location)
-                except Exception as e:
-                    print("Error committing deadline_event changes:", str(e))
-            else:
-                print("No deadline_event found")
+
+            # Delete existing events
+            db.query(Event).filter(Event.job_record_id == job_record_id).delete()
+
+            # Create new events if necessary
+            if job_record.deadline_date is not None:
+                db_job_record_deadline = Event(event_user_id=item.user_id,
+                                                event_job_record_id=item.id,
+                                                event_title=job_record.job_title + "-Deadline",
+                                                event_start=job_record.deadline_date,
+                                                event_end=job_record.deadline_date,
+                                                event_location=job_record.location,
+                                                event_note=None,
+                                                event_notification=1)
+                db.add(db_job_record_deadline)
+
+            if job_record.interview_date is not None:
+                db_job_record_interview = Event(event_user_id=item.user_id,
+                                                event_job_record_id=item.id,
+                                                event_title=job_record.job_title + "-Interview",
+                                                event_start=job_record.interview_date,
+                                                event_end=job_record.interview_date,
+                                                event_location=job_record.location,
+                                                event_note=None,
+                                                event_notification=1)
+                db.add(db_job_record_interview)
 
             db.commit()
             db.refresh(item)

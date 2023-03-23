@@ -49,7 +49,6 @@ export default {
     },
     eventClick: function(info) {
       // Set the form values to the clicked event's properties
-      console.log('info.event', info.event)
       this.eventTitle = info.event.title;
       this.eventStartDate = info.event.startStr.substr(0, 10);
       this.eventEndDate = (info.event.endStr || info.event.startStr).substr(0, 10);      
@@ -191,7 +190,6 @@ export default {
 
       // Check if the event already exists
       const existingEvent = this.calendarOptions.events.find(event => event.id == this.currentEventId);
-      console.log('existingEvent', existingEvent)
       if (existingEvent) {
         // Update the existing event with new data
         existingEvent.title = this.eventTitle,

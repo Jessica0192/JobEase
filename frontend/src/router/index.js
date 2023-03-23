@@ -8,7 +8,6 @@ import CreateJobRecord from '../views/jobRecord/CreateJobRecordView.vue'
 import Calendar from '../views/CalendarView.vue'
 import Resources from '../views/ResourcePage/ResourcesView.vue'
 import Portfolios from '../views/portfolio/PortfoliosView.vue'
-import ResumeBuilder from '../views/ResumeBuilderView'
 import CommunityBlog from '../views/CommunityBlogView'
 import store from '@/store'
 
@@ -69,7 +68,7 @@ const routes = [
   },
   {
     path: '/jobRecords',
-    name: 'JobRecords',
+    name: 'Job Records',
     component: JobRecords,
     meta: {
       needsAuth: true
@@ -77,12 +76,12 @@ const routes = [
   },
   {
       path: '/createJob',
-      name: 'CreateJobRecord',
+      name: 'Create Job Record',
       component: CreateJobRecord,
   },
   {
     path: '/job/:id',
-    name: 'JobRecordDetail',
+    name: 'Job Record Detail',
     component: JobRecordDetail,
   },
   {
@@ -111,16 +110,8 @@ const routes = [
 
   },
   {
-    path: '/resumeBuilder',
-    name: 'ResumeBuilder',
-    component: ResumeBuilder,
-    meta: {
-      needsAuth: true
-    }
-  },
-  {
     path: '/communityBlog',
-    name: 'CommunityBlog',
+    name: 'Community Blog',
     component: CommunityBlog,
     meta: {
       needsAuth: true
@@ -146,6 +137,10 @@ router.beforeResolve((to, from, next) => {
   } else {
     next()
   }
+})
+
+router.beforeEach((to) => {
+  document.title = `${to.name} | JobEase`
 })
 
 // it checks the JWT's expiration time

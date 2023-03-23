@@ -19,9 +19,22 @@
   margin-bottom: 0px;
 }
 
+.last-row .card {
+  margin-bottom: 30px; /* Add your desired margin value here */
+}
+
 /* Job Records Table Style */
+.chart-canvas {
+  display: block;
+  box-sizing: border-box;
+  height: 650px;
+  width: 803px;
+}
+
+.upcoming-events-table-container,
 .job-table-container {
-  height: 350px; /* set the height of the container */
+  height: 400px; /* set the height of the container */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 .table-responsive {
   width: 100%; /* make the table fill the container */

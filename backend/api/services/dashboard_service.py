@@ -17,8 +17,9 @@ def get_job_search_metrics_for_user(db: Session, user_id: int):
                                                                     num_of_items_for_tag=num_of_tags))
     return result
 
+
 def get_upcoming_events_for_user(db: Session, user_id: int):
     current_date = datetime.now()
-    events = event_service.get_all_events_for_user(db=db)
-    filtered_events = [event for event in events if event.start_date >= current_date]
+    events = event_service.get_all_events_for_user(db=db, user_id=user_id)
+    filtered_events = [event for event in events if event.start >= current_date]
     return filtered_events

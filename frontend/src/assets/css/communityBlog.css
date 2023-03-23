@@ -21,7 +21,8 @@
   margin-right: 16px;
   width: 100%;
   white-space: pre-wrap;
-  min-height: 5.5rem;
+  min-height: 6rem;
+  max-height: 500px;
   margin-bottom:10px;
 }
 

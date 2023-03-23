@@ -28,7 +28,7 @@ export default {
       this.selectedTags = this.selectedTags.filter(b => b !== tag);
     },
     navigateBackToJobRecords(){
-      router.push({name: 'JobRecords'})
+      router.push({name: 'Job Records'})
     }
   },
 };

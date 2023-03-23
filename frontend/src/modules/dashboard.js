@@ -1,32 +1,60 @@
 import Chart from 'chart.js/auto';
+import VueApexCharts from "vue3-apexcharts";
 import {jobRecordApi} from '@/services/JobRecordApi'
 import {dashboardApi} from '@/services/DashboardApi'
+import {portfolioApi} from '@/services/PortfolioApi'
+
 export default {
   data(){
     return{
       jobs: [],
+      portfoliosCount: 0,
+      upcomingEvents: [],
       metrics: [],
-      tags:[
-        {
-          tag_name: "Interviewed",
-          num_of_items_for_tag: 10
+      tags:[],
+
+      pieChartSeries: [],
+      pieChartOptions: {
+        // chart options
+        chart: {
+          type: 'donut',
         },
-        {
-          tag_name: "Interested",
-          num_of_items_for_tag: 34
-        },
-        {
-          tag_name: "Offer received",
-          num_of_items_for_tag: 5
-        }
-      ]
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              maxWidth: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+      }
     }
+  },
+  components:{
+    apexcharts: VueApexCharts
   },
   async created () {
     // Job Records
     await jobRecordApi.getAllJobRecords().then(response => {
       if (response && response.status === 200) {
         this.jobs = response.data;
+      }
+    });
+
+    // Portfolio
+    await portfolioApi.getAllPortfoliosForUser().then(response => {
+      if (response && response.status === 200) {
+        this.portfoliosCount = response.data.length;
+      }
+    });
+
+    // Upcoming Events
+    await dashboardApi.getUpcomingEventsForUser().then(response => {
+      if (response && response.status === 200) {
+        this.upcomingEvents = response.data;
       }
     });
 
@@ -37,11 +65,11 @@ export default {
       }
     });
 
+    this.addDataIntoPieChart();
+
     this.drawLineChartWithData();
+
     this.addMetricsData();
-  },
-  unmounted () {
-    this.chart.destroy();
   },
   methods:{
     formattedDatetime(isoDatetime) {
@@ -62,16 +90,12 @@ export default {
           value: `${this.jobs.length}`
         },
           {
-          title: "Sample 1",
-          value: `something 1`
+          title: "Total Upcoming Events",
+          value: `${this.upcomingEvents.length}`
         },
           {
-          title: "Sample 2",
-          value: `something 2`
-        },
-          {
-          title: "Sample 3",
-          value: `something 3`
+          title: "Total Portfolios",
+          value: `${this.portfoliosCount}`
         }
       ]
     },
@@ -165,6 +189,28 @@ export default {
       window.addEventListener('resize', () => {
         this.chart.resize();
       });
+    },
+    addDataIntoPieChart () {
+      const tagData = this.tags.map(tag => ({
+        x: tag.tag_name,
+        y: tag.num_of_items_for_tag,
+      }));
+
+      this.pieChartSeries = tagData.map(tag => tag.y);
+      this.pieChartOptions = {
+        ...this.pieChartOptions,
+        labels: tagData.map(tag => tag.x)
+      }
+
+      // add style different if all tags have 0 counts
+      if (this.pieChartSeries.every((value) => value === 0)) {
+        this.pieChartOptions = {
+          ...this.pieChartOptions,
+          colors: ['#CCCCCC'],
+        }
+        this.pieChartOptions.labels.unshift('All 0')
+        this.pieChartSeries = [1]
+      }
     }
   }
 }

@@ -37,12 +37,6 @@
              >
             <SidebarLink to="/portfolios" icon="fas fa-columns">Portfolios</SidebarLink>
           </a>
-          <a ref="resumeBuilder"
-             :class="`menuItem list-group-item list-group-item-action py-2 ripple
-             ${$route.path === resumeBuilderPath ? 'active' : ''}`"
-             >
-            <SidebarLink to="/resumeBuilder" icon="fas fa-tools">Resume Builder</SidebarLink>
-          </a>
           <a ref="communityBlog"
              :class="`menuItem list-group-item list-group-item-action py-2 ripple
              ${$route.path === communityBlogPath ? 'active' : ''}`"
@@ -127,12 +121,11 @@ export default {
       showUserDropdown: false,
       homePath: this.$router.options.routes.find(route => route.name === 'Home').path,
       dashboardPath: this.$router.options.routes.find(route => route.name === 'Dashboard').path,
-      jobRecordsPath: this.$router.options.routes.find(route => route.name === 'JobRecords').path,
+      jobRecordsPath: this.$router.options.routes.find(route => route.name === 'Job Records').path,
       calendarPath: this.$router.options.routes.find(route => route.name === 'Calendar').path,
       resourcesPath: this.$router.options.routes.find(route => route.name === 'Resources').path,
       portfoliosPath: this.$router.options.routes.find(route => route.name === 'Portfolios').path,
-      resumeBuilderPath: this.$router.options.routes.find(route => route.name === 'ResumeBuilder').path,
-      communityBlogPath: this.$router.options.routes.find(route => route.name === 'CommunityBlog').path,
+      communityBlogPath: this.$router.options.routes.find(route => route.name === 'Community Blog').path,
     };
   },
   components: { SidebarLink },

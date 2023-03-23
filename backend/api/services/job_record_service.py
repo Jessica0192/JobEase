@@ -57,33 +57,6 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                                   description=job_record.description,
                                   job_url=job_record.job_url,
                                   location=job_record.location)
-        
-        if job_record.deadline_date is not None:
-            db_job_record_deadline = Event(event_user_id=current_user_id,
-                                            event_title=job_record.job_title + "-Deadline",
-                                            event_start=job_record.deadline_date,
-                                            event_end=job_record.deadline_date,
-                                            event_location=job_record.location,
-                                            event_note=None,
-                                            event_notification=1)
-        
-            db.add(db_job_record_deadline)
-            db.commit()
-            db.refresh(db_job_record_deadline)
-
-        
-        if job_record.interview_date is not None:
-            db_job_record_interview = Event(event_user_id=current_user_id,
-                                            event_title=job_record.job_title + "-Interview",
-                                            event_start=job_record.interview_date,
-                                            event_end=job_record.interview_date,
-                                            event_location=job_record.location,
-                                            event_note=None,
-                                            event_notification=1)
-            
-            db.add(db_job_record_interview)
-            db.commit()
-            db.refresh(db_job_record_interview)
 
 
         # Append each tag objects to tags property
@@ -98,6 +71,35 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
         db.add(db_job_record)
         db.commit()
         db.refresh(db_job_record)
+
+        if job_record.deadline_date is not None:
+            db_job_record_deadline = Event(event_user_id=current_user_id,
+                                            event_job_record_id=db_job_record.id,
+                                            event_title=job_record.job_title + "-Deadline",
+                                            event_start=job_record.deadline_date,
+                                            event_end=job_record.deadline_date,
+                                            event_location=job_record.location,
+                                            event_note=None,
+                                            event_notification=1)
+        
+            db.add(db_job_record_deadline)
+            db.commit()
+            db.refresh(db_job_record_deadline)
+
+        
+        if job_record.interview_date is not None:
+            db_job_record_interview = Event(event_user_id=current_user_id,
+                                            event_job_record_id=db_job_record.id,
+                                            event_title=job_record.job_title + "-Interview",
+                                            event_start=job_record.interview_date,
+                                            event_end=job_record.interview_date,
+                                            event_location=job_record.location,
+                                            event_note=None,
+                                            event_notification=1)
+            
+            db.add(db_job_record_interview)
+            db.commit()
+            db.refresh(db_job_record_interview)
 
         if job_record.job_notes is not None:
             for note in job_record.job_notes:
@@ -126,7 +128,6 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
 def update_job_record(db: Session, job_record_id: int, job_record: job_record_schema.JobRecordCreateUpdate):
     try:
         item = db.query(JobRecord).filter(JobRecord.id == job_record_id).first()
-        print("item" + str(item))
         if item:
             item.job_title = job_record.job_title
             item.deadline_date = job_record.deadline_date
@@ -155,6 +156,25 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
                 portfolio = db.query(Portfolio).filter_by(id=job_record.portfolio.id).one()
                 item.portfolio_id = portfolio.id
                 item.portfolio = portfolio
+                
+            # Get existing event if it exists
+            deadline_event = db.query(Event).filter_by(job_record_id=job_record_id, title=item.job_title + "-Deadline").first()
+            print(f"deadline_event: {deadline_event}")
+            if deadline_event:
+                # Update the deadline event with new data
+                deadline_event.event_start = job_record.deadline_date
+                deadline_event.event_end = job_record.deadline_date
+                deadline_event.event_location = job_record.location
+                try:
+                    db.add(deadline_event)
+                    db.commit()
+                    db.refresh(deadline_event)
+                    print("deadline_event updated successfully")
+                    print("Deadline event updated in database:", deadline_event.event_start, deadline_event.event_end, deadline_event.event_location)
+                except Exception as e:
+                    print("Error committing deadline_event changes:", str(e))
+            else:
+                print("No deadline_event found")
 
             db.commit()
             db.refresh(item)
@@ -202,6 +222,9 @@ def delete_job_record_by_id(db: Session, job_record_id: int):
     existing_job_record = existing_job_record.first()
     job_notes = existing_job_record.job_notes
 
+    existing_events = db.query(Event).filter(Event.job_record_id == job_record_id).all()
+    for event in existing_events:
+        db.delete(event)
     try:
         for note in job_notes:
             db.delete(note)

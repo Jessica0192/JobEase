@@ -48,6 +48,7 @@ export default {
     },
     eventClick: function(info) {
       // Set the form values to the clicked event's properties
+      console.log('info.event', info.event)
       this.eventTitle = info.event.title;
       this.eventStartDate = info.event.startStr.substr(0, 10);
       this.eventEndDate = (info.event.endStr || info.event.startStr).substr(0, 10);      
@@ -155,7 +156,7 @@ export default {
         }.bind(this), notificationTime);
       }
     },
-    addEvent: function() {
+    addEvent: async function() {
       if (!this.eventTitle) {
         alert('Please enter a title for the event.');
         return;
@@ -188,7 +189,7 @@ export default {
       const secondEnd = inputDateEnd.getSeconds();
 
       // Check if the event already exists
-      const existingEvent = this.calendarOptions.events.find(event => event.title === this.eventTitle);
+      const existingEvent = this.calendarOptions.events.find(event => event.id == this.currentEventId);
       if (existingEvent) {
         // Update the existing event with new data
         existingEvent.title = this.eventTitle,
@@ -198,7 +199,7 @@ export default {
         existingEvent.note = this.eventNote;
         existingEvent.notification = this.shouldNotify ? 1 : 0;
 
-        eventApi.updateEvent(existingEvent.id, existingEvent);
+        await eventApi.updateEvent(existingEvent.id, existingEvent).then(() => {this.showPopup = false})
       } else {
         // Create a new event
         const newEvent = {
@@ -210,14 +211,15 @@ export default {
           notification: this.shouldNotify ? 1 : 0
         };
 
+        
+        await eventApi.createEvent(newEvent).then(respond => {
+        newEvent.id = respond.data.id
         this.calendarOptions.events.push(newEvent);
-        eventApi.createEvent(newEvent)
-
-        this.scheduleNotification(newEvent);
+        this.scheduleNotification(newEvent)
+        this.showPopup = false})
       }
       
-      this.showPopup = false;
-      //location.reload()
+      // this.showPopup = false;
     }
   }
 }

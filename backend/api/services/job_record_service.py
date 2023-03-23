@@ -126,6 +126,7 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
 def update_job_record(db: Session, job_record_id: int, job_record: job_record_schema.JobRecordCreateUpdate):
     try:
         item = db.query(JobRecord).filter(JobRecord.id == job_record_id).first()
+        print("item" + str(item))
         if item:
             item.job_title = job_record.job_title
             item.deadline_date = job_record.deadline_date

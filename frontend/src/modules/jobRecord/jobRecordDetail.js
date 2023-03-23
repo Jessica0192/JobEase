@@ -83,8 +83,8 @@ export default {
         if (jobTemp.job_title !== '' && JSON.stringify(jobTemp.status) !== JSON.stringify({}))
         {
           // save Job Record by api call and navigate to Job Record page
-          let deadlineDateTime = (jobTemp.deadline_date !== "") ? new Date(jobTemp.deadline_date).toISOString() : null;
-          let interviewDateTime = (jobTemp.interview_date !== "") ? new Date(jobTemp.interview_date).toISOString() : null;
+          let deadlineDateTime = (jobTemp.deadline_date != null &&jobTemp.deadline_date !== "") ? new Date(jobTemp.deadline_date).toISOString() : null;
+          let interviewDateTime = (jobTemp.interview_date != null && jobTemp.interview_date !== "") ? new Date(jobTemp.interview_date).toISOString() : null;
 
           const inputs = {
             job_title: jobTemp.job_title,
@@ -100,7 +100,6 @@ export default {
             tags: this.$refs.tagTab.$data.tags.filter(tag => this.$refs.tagTab.$data.selectedTags.map(tag => tag.id).includes(tag.id)),
             portfolio: this.$refs.portfolioTab.$data.selectedPortfolio ? this.$refs.portfolioTab.$data.selectedPortfolio : null
           }
-          console.log(inputs)
 
           // update Job Record
           await jobRecordApi.updateJobRecord(this.id, JSON.stringify(inputs)).then(response => {

@@ -1,0 +1,185 @@
+.container {
+  max-width: 95%;
+  margin: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.edit-post,
+.new-post {
+  display: block;
+  flex-grow: 1;
+  font-size: 16px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: none;
+  margin-right: 16px;
+  width: 100%;
+  white-space: pre-wrap;
+  min-height: 5.5rem;
+  margin-bottom:10px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.post-author {
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.comment-menu,
+.post-menu {
+  position: relative;
+}
+
+.ellipsis-button {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.comment-options,
+.post-options {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+}
+
+.comment {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.comment-content {
+  flex-grow: 1;
+}
+
+/*BUTTONS*/
+.comment-save-button,
+.comment-cancel-button,
+.comment-edit-button,
+.post-edit-button,
+.delete-button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  padding: 5px 0;
+}
+
+.comment-save-button:hover,
+.comment-cancel-button:hover,
+.comment-edit-button:hover
+.post-edit-button:hover,
+.delete-button:hover {
+  background-color: #f7fafc;
+}
+
+.comment-button,
+.cancel-button,
+.save-button,
+.post-button {
+  padding: 5px 20px;
+  background-color: #0077b5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  height: 40px;
+}
+
+.comment-button:hover,
+.cancel-button:hover,
+.save-button:hover,
+.post-button:hover {
+  background-color: cornflowerblue;
+}
+
+.cancel-button {
+  margin-right: 10px;
+  background-color: grey;
+}
+/*END OF BUTTONS*/
+
+
+.post {
+  margin-bottom: 40px;
+  padding: 24px;
+  background-color: #fff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+.post-content {
+  margin-bottom: 24px;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+.post-footer {
+  display: flex;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.edit-comment,
+.new-comment {
+  flex-grow: 1;
+  font-size: 14px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  resize: none;
+  margin-right: 16px;
+  width: 100%;
+}
+
+.comments {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+}
+
+.comment {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #fff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: left;
+}
+
+.comment:first-child {
+  margin-top: 0;
+}

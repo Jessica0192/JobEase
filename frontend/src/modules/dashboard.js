@@ -22,7 +22,7 @@ export default {
       ]
     }
   },
-  async mounted () {
+  async created () {
     // Job Records
     await jobRecordApi.getAllJobRecords().then(response => {
       if (response && response.status === 200) {
@@ -90,7 +90,10 @@ export default {
       // Group jobs by month
       const jobsByMonth = this.jobs.reduce((acc, job) => {
         const month = new Date(job.created_at).getMonth();
-        acc[month] = (acc[month] || 0) + 1;
+        const year = new Date(job.created_at).getFullYear();
+        if (year === currentYear) {
+          acc[month] = (acc[month] || 0) + 1;
+        }
         return acc;
       }, {});
 

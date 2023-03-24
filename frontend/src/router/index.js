@@ -141,6 +141,10 @@ router.beforeResolve((to, from, next) => {
 
 router.beforeEach((to) => {
   document.title = `${to.name} | JobEase`
+  const favicon = document.querySelector('link[rel="shortcut icon"]') || document.createElement('link')
+  favicon.href = '@/assets/logo-stacked.png'
+  favicon.rel = 'shortcut icon'
+  document.head.appendChild(favicon)
 })
 
 // it checks the JWT's expiration time

@@ -32,13 +32,11 @@ export default {
         // chart options
         chart: {
           type: 'donut',
+          height: 415
         },
         responsive: [{
           breakpoint: 480,
           options: {
-            chart: {
-              maxWidth: 200
-            },
             legend: {
               position: 'bottom'
             }

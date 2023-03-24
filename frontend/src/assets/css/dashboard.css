@@ -25,11 +25,11 @@
 
 .upcoming-events-table-container,
 .job-table-container {
-  height: 470px; /* set the height of the container */
-  overflow-y: auto; /* Enable vertical scrolling */
+  height: 28rem;
+  overflow-y: auto;
 }
 .upcoming-events-table-container {
-  height: 350px;
+  height: 20rem;
 }
 .table-responsive {
   width: 100%; /* make the table fill the container */
@@ -37,7 +37,7 @@
 
 /* CAROUSEL */
 .carousel {
-    position: relative;
+  position: relative;
 }
 .carousel-container {
   position: relative;

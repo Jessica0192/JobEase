@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="view-title">Community Blog</h1>
-    <div class="container py-4 container-fluid">
+    <div class="py-4 container-fluid">
       <!--     CREATE NEW POST SECTION     -->
       <div class="header">
         <textarea class="new-post" v-model="newPost" placeholder="Create a new post..."></textarea>

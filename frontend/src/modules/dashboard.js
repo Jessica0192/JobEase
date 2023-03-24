@@ -3,6 +3,9 @@ import VueApexCharts from "vue3-apexcharts";
 import {jobRecordApi} from '@/services/JobRecordApi'
 import {dashboardApi} from '@/services/DashboardApi'
 import {portfolioApi} from '@/services/PortfolioApi'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 
 export default {
   data(){
@@ -12,7 +15,18 @@ export default {
       upcomingEvents: [],
       metrics: [],
       tags:[],
+      carouselItems: [
+        {
+          image: 'https://images.unsplash.com/photo-1514241516423-6c0a5e031aa2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3VucmlzZXxlbnwwfHwwfHw%3D&w=1000&q=80',
+          quote: '"Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle." - Christian D. Larson'
+        },
+        {
+          image: 'https://media.istockphoto.com/id/495902924/photo/path-at-sunset.jpg?s=612x612&w=0&k=20&c=mXNMTcfm-piaUaLaoiRWRFJgbedTQOGjAAg8F-8P-0w=',
+          quote: '"Believe you can and you\'re halfway there." - Theodore Roosevelt'
+        },
+      ],
 
+      // pie chart options
       pieChartSeries: [],
       pieChartOptions: {
         // chart options
@@ -34,7 +48,8 @@ export default {
     }
   },
   components:{
-    apexcharts: VueApexCharts
+    apexcharts: VueApexCharts,
+    FontAwesomeIcon
   },
   async created () {
     // Job Records
@@ -72,6 +87,12 @@ export default {
     this.addMetricsData();
   },
   methods:{
+    faChevronLeft () {
+      return faChevronLeft
+    },
+    faChevronRight () {
+      return faChevronRight
+    },
     formattedDatetime(isoDatetime) {
       const date = new Date(isoDatetime)
       return date.toLocaleString('en-US', {

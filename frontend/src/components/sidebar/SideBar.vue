@@ -111,7 +111,7 @@
   <!--Main Navigation-->
 
   <!--Main layout-->
-  <main style="margin-top: 58px">
+  <main style="margin-top: 70px; margin-left: 15px">
     <div class="container pt-4">
       <router-view/>
     </div>

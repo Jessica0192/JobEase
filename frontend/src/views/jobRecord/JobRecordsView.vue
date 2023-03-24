@@ -9,7 +9,7 @@
       @close-modal="openDeleteConfirmDialog = false; jobRecordIdToDelete = null"
   />
   <h1 class="view-title">Job Records</h1>
-  <div>
+  <div class="py-4 container-fluid">
    <div class="container">
       <button class="plus-button" @click="navigateToCreatePage" style="float:left;">
         <font-awesome-icon :icon="['fas', 'plus']"

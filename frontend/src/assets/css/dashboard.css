@@ -20,22 +20,41 @@
 }
 
 .last-row .card {
-  margin-bottom: 30px; /* Add your desired margin value here */
-}
-
-/* Job Records Table Style */
-.chart-canvas {
-  display: block;
-  box-sizing: border-box;
-  height: 650px;
-  width: 803px;
+  margin-bottom: 30px;
 }
 
 .upcoming-events-table-container,
 .job-table-container {
-  height: 400px; /* set the height of the container */
+  height: 470px; /* set the height of the container */
   overflow-y: auto; /* Enable vertical scrolling */
+}
+.upcoming-events-table-container {
+  height: 350px;
 }
 .table-responsive {
   width: 100%; /* make the table fill the container */
+}
+
+/* CAROUSEL */
+.carousel {
+    position: relative;
+}
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.carousel-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

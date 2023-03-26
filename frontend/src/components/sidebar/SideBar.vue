@@ -1,3 +1,5 @@
+<!--resource: https://github.com/mdbootstrap/bootstrap-side-navbar/blob/main/basic.html -->
+
 <template>
    <!--Main Navigation-->
   <header>
@@ -10,42 +12,42 @@
              :class="`menuItem list-group-item list-group-item-action py-2 ripple
              ${$route.path === dashboardPath ||
               $route.path === homePath ? 'active' : ''}`"
+             @click="closeNavBar"
             >
             <SidebarLink to="/dashboard" icon="fas fa-home">Dashboard</SidebarLink>
           </a>
           <a ref="jobRecords"
              :class="`menuItem list-group-item list-group-item-action py-2 ripple
              ${$route.path === jobRecordsPath ? 'active' : ''}`"
+             @click="closeNavBar"
              >
             <SidebarLink to="/jobRecords" icon="fas fa-th-list">Job Records</SidebarLink>
           </a>
           <a ref="calendar"
              :class="`menuItem list-group-item list-group-item-action py-2 ripple
              ${$route.path === calendarPath ? 'active' : ''}`"
+             @click="closeNavBar"
              >
             <SidebarLink to="/calendar" icon="fas fa-calendar-alt">Calendar</SidebarLink>
           </a>
           <a ref="resources"
              :class="`menuItem list-group-item list-group-item-action py-2 ripple
              ${$route.path === resourcesPath ? 'active' : ''}`"
+             @click="closeNavBar"
              >
               <SidebarLink to="/resources" icon="fas fa-window-restore">Resources</SidebarLink>
           </a>
           <a ref="portfolios"
              :class="`menuItem list-group-item list-group-item-action py-2 ripple
              ${$route.path === portfoliosPath ? 'active' : ''}`"
+             @click="closeNavBar"
              >
             <SidebarLink to="/portfolios" icon="fas fa-columns">Portfolios</SidebarLink>
-          </a>
-          <a ref="resumeBuilder"
-             :class="`menuItem list-group-item list-group-item-action py-2 ripple
-             ${$route.path === resumeBuilderPath ? 'active' : ''}`"
-             >
-            <SidebarLink to="/resumeBuilder" icon="fas fa-tools">Resume Builder</SidebarLink>
           </a>
           <a ref="communityBlog"
              :class="`menuItem list-group-item list-group-item-action py-2 ripple
              ${$route.path === communityBlogPath ? 'active' : ''}`"
+             @click="closeNavBar"
              >
             <SidebarLink to="/communityBlog" icon="fas fa-link">Community Blog</SidebarLink>
           </a>
@@ -72,7 +74,7 @@
 
         <!-- Brand -->
         <a class="navbar-brand" href="#">
-          <h2>JobEase</h2>
+            <img style="width: 150px; height: 45px" src="@/assets/logo-stacked.png">
         </a>
 
         <!-- Right links -->
@@ -109,7 +111,7 @@
   <!--Main Navigation-->
 
   <!--Main layout-->
-  <main style="margin-top: 58px">
+  <main style="margin-top: 70px; margin-left: 15px">
     <div class="container pt-4">
       <router-view/>
     </div>
@@ -127,19 +129,18 @@ export default {
       showUserDropdown: false,
       homePath: this.$router.options.routes.find(route => route.name === 'Home').path,
       dashboardPath: this.$router.options.routes.find(route => route.name === 'Dashboard').path,
-      jobRecordsPath: this.$router.options.routes.find(route => route.name === 'JobRecords').path,
+      jobRecordsPath: this.$router.options.routes.find(route => route.name === 'Job Records').path,
       calendarPath: this.$router.options.routes.find(route => route.name === 'Calendar').path,
       resourcesPath: this.$router.options.routes.find(route => route.name === 'Resources').path,
       portfoliosPath: this.$router.options.routes.find(route => route.name === 'Portfolios').path,
-      resumeBuilderPath: this.$router.options.routes.find(route => route.name === 'ResumeBuilder').path,
-      communityBlogPath: this.$router.options.routes.find(route => route.name === 'CommunityBlog').path,
+      communityBlogPath: this.$router.options.routes.find(route => route.name === 'Community Blog').path,
     };
   },
   components: { SidebarLink },
   methods: {
     toggleButtonClicked () {
       if (document.getElementById("sidebarMenu").style.display === "block") {
-        document.getElementById("sidebarMenu").style.display = "none"
+        this.closeNavBar()
       } else {
         document.getElementById("sidebarMenu").style.display = "block"
       }
@@ -149,7 +150,10 @@ export default {
     },
     async logout () {
       await store.dispatch('logout', `${localStorage.getItem('token')}`, store.getters.getUser )
-    }
+    },
+    closeNavBar() {
+      document.getElementById("sidebarMenu").style.display = "none"
+    },
   },
   computed: {
     userName () {
@@ -163,17 +167,9 @@ export default {
   body {
     background-color: #fbfbfb;
   }
-
-  @media (max-width: 991.98px) {
-    .sidebar {
-      width: 100%;
-    }
-  }
-
-  @media only screen and (min-width: 991.98px) {
-     main {
-      padding-top: 10px;
-      padding-left: 260px;
+  @media (min-width: 991.98px) {
+    main {
+      padding-left: 240px;
     }
   }
 
@@ -189,6 +185,11 @@ export default {
     z-index: 600;
   }
 
+  @media (max-width: 991.98px) {
+    .sidebar {
+      width: 100%;
+    }
+  }
   .sidebar .active {
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);

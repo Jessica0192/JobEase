@@ -21,6 +21,7 @@
     "@fullcalendar/vue3": "^6.1.4",
     "@popperjs/core": "^2.11.6",
     "@soda/friendly-errors-webpack-plugin": "^1.8.1",
+    "apexcharts": "^3.37.2",
     "axios": "^1.2.5",
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
@@ -30,6 +31,7 @@
     "mdb-vue-ui-kit": "^3.2.0",
     "vue": "^3.2.47",
     "vue-router": "^4.0.3",
+    "vue3-apexcharts": "^1.4.1",
     "vuex": "^4.0.0",
     "webpack": "^5.75.0"
   },

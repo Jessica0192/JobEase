@@ -10,7 +10,7 @@ class EventBase(BaseModel):
     location: Optional[str] = None
     note: Optional[str] = None
     notification: Optional[int] = 1
-        
+    job_record_id: Optional[int] = None
 
 class EventCreate(EventBase):
     pass
@@ -18,7 +18,7 @@ class EventCreate(EventBase):
 
 class Event(EventBase):
     id: int
-    user_id: int
+    user_id: int    
     
     class Config:
         orm_mode = True

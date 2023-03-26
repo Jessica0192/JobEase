@@ -45,6 +45,7 @@ export default {
 
       this.eventLocation = '';
       this.eventNote = '';
+      this.currentEventId = '';
     },
     eventClick: function(info) {
       // Set the form values to the clicked event's properties
@@ -155,9 +156,19 @@ export default {
         }.bind(this), notificationTime);
       }
     },
-    addEvent: function() {
+    addEvent: async function() {
       if (!this.eventTitle) {
         alert('Please enter a title for the event.');
+        return;
+      }
+
+      // Parse the start and end dates and times as Date objects
+      const startDate = new Date(this.eventStartDate + 'T' + this.eventStartTime);
+      const endDate = new Date(this.eventEndDate + 'T' + this.eventEndTime);
+
+      // Validate the start and end dates
+      if (startDate > endDate) {
+        alert('The start date cannot be later than the end date.');
         return;
       }
 
@@ -178,17 +189,17 @@ export default {
       const secondEnd = inputDateEnd.getSeconds();
 
       // Check if the event already exists
-      const existingEvent = this.calendarOptions.events.find(event => event.title === this.eventTitle);
+      const existingEvent = this.calendarOptions.events.find(event => event.id == this.currentEventId);
       if (existingEvent) {
         // Update the existing event with new data
+        existingEvent.title = this.eventTitle,
         existingEvent.start = `${yearStart}-${monthStart.toString().padStart(2, '0')}-${dayStart.toString().padStart(2, '0')}T${hourStart.toString().padStart(2, '0')}:${minuteStart.toString().padStart(2, '0')}:${secondStart.toString().padStart(2, '0')}`;
         existingEvent.end = `${yearEnd}-${monthEnd.toString().padStart(2, '0')}-${dayEnd.toString().padStart(2, '0')}T${hourEnd.toString().padStart(2, '0')}:${minuteEnd.toString().padStart(2, '0')}:${secondEnd.toString().padStart(2, '0')}`;
         existingEvent.location = this.eventLocation;
         existingEvent.note = this.eventNote;
         existingEvent.notification = this.shouldNotify ? 1 : 0;
 
-        eventApi.updateEvent(existingEvent.id, existingEvent);
-        
+        await eventApi.updateEvent(existingEvent.id, existingEvent).then(() => {this.showPopup = false})
       } else {
         // Create a new event
         const newEvent = {
@@ -200,14 +211,15 @@ export default {
           notification: this.shouldNotify ? 1 : 0
         };
 
+        
+        await eventApi.createEvent(newEvent).then(respond => {
+        newEvent.id = respond.data.id
         this.calendarOptions.events.push(newEvent);
-        eventApi.createEvent(newEvent)
-
-        this.scheduleNotification(newEvent);
+        this.scheduleNotification(newEvent)
+        this.showPopup = false})
       }
       
-      this.showPopup = false;
-      //location.reload()
+      // this.showPopup = false;
     }
   }
 }

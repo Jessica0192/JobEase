@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from db.models.event_model import Event
 from pydantic_schemas import event_schema
+from db.models.job_record_model import JobRecord
     
 
 def get_event_by_id(db: Session, event_id: int):
@@ -10,6 +11,7 @@ def get_event_by_id(db: Session, event_id: int):
     if db_event:
         return event_schema.Event(id=db_event.id,
                                   user_id=db_event.user_id,
+                                  job_record_id=db_event.job_record_id,
                                   title=db_event.title,
                                   start=db_event.start,
                                   end=db_event.end,
@@ -53,16 +55,14 @@ def check_by_title_if_event_exists_for_user(db: Session, event_title: str, user_
 
 def create_event(db: Session, event: event_schema.Event, user_id: int):
     try:
-        existing_event = check_by_title_if_event_exists_for_user(db=db, event_title=event.title, user_id=user_id)
-        if existing_event is not None:
-            return None
         db_event = Event(event_user_id=user_id,
                          event_title=event.title,
                          event_start=event.start,
                          event_end=event.end,
                          event_location=event.location,
                          event_note=event.note,
-                         event_notification=event.notification,                       
+                         event_notification=event.notification,
+                         event_job_record_id=event.job_record_id                 
                          )
 
         db.add(db_event)
@@ -85,7 +85,11 @@ def update_event(db: Session, event_id: int, event: event_schema.EventCreate):
             item.end = event.end
             item.location = event.location
             item.note = event.note
-            item.notification = event.notification            
+            item.notification = event.notification 
+
+            if event.job_record_id is not None:
+                job_record = db.query(JobRecord).filter_by(id=event.job_record.id).one()
+                item.job_record_id = job_record.id  
 
             db.commit()
             db.refresh(item)

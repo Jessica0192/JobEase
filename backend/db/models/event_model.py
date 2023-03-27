@@ -18,7 +18,7 @@ class Event(Base, Timestamp):
     location = Column(String(85), nullable=True, server_default=None)    
     note = Column(String(200), nullable=True, server_default=None)
     notification = Column(Integer, nullable=True, server_default='1')
-    
+    google_event_id = Column(String(200), nullable=True)
 
     user = relationship("User", back_populates="events")
     job_record = relationship("JobRecord", backref="events")

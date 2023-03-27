@@ -1,7 +1,8 @@
 import os
 import json
+from datetime import datetime
 from google.oauth2.credentials import Credentials
-
+from googleapiclient.discovery import build
 
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(CURR_DIR))
@@ -35,7 +36,7 @@ def store_google_credentials(credentials, username: str):
         with open(file_path, 'w') as f:
             json.dump(credentials_dict, f)
 
-    except AttributeError as error:
+    except Exception as error:
         print("\nAttribute missing while converting credentials object to the json\n"
               "Error Args:" + str(error.args))
 
@@ -60,3 +61,32 @@ def remove_google_credentials(username: str):
     if os.path.isfile(file_path):
         os.remove(file_path)
     return False
+
+
+def create_google_event(username: str, summary: str, location: str, description: str, start: datetime, end: datetime):
+    try:
+        credentials = get_google_credentials(username)
+        if credentials is not False:
+            service = build('calendar', 'v3', credentials=credentials)
+            event = {
+                'summary': summary,
+                'location': location,
+                'description': description,
+                'start': {
+                    'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
+                    'timeZone': 'America/New_York',
+                },
+                'end': {
+                    'dateTime': end.strftime("%Y-%m-%dT%H:%M:%S"),
+                    'timeZone': 'America/New_York',
+                },
+                'reminders': {
+                    'useDefault': True
+                },
+            }
+            event = service.events().insert(calendarId='primary', body=event).execute()
+            return event.get('id')
+        return None
+    except Exception as error:
+        print("FAIL:", error)
+        return None

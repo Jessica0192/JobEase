@@ -69,7 +69,7 @@ async def callback(code: str,
         return "Google Authentication has failed!"
 
 
-@router.delete("revoke")
+@router.delete("/revoke")
 async def revoke_credentials(current_user: User = Depends(auth_service.get_current_user_from_token)):
     credentials = google_service.get_google_credentials(current_user.email)
 

@@ -82,3 +82,52 @@ li {
     transform: scale(1.5);
     margin-right: 10px;
   }
+
+  /* Google Sign-In button styles */
+.google-btn-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.signInBtn, .revokeBtn {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border: none;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+  color: #fff;
+}
+
+.signInBtn {
+  background-color: #4285f4;
+}
+
+.revokeBtn {
+  background-color: #db4437;
+}
+
+.signInBtn:hover, .revokeBtn:hover {
+  opacity: 0.85;
+}
+
+.signInBtn:focus, .revokeBtn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.4);
+}
+
+.signInBtn i, .revokeBtn i {
+  margin-right: 0.5rem;
+}
+
+.signInBtn i.fab.fa-google, .revokeBtn i.fab.fa-google {
+  font-size: 1.25rem;
+  vertical-align: middle;
+}

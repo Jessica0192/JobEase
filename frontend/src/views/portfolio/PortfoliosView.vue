@@ -28,59 +28,61 @@ The CSS styles are scoped to this component using the scoped attribute in the st
 />
 <div>
   <h1 class="view-title">Portfolio</h1>
-  <div class="card scrollable">
-    <div class="card-body">
-      <span>
-        <a href="#!" @click="newPortfolio" title="Add new portfolio">
-          <i class="fas fa-plus fa-2x sign-blue icon" aria-hidden="true"></i>
-        </a>
-      </span>
-      <PortfolioCreationModal
-        style="align-content: center"
-        v-if="isCreateModalVisible"
-        @close-modal="isCreateModalVisible = false"
-      />
-      <div id="table" class="table-editable">
-        <table class="table table-bordered table-responsive-md table-striped text-center">
-          <thead>
-            <tr>
-              <th class="text-center">Portfolio Name
-                <a href="#" @click="sortData" title="Sort portfolios">
-                  <i class="fas fa-sort" aria-hidden="true"></i>
-                </a>
-              </th>
-              <th class="text-center">View</th>
-              <th class="text-center">Download</th>
-              <th class="text-center">Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(portfolio, index) in portfolios" :key="portfolio.id">
-              <td class="pt-3-half" contenteditable="false">{{ portfolio.portfolio_name }}</td>
-              <td>
-                <span class="table-view" @click="viewPortfolio(index)">
-                  <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
-                    view
-                  </button>
-                </span>
-              </td>
-              <td>
-                <span class="table-download" @click="downloadOnClick(index)">
-                  <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
-                    Download
-                  </button>
-                </span>
-              </td>
-              <td>
-                <span class="table-remove" @click="openDeletePortfolioDialog(index)">
-                  <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
-                    Remove
-                  </button>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="py-4 container-fluid">
+    <div class="card scrollable">
+      <div class="card-body">
+        <span>
+          <a href="#!" @click="newPortfolio" title="Add new portfolio">
+            <i class="fas fa-plus fa-2x sign-blue icon" aria-hidden="true"></i>
+          </a>
+        </span>
+        <PortfolioCreationModal
+          style="align-content: center"
+          v-if="isCreateModalVisible"
+          @close-modal="isCreateModalVisible = false"
+        />
+        <div id="table" class="table-editable">
+          <table class="table table-bordered table-responsive-md table-striped text-center">
+            <thead>
+              <tr>
+                <th class="text-center">Portfolio Name
+                  <a href="#" @click="sortData" title="Sort portfolios">
+                    <i class="fas fa-sort" aria-hidden="true"></i>
+                  </a>
+                </th>
+                <th class="text-center">View</th>
+                <th class="text-center">Download</th>
+                <th class="text-center">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(portfolio, index) in portfolios" :key="portfolio.id">
+                <td class="pt-3-half" contenteditable="false">{{ portfolio.portfolio_name }}</td>
+                <td>
+                  <span class="table-view" @click="viewPortfolio(index)">
+                    <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
+                      view
+                    </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="table-download" @click="downloadOnClick(index)">
+                    <button type="button" class="btn btn-green btn-rounded btn-sm my-0">
+                      Download
+                    </button>
+                  </span>
+                </td>
+                <td>
+                  <span class="table-remove" @click="openDeletePortfolioDialog(index)">
+                    <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
+                      Remove
+                    </button>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

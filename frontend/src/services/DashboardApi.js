@@ -8,4 +8,7 @@ export const dashboardApi = {
   getAllJobRecordsTagCountForUser () {
     return service.get(`${API.dashboard('')}jobSearchMetrics`)
   },
+  getUpcomingEventsForUser () {
+    return service.get(`${API.dashboard('')}upcomingEvents`)
+  },
 }

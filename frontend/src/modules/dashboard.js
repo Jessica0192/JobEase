@@ -1,32 +1,73 @@
 import Chart from 'chart.js/auto';
+import VueApexCharts from "vue3-apexcharts";
 import {jobRecordApi} from '@/services/JobRecordApi'
 import {dashboardApi} from '@/services/DashboardApi'
+import {portfolioApi} from '@/services/PortfolioApi'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+
 export default {
   data(){
     return{
       jobs: [],
+      portfoliosCount: 0,
+      upcomingEvents: [],
       metrics: [],
-      tags:[
+      tags:[],
+      carouselItems: [
         {
-          tag_name: "Interviewed",
-          num_of_items_for_tag: 10
+          image: 'https://images.unsplash.com/photo-1514241516423-6c0a5e031aa2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3VucmlzZXxlbnwwfHwwfHw%3D&w=1000&q=80',
+          quote: '"Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle." - Christian D. Larson'
         },
         {
-          tag_name: "Interested",
-          num_of_items_for_tag: 34
+          image: 'https://media.istockphoto.com/id/495902924/photo/path-at-sunset.jpg?s=612x612&w=0&k=20&c=mXNMTcfm-piaUaLaoiRWRFJgbedTQOGjAAg8F-8P-0w=',
+          quote: '"Believe you can and you\'re halfway there." - Theodore Roosevelt'
         },
-        {
-          tag_name: "Offer received",
-          num_of_items_for_tag: 5
-        }
-      ]
+      ],
+
+      // pie chart options
+      pieChartSeries: [],
+      pieChartOptions: {
+        // chart options
+        chart: {
+          type: 'donut',
+          height: 415
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+      }
     }
+  },
+  components:{
+    apexcharts: VueApexCharts,
+    FontAwesomeIcon
   },
   async created () {
     // Job Records
     await jobRecordApi.getAllJobRecords().then(response => {
       if (response && response.status === 200) {
         this.jobs = response.data;
+      }
+    });
+
+    // Portfolio
+    await portfolioApi.getAllPortfoliosForUser().then(response => {
+      if (response && response.status === 200) {
+        this.portfoliosCount = response.data.length;
+      }
+    });
+
+    // Upcoming Events
+    await dashboardApi.getUpcomingEventsForUser().then(response => {
+      if (response && response.status === 200) {
+        this.upcomingEvents = response.data;
       }
     });
 
@@ -37,13 +78,19 @@ export default {
       }
     });
 
+    this.addDataIntoPieChart();
+
     this.drawLineChartWithData();
+
     this.addMetricsData();
   },
-  unmounted () {
-    this.chart.destroy();
-  },
   methods:{
+    faChevronLeft () {
+      return faChevronLeft
+    },
+    faChevronRight () {
+      return faChevronRight
+    },
     formattedDatetime(isoDatetime) {
       const date = new Date(isoDatetime)
       return date.toLocaleString('en-US', {
@@ -62,16 +109,12 @@ export default {
           value: `${this.jobs.length}`
         },
           {
-          title: "Sample 1",
-          value: `something 1`
+          title: "Total Upcoming Events",
+          value: `${this.upcomingEvents.length}`
         },
           {
-          title: "Sample 2",
-          value: `something 2`
-        },
-          {
-          title: "Sample 3",
-          value: `something 3`
+          title: "Total Portfolios",
+          value: `${this.portfoliosCount}`
         }
       ]
     },
@@ -165,6 +208,28 @@ export default {
       window.addEventListener('resize', () => {
         this.chart.resize();
       });
+    },
+    addDataIntoPieChart () {
+      const tagData = this.tags.map(tag => ({
+        x: tag.tag_name,
+        y: tag.num_of_items_for_tag,
+      }));
+
+      this.pieChartSeries = tagData.map(tag => tag.y);
+      this.pieChartOptions = {
+        ...this.pieChartOptions,
+        labels: tagData.map(tag => tag.x)
+      }
+
+      // add style different if all tags have 0 counts
+      if (this.pieChartSeries.every((value) => value === 0)) {
+        this.pieChartOptions = {
+          ...this.pieChartOptions,
+          colors: ['#CCCCCC'],
+        }
+        this.pieChartOptions.labels.unshift('All 0')
+        this.pieChartSeries = [1]
+      }
     }
   }
 }

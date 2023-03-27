@@ -19,10 +19,42 @@
   margin-bottom: 0px;
 }
 
-/* Job Records Table Style */
+.last-row .card {
+  margin-bottom: 30px;
+}
+
+.upcoming-events-table-container,
 .job-table-container {
-  height: 350px; /* set the height of the container */
+  height: 28rem;
+  overflow-y: auto;
+}
+.upcoming-events-table-container {
+  height: 20rem;
 }
 .table-responsive {
   width: 100%; /* make the table fill the container */
+}
+
+/* CAROUSEL */
+.carousel {
+  position: relative;
+}
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.carousel-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

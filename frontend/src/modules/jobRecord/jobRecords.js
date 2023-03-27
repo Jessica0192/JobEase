@@ -70,10 +70,10 @@ export default {
       })
    },
    navigateToCreatePage () {
-     router.push({ name: 'CreateJobRecord' })
+     router.push({ name: 'Create Job Record' })
    },
    navigateToDetailPage(id) {
-    router.push({ name: 'JobRecordDetail', params: { id } });
+    router.push({ name: 'Job Record Detail', params: { id } });
   },
    downloadLinkPortfolioOnClick(id){
     const selectedJob = this.jobs.find(x=>x.id === id)

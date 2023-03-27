@@ -26,6 +26,8 @@ SCOPES = ["openid",
           "https://www.googleapis.com/auth/calendar",
           "https://www.googleapis.com/auth/userinfo.profile"]
 
+FRONTEND_CALENDAR_HOME_PAGE = "http://localhost:8080/calendar"
+
 
 @router.get("/authenticate")
 async def google_authenticate():
@@ -38,7 +40,7 @@ async def google_authenticate():
         access_type='offline',
         # Enable incremental authorization. Recommended as a best practice.
         include_granted_scopes='true')
-    return RedirectResponse(url=authorization_url)
+    return authorization_url
 
 
 @router.get("/oauth2callback")
@@ -63,7 +65,7 @@ async def callback(code: str,
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User with provided gmail not found")
 
         google_service.store_google_credentials(credentials, db_user.email)
-        return "Google Authentication is successful"
+        return RedirectResponse(url=FRONTEND_CALENDAR_HOME_PAGE)
     else:
         print(f"Error: {response.status_code} - {response.text}")
         return "Google Authentication has failed!"
@@ -83,6 +85,12 @@ async def revoke_credentials(current_user: User = Depends(auth_service.get_curre
         return 'Google Credentials successfully revoked.'
     else:
         return 'An error occurred while revoking Google credentials.'
+
+
+@router.get("/isAuthenticated")
+async def is_user_authenticated(current_user: User = Depends(auth_service.get_current_user_from_token)):
+    is_authenticated = google_service.get_google_credentials(current_user.email) is not False
+    return is_authenticated
 
 
 async def revoke_credentials_helper(credentials):

@@ -16,6 +16,7 @@ export const API = {
   event: (args) => `event/${args}`,
   post: (args) => `post/${args}`,
   comment: (args) => `comment/${args}`,
+  google: (args) => `google/${args}`
 }
 
 export const ETC_API = {

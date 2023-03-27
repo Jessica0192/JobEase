@@ -9,6 +9,7 @@ export default {
   },
   async mounted () {
     await this.loadEvents()
+    await this.isUserSignedInGoogle()
   },
   data() {
     return {
@@ -30,7 +31,8 @@ export default {
       shouldNotify: false,
       notificationMessages: [],
       removeSelectedEvent: false,
-      currentEventId: ''
+      currentEventId: '',
+      isAuthenticatedByGoogle: false
     }
   },
   methods: {
@@ -220,6 +222,28 @@ export default {
       }
       
       // this.showPopup = false;
+    },
+    async signInGoogle() {
+      await eventApi.authenticateGoogleCalendar().then(response => {
+        if (response.status == 200){
+          window.location.href = response.data
+        }
+      })
+    },
+    async revokeGoogleCredentials() {
+      await eventApi.revokeGoogleCredentials().then(response => {
+        if (response.status == 200){
+          window.location.reload()
+          alert("Successfully revoked Google credentials!")
+        }
+      })
+    },
+    async isUserSignedInGoogle() {
+      await eventApi.isUserAuthenticatedByGoogle().then(response => {
+        if (response.status == 200){
+          this.isAuthenticatedByGoogle = response.data
+        }
+      })
     }
   }
 }

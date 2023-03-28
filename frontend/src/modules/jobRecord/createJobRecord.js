@@ -48,6 +48,9 @@ export default {
             if (response && response.status === 200) {
               this.navigateBackToJobRecords()
             }
+            else {
+              alert(response.data.detail)
+            }
           });
 
         } else {

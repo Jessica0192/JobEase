@@ -16,5 +16,14 @@ export const eventApi = {
     },
     deleteEvent (eventId) {
         return service.delete(`${API.event('')}${eventId}`)
+    },
+    authenticateGoogleCalendar () {
+        return service.get(`${API.google('')}authenticate`)
+    },
+    revokeGoogleCredentials () {
+        return service.delete(`${API.google('')}revoke`)
+    },
+    isUserAuthenticatedByGoogle () {
+        return service.get(`${API.google('')}isAuthenticated`)
     }
 }

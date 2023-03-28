@@ -9,6 +9,7 @@ from db.models.job_note_model import JobNote
 from db.models.job_note_type_model import JobNoteType
 from pydantic_schemas import job_record_schema
 from db.models.event_model import Event
+from api.services import user_service, google_service
 
 
 def get_job_record_by_id(db: Session, job_record_id: int):
@@ -57,7 +58,6 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                                   job_url=job_record.job_url,
                                   location=job_record.location)
 
-
         # Append each tag objects to tags property
         for tag in job_record.tags:
             job_tag = db.query(JobTag).filter(JobTag.id == tag.id).first()
@@ -73,19 +73,32 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
 
         if job_record.deadline_date is not None:
             db_job_record_deadline = Event(event_user_id=current_user_id,
-                                            event_job_record_id=db_job_record.id,
-                                            event_title=job_record.job_title + "-Deadline",
-                                            event_start=job_record.deadline_date,
-                                            event_end=job_record.deadline_date,
-                                            event_location=job_record.location,
-                                            event_note=None,
-                                            event_notification=1)
-        
+                                           event_job_record_id=db_job_record.id,
+                                           event_title=job_record.job_title + "-Deadline",
+                                           event_start=job_record.deadline_date,
+                                           event_end=job_record.deadline_date,
+                                           event_location=job_record.location,
+                                           event_note=None,
+                                           event_notification=1)
+
             db.add(db_job_record_deadline)
             db.commit()
             db.refresh(db_job_record_deadline)
 
-        
+            # Handle google event creation
+            db_user = user_service.get_user_by_id(db=db, user_id=current_user_id)
+            if db_user:
+                google_event_id = google_service.create_google_event(username=db_user.email,
+                                                                     summary=db_job_record_deadline.title,
+                                                                     location=db_job_record_deadline.location,
+                                                                     description=db_job_record_deadline.note,
+                                                                     start=db_job_record_deadline.start,
+                                                                     end=db_job_record_deadline.end)
+                if google_event_id is not None:
+                    db_job_record_deadline.google_event_id = google_event_id
+                    db.commit()
+                    db.refresh(db_job_record_deadline)
+
         if job_record.interview_date is not None:
             db_job_record_interview = Event(event_user_id=current_user_id,
                                             event_job_record_id=db_job_record.id,
@@ -95,10 +108,24 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
                                             event_location=job_record.location,
                                             event_note=None,
                                             event_notification=1)
-            
+
             db.add(db_job_record_interview)
             db.commit()
             db.refresh(db_job_record_interview)
+
+            # Handle google event creation
+            db_user = user_service.get_user_by_id(db=db, user_id=current_user_id)
+            if db_user:
+                google_event_id = google_service.create_google_event(username=db_user.email,
+                                                                     summary=db_job_record_interview.title,
+                                                                     location=db_job_record_interview.location,
+                                                                     description=db_job_record_interview.note,
+                                                                     start=db_job_record_interview.start,
+                                                                     end=db_job_record_interview.end)
+                if google_event_id is not None:
+                    db_job_record_interview.google_event_id = google_event_id
+                    db.commit()
+                    db.refresh(db_job_record_interview)
 
         if job_record.job_notes is not None:
             for note in job_record.job_notes:
@@ -157,19 +184,37 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
                 item.portfolio = portfolio
 
             # Delete existing events
+            db_user = user_service.get_user_by_id(db=db, user_id=item.user_id)
+
+            google_service.delete_google_events_by_job_record_id(db=db,
+                                                                 username=db_user.email,
+                                                                 job_record_id=job_record_id)
             db.query(Event).filter(Event.job_record_id == job_record_id).delete()
 
             # Create new events if necessary
             if job_record.deadline_date is not None:
                 db_job_record_deadline = Event(event_user_id=item.user_id,
-                                                event_job_record_id=item.id,
-                                                event_title=job_record.job_title + "-Deadline",
-                                                event_start=job_record.deadline_date,
-                                                event_end=job_record.deadline_date,
-                                                event_location=job_record.location,
-                                                event_note=None,
-                                                event_notification=1)
+                                               event_job_record_id=item.id,
+                                               event_title=job_record.job_title + "-Deadline",
+                                               event_start=job_record.deadline_date,
+                                               event_end=job_record.deadline_date,
+                                               event_location=job_record.location,
+                                               event_note=None,
+                                               event_notification=1)
                 db.add(db_job_record_deadline)
+
+                # Handle google event creation
+                if db_user:
+                    google_event_id = google_service.create_google_event(username=db_user.email,
+                                                                         summary=db_job_record_deadline.title,
+                                                                         location=db_job_record_deadline.location,
+                                                                         description=db_job_record_deadline.note,
+                                                                         start=db_job_record_deadline.start,
+                                                                         end=db_job_record_deadline.end)
+                    if google_event_id is not None:
+                        db_job_record_deadline.google_event_id = google_event_id
+                        db.commit()
+                        db.refresh(db_job_record_deadline)
 
             if job_record.interview_date is not None:
                 db_job_record_interview = Event(event_user_id=item.user_id,
@@ -181,6 +226,19 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
                                                 event_note=None,
                                                 event_notification=1)
                 db.add(db_job_record_interview)
+
+                # Handle google event creation
+                if db_user:
+                    google_event_id = google_service.create_google_event(username=db_user.email,
+                                                                         summary=db_job_record_interview.title,
+                                                                         location=db_job_record_interview.location,
+                                                                         description=db_job_record_interview.note,
+                                                                         start=db_job_record_interview.start,
+                                                                         end=db_job_record_interview.end)
+                    if google_event_id is not None:
+                        db_job_record_interview.google_event_id = google_event_id
+                        db.commit()
+                        db.refresh(db_job_record_interview)
 
             db.commit()
             db.refresh(item)
@@ -197,7 +255,7 @@ def update_job_record(db: Session, job_record_id: int, job_record: job_record_sc
             # Update notes
             if job_record.job_notes is not None:
                 for note in job_record.job_notes:
-                    new_note_type = db.query(JobNoteType)\
+                    new_note_type = db.query(JobNoteType) \
                         .filter_by(note_type_name=note.job_note_type.note_type_name).one()
                     db_note = JobNote(title=note.title,
                                       note_content=note.note_content,
@@ -230,6 +288,10 @@ def delete_job_record_by_id(db: Session, job_record_id: int):
 
     existing_events = db.query(Event).filter(Event.job_record_id == job_record_id).all()
     for event in existing_events:
+        # Handle google event deletion
+        if event.google_event_id:
+            google_service.delete_google_event(username=event.user.email, event_id=event.google_event_id)
+
         db.delete(event)
     try:
         for note in job_notes:

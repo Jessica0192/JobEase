@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div class="google-btn-wrapper">
+      <button v-if="!isAuthenticatedByGoogle" class="signInBtn" @click="signInGoogle">
+        <i class="fab fa-google"></i> Sign in with Google
+      </button>
+      <button v-if="isAuthenticatedByGoogle" class="revokeBtn" @click="revokeGoogleCredentials">
+        <i class="fab fa-google"></i> Sign Out
+      </button>
+    </div>
+
     <div v-if="notificationMessages.length">
       <h4>Event Reminder:</h4>
       <ul>

@@ -52,14 +52,17 @@ export default {
         this.openDeleteConfirmDialog = true
       },
       // To delete the row of table
-      async remove(index) {
-        fileApi.deleteFile(this.fileIdToDelete).then(response => {
-          if(response && response.status === 200){
-            this.resources.splice(index, 1)
-          }
-        })
-        // await fileApi.deleteFile(this.fileIdToDelete)
-        // this.resources.splice(index, 1)
+      async remove() {
+        if (this.fileIdToDelete !== null) {
+          fileApi.deleteFile(this.fileIdToDelete).then(response => {
+            if(response && response.status === 200){
+              //this.resources.splice(index, 1)
+              location.reload()
+            }
+          })
+        } else {
+          console.warn('No file ID to delete')
+        }
       },
       exportData () {
         this.export = JSON.stringify(this.data)

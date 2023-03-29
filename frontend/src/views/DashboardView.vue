@@ -180,6 +180,6 @@
   </div>
 </template>
 
-<script src="@/modules/dashboard"/>
+<script src="../modules/dashboard.js"/>
 
 <style scoped src="../assets/css/dashboard.css"/>

@@ -101,6 +101,6 @@
   </div>
 </template>
 
-<script src="@/modules/communityBlog.js"/>
+<script src="../modules/communityBlog.js"/>
 
 <style scoped src="../assets/css/communityBlog.css"/>

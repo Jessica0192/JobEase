@@ -1,6 +1,7 @@
 import os
 import json
 from sqlalchemy.orm import Session
+from sqlalchemy import null
 from datetime import datetime
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -109,12 +110,12 @@ def update_google_event(username: str, event_id: str, summary: str, location: st
             event['location'] = location
             event['description'] = description
             event['start'] = {
-                    'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
-                    'timeZone': 'America/New_York',
+                'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
+                'timeZone': 'America/New_York',
             }
             event['end'] = {
-                    'dateTime': end.strftime("%Y-%m-%dT%H:%M:%S"),
-                    'timeZone': 'America/New_York',
+                'dateTime': end.strftime("%Y-%m-%dT%H:%M:%S"),
+                'timeZone': 'America/New_York',
             }
 
             updated_event = service.events().update(calendarId='primary', eventId=event['id'], body=event).execute()
@@ -154,4 +155,27 @@ def delete_google_events_by_job_record_id(db: Session, username: str, job_record
         return None
     except Exception as error:
         print("Failed deleting a Google event:", error)
+        return None
+
+
+def sync_calendar_with_google_calendar(db: Session, username: str):
+    try:
+        is_authenticated = get_google_credentials(username) is not False
+        if is_authenticated:
+            non_synced_events = db.query(Event).filter(Event.google_event_id == null()).all()
+
+            for event in non_synced_events:
+                google_id = create_google_event(username=username,
+                                                summary=event.title,
+                                                location=event.location,
+                                                description=event.note,
+                                                start=event.start,
+                                                end=event.end)
+                event.google_event_id = google_id
+                db.commit()
+                db.refresh(event)
+            return True
+        return None
+    except Exception as error:
+        print("Failed syncing event with a Google calendar:", error)
         return None

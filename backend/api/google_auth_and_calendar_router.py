@@ -93,6 +93,17 @@ async def is_user_authenticated(current_user: User = Depends(auth_service.get_cu
     return is_authenticated
 
 
+@router.get("/sync")
+async def sync_with_google_calendar(db: Session = Depends(get_db),
+                                    current_user: User = Depends(auth_service.get_current_user_from_token)):
+    result = google_service.sync_calendar_with_google_calendar(db=db, username=current_user.email)
+
+    if result is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Google Calendar synchronization failed")
+
+    return "Google Calendar synchronization succeeded."
+
+
 async def revoke_credentials_helper(credentials):
     revoke = requests.post('https://oauth2.googleapis.com/revoke',
                            params={'token': credentials.token},

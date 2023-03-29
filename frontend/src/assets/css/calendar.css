@@ -90,7 +90,7 @@ li {
   margin-bottom: 10px;
 }
 
-.signInBtn, .revokeBtn {
+.signInBtn, .revokeBtn, .syncBtn {
   display: inline-block;
   text-align: center;
   vertical-align: middle;
@@ -106,24 +106,25 @@ li {
   color: #fff;
 }
 
-.signInBtn {
+.signInBtn, .syncBtn {
   background-color: #4285f4;
 }
 
 .revokeBtn {
+  margin-right: 10px;
   background-color: #db4437;
 }
 
-.signInBtn:hover, .revokeBtn:hover {
+.signInBtn:hover, .revokeBtn:hover, .syncBtn:hover {
   opacity: 0.85;
 }
 
-.signInBtn:focus, .revokeBtn:focus {
+.signInBtn:focus, .revokeBtn:focus, .syncBtn:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.4);
 }
 
-.signInBtn i, .revokeBtn i {
+.signInBtn i, .revokeBtn i, .syncBtn i {
   margin-right: 0.5rem;
 }
 

@@ -78,13 +78,28 @@ export default {
       })
      },
     async saveJobRecord () {
+      let deadlineDateTime = null;
+      let interviewDateTime = null;
+
       if (this.$refs.jobInfoTab.$data.job !== null) {
         let jobTemp = this.$refs.jobInfoTab.$data.job
         if (jobTemp.job_title !== '' && JSON.stringify(jobTemp.status) !== JSON.stringify({}))
         {
-          // save Job Record by api call and navigate to Job Record page
-          let deadlineDateTime = (jobTemp.deadline_date != null &&jobTemp.deadline_date !== "") ? new Date(jobTemp.deadline_date).toISOString() : null;
-          let interviewDateTime = (jobTemp.interview_date != null && jobTemp.interview_date !== "") ? new Date(jobTemp.interview_date).toISOString() : null;
+          if (jobTemp.deadline_date !== "") {
+            const deadlineDate = new Date(jobTemp.deadline_date);
+            const offsetMinutes = deadlineDate.getTimezoneOffset();
+            deadlineDate.setMinutes(deadlineDate.getMinutes() - offsetMinutes);
+            deadlineDateTime = deadlineDate.toISOString();
+          }
+          if (jobTemp.interview_date !== "") {
+            const interviewDate = new Date(jobTemp.interview_date);
+            const offsetMinutes = interviewDate.getTimezoneOffset();
+            interviewDate.setMinutes(interviewDate.getMinutes() - offsetMinutes);
+            interviewDateTime = interviewDate.toISOString();
+          }
+
+          console.log(jobTemp.deadline_date)
+          console.log(jobTemp.interview_date)
 
           const inputs = {
             job_title: jobTemp.job_title,

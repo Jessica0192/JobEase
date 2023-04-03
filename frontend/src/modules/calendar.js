@@ -32,7 +32,8 @@ export default {
       notificationMessages: [],
       removeSelectedEvent: false,
       currentEventId: '',
-      isAuthenticatedByGoogle: false
+      isAuthenticatedByGoogle: false,
+      shouldDisableFormFields: false
     }
   },
   methods: {
@@ -51,6 +52,12 @@ export default {
     },
     eventClick: function(info) {
       // Set the form values to the clicked event's properties
+      const jobRecordId = info.event._def.extendedProps.job_record_id;
+      if(jobRecordId != null){
+        this.shouldDisableFormFields = true
+      }else{
+        this.shouldDisableFormFields = false
+      }
       this.eventTitle = info.event.title;
       this.eventStartDate = info.event.startStr.substr(0, 10);
       this.eventEndDate = (info.event.endStr || info.event.startStr).substr(0, 10);      

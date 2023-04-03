@@ -11,7 +11,6 @@
                <input type="submit" class="btn btn-primary">
                <p>Don't have an account? <a href="/register" @click="emptyFields = false">Sign up here</a>
                </p>
-               <p><a href="#">Forgot your password?</a></p>
             </form>
          </div>
       </div>

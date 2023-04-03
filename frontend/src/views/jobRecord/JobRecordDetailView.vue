@@ -16,11 +16,11 @@
                          @click="navigateBackToJobRecords"/>
       <h1 class="view-title" id="jobTitleOnHeading"></h1>
     </div>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end"
+         style="margin-right: 2.5rem;">
       <a class="btn btn-lg btn-primary delete-button"
           @click="openDeleteConfirmDialog = true">Delete</a>
-      <a style="margin-right: 150px"
-         class="btn btn-lg btn-primary save-button"
+      <a class="btn btn-lg btn-primary save-button"
           @click="saveJobRecord">Save</a>
     </div>
   </div>

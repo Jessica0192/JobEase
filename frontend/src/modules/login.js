@@ -28,7 +28,7 @@ export default {
         const response = await api.logInUser(loginFormData, {
           withCredentials: true
         })
-        console.log(response)
+
         if (response.status === 200) {
           const token = response.data.access_token
           const user = this.userNameLogin

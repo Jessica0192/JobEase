@@ -1,4 +1,26 @@
 <template>
+  <ConfirmationDialog
+      style="align-content: center"
+      v-if="openDeletePostConfirmDialog"
+      title="Confirmation"
+      message="Are you sure you want to delete this post?"
+      confirm-btn-label="Yes"
+      :on-confirm="deletePost"
+      @close-modal="openDeletePostConfirmDialog = false; postIndexToDelete = null; showPostMenu = null"
+  />
+  <ConfirmationDialog
+      style="align-content: center"
+      v-if="openDeleteCommentConfirmDialog"
+      title="Confirmation"
+      message="Are you sure you want to delete this comment?"
+      confirm-btn-label="Yes"
+      :on-confirm="deleteComment"
+      @close-modal="openDeleteCommentConfirmDialog = false;
+                    commentIdToDelete = null;
+                    postIndexToUseWhenDeletingComment = null;
+                    commentToUseWhenDeletingComment = null;
+                    showCommentMenu = null;"
+  />
   <div>
     <h1 class="view-title">Community Blog</h1>
     <div class="py-4 container-fluid">
@@ -21,7 +43,7 @@
                 <button class="post-edit-button" @click="toggleEditPost(index)">
                   <i class="fa fa-edit"></i>Edit
                 </button>
-                <button class="delete-button" @click="deletePost(index)">
+                <button class="delete-button" @click="openDeletePostDialog(index)">
                   <i class="fa fa-trash"></i>Delete
                 </button>
               </div>
@@ -66,7 +88,7 @@
                       <button class="comment-edit-button" @click="toggleEditComment(comment)">
                         <i class="fa fa-edit"></i>Edit
                       </button>
-                      <button class="delete-button" @click="deleteComment(index, commentIndex, comment)">
+                      <button class="delete-button" @click="openDeleteCommentDialog(index, commentIndex, comment)">
                         <i class="fa fa-trash"></i>Delete
                       </button>
                     </div>
@@ -101,6 +123,6 @@
   </div>
 </template>
 
-<script src="@/modules/communityBlog.js"/>
+<script src="../modules/communityBlog.js"/>
 
 <style scoped src="../assets/css/communityBlog.css"/>

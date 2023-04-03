@@ -38,6 +38,11 @@ def get_all_job_records_for_user(current_user_id: int, db: Session, limit: int =
 
 def create_job_record(current_user_id: int, db: Session, job_record: job_record_schema.JobRecordCreateUpdate):
     try:
+        if check_duplicate_job_title(db, current_user_id, job_record.job_title) != 0:
+            # Handle the exception gracefully and log for being informative
+            print("\nHandled Exception: Trying to create a new job record with duplicate title\n")
+            return None
+
         # Update status
         new_status = db.query(JobStatus).filter_by(status_name=job_record.status.status_name).one()
         # Update portfolio
@@ -146,13 +151,17 @@ def create_job_record(current_user_id: int, db: Session, job_record: job_record_
         return db_job_record
     except IntegrityError as error:
         # Handle the exception gracefully and log for being informative
-        print("\nHandled Exception: Trying to create a new job record with duplicate title\n"
-              "Error Args:" + str(error.args))
+        print("\nError Args:" + str(error.args))
         return None
 
 
-def update_job_record(db: Session, job_record_id: int, job_record: job_record_schema.JobRecordCreateUpdate):
+def update_job_record(current_user_id: int, db: Session, job_record_id: int, job_record: job_record_schema.JobRecordCreateUpdate):
     try:
+        if check_duplicate_job_title(db, current_user_id, job_record.job_title, job_record_id) != 0:
+            # Handle the exception gracefully and log for being informative
+            print("\nHandled Exception: Trying to update job record with duplicate title\n")
+            return None
+
         item = db.query(JobRecord).filter(JobRecord.id == job_record_id).first()
         if item:
             item.job_title = job_record.job_title
@@ -302,3 +311,30 @@ def delete_job_record_by_id(db: Session, job_record_id: int):
         # Handle the exception gracefully and log for being informative
         print("\nError Args:" + str(error.args))
         return None
+
+
+"""
+    Checks if there are any duplicate job records for a given job title.
+
+    Args:
+        db: The database connection object.
+        current_user_id: The ID of the current user.
+        job_record_title: The job title to search for duplicates of.
+        job_record_id: (optional) The ID of a job record to exclude from the duplicate check.
+
+    Returns:
+        The number of job records with the same job title as `job_record_title` (excluding the job record
+        with ID `job_record_id`, if provided).
+
+    """
+def check_duplicate_job_title(db, current_user_id, job_record_title, job_record_id=None):
+    job_records = get_all_job_records_for_user(current_user_id, db)
+    duplicate_job_records = [job_record for job_record in job_records
+                             if job_record.job_title == job_record_title
+                             and job_record.id != job_record_id]
+    if duplicate_job_records:
+        return len(duplicate_job_records)
+    else:
+        return 0
+
+

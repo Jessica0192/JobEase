@@ -42,7 +42,7 @@ The CSS styles are scoped to this component using the scoped attribute in the st
           @close-modal="isCreateModalVisible = false"
         />
         <div id="table" class="table-editable">
-          <table class="table table-bordered table-responsive-md table-striped text-center">
+          <table class="table table-responsive-md table-striped text-center">
             <thead>
               <tr>
                 <th class="text-center">Portfolio Name

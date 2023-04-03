@@ -1,6 +1,8 @@
 import {communityBlogApi} from '@/services/CommunityBlogApi'
+import ConfirmationDialog from '@/components/ConfirmationDialog.vue'
 
 export default {
+  components: {ConfirmationDialog},
   data() {
     return {
       newPost: "",
@@ -9,7 +11,14 @@ export default {
       showPostMenu: null,
       showCommentMenu: null,
       posts: [],
-      currentUserName: JSON.parse(localStorage.getItem('user'))
+      currentUserName: JSON.parse(localStorage.getItem('user')),
+      // Confirmation Dialog
+      openDeletePostConfirmDialog: false,
+      postIndexToDelete: null,
+      openDeleteCommentConfirmDialog: false,
+      postIndexToUseWhenDeletingComment: null,
+      commentToUseWhenDeletingComment: null,
+      commentIdToDelete: null,
     };
   },
   computed: {
@@ -54,6 +63,19 @@ export default {
     })
   },
   methods: {
+    // Confirmation Dialog
+    openDeletePostDialog(id){
+      this.postIndexToDelete = id
+      this.openDeletePostConfirmDialog = true
+    },
+    openDeleteCommentDialog(postIndex, commentId, comment){
+      this.postIndexToUseWhenDeletingComment = postIndex
+      this.commentIdToDelete = commentId
+      this.commentToUseWhenDeletingComment = comment
+      this.openDeleteCommentConfirmDialog = true
+    },
+    // END
+
     async addComment(index) {
       const newComment = this.newComments[index].trim();
       if (newComment !== '') {
@@ -102,12 +124,15 @@ export default {
         }
       });
     },
-    async deleteComment(postIndex, commentIndex, comment) {
-      await communityBlogApi.deleteComment(comment.id).then(response => {
+    async deleteComment() {
+      const postIndex = this.postIndexToUseWhenDeletingComment
+      const commentId = this.commentIdToDelete
+
+      await communityBlogApi.deleteComment(this.commentToUseWhenDeletingComment.id).then(response => {
         if (response && response.status === 200) {
             // update deletion of comment in UI
             this.showPostMenu = null;
-            this.posts[postIndex].comments.splice(commentIndex, 1);
+            this.posts[postIndex].comments.splice(commentId, 1);
         }
       });
     },
@@ -162,12 +187,13 @@ export default {
         }
       });
     },
-    async deletePost(index) {
-      await communityBlogApi.deletePost(this.posts[index].id).then(response => {
+    async deletePost() {
+      const postIndex = this.postIndexToDelete
+      await communityBlogApi.deletePost(this.posts[postIndex].id).then(response => {
         if (response && response.status === 200) {
             // update deletion of post in UI
             this.showPostMenu = null;
-            this.posts.splice(index, 1);
+            this.posts.splice(postIndex, 1);
         }
       });
     }

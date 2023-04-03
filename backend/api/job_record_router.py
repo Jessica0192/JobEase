@@ -61,7 +61,10 @@ async def update_job_record(job_record_id: int,
     if job_record_user_id != current_user.id and current_user.is_super_user is False:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are not permitted")
 
-    db_job_record = job_record_service.update_job_record(db=db, job_record_id=job_record_id, job_record=job_record)
+    db_job_record = job_record_service.update_job_record(current_user_id=current_user.id,
+                                                         db=db,
+                                                         job_record_id=job_record_id,
+                                                         job_record=job_record)
 
     if db_job_record is None:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,

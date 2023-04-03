@@ -51,19 +51,10 @@ import { remove } from '@vue/shared';
             </thead>
             <tbody>
               <tr v-for="(row, index) in resources" :key="index">
-                <td class="pt-3-half" contenteditable="true">{{ this.resources.length ? this.resources[index].resource_name : '' }}</td>
+                <td class="pt-3-half" contenteditable="false">{{ this.resources.length ? this.resources[index].resource_name : '' }}</td>
                 <td>{{ this.resources.length ? this.resources[index].updated_at : '' }}</td>
                 <td>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-primary btn_type">{{ this.resources.length ? this.resources[index].resource_type.resource_type : '' }}</button>
-                    <button type="button" class="btn btn-primary dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="row.isOpen = !row.isOpen">
-                    </button>
-                  </div>
-                    <ul v-if="row.isOpen" class="customUl">
-                      <li v-for="(option, index) in options" :key="index" @click="selectOption(option, row)">
-                        {{ option }}
-                      </li>
-                    </ul>
+                  {{ this.resources.length ? this.resources[index].resource_type.resource_type : '' }}
                 </td>
                 <td>
                   <span class="table-view" @click="viewFile(index)">
@@ -88,7 +79,7 @@ import { remove } from '@vue/shared';
                     </div>
                 </td>
                 <td>
-                  <span class="table-remove" @click="remove(index)" />
+                  <span class="table-remove" @click="remove()"></span>
                   <span class="table-remove" @click="openDeleteFileDialog(index)">
                     <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
                       Remove

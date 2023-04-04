@@ -122,7 +122,9 @@ export default {
               this.navigateBackToJobRecords()
             }
             else {
-              alert(response.data.detail)
+              this.$refs.alert.showAlert('error',
+              response.data.detail,
+              'Error')
             }
           });
 

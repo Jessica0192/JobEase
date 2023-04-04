@@ -64,13 +64,19 @@ export default {
       if(fileExtensionId !== undefined) {
         fileApi.uploadFile(this.fileType.id, fileExtensionId, formData).then(response => {
           if (response && response.status === 200) {
-            alert('File has been saved successfully!')
+            this.$refs.alert.showAlert('success',
+          'File has been saved successfully!',
+          'Success')
           } else if (response && response.status === 409) {
-            alert('This file is already exist! Please select another file or change the name!')
+            this.$refs.alert.showAlert('error',
+          'This file is already exist! Please select another file or change the name!',
+          'Error')
           }
         })
       } else {
-        alert('Not acceptable file extension')
+        this.$refs.alert.showAlert('error',
+          'Not acceptable file extension',
+          'Error')
       }
 
       this.resetForm()

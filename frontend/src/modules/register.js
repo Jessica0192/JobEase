@@ -44,7 +44,9 @@ export default {
         this.emailReg === '' || this.passwordReg === '' || this.confirmReg === '') {
         this.emptyFields = true
       } else if (!this.disabled.every(i => i === false)) {
-        alert('Please provide inputs in correct format')
+        this.$refs.alert.showAlert('warning',
+        'Please provide inputs in correct format',
+        'Error')
       } else {
         try {
           // create user data in json format

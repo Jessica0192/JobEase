@@ -8,6 +8,10 @@
       :on-confirm="deleteJobRecord"
       @close-modal="openDeleteConfirmDialog = false; jobRecordIdToDelete = null"
   />
+  <vue-basic-alert
+     :duration="300"
+     :closeIn="2500"
+     ref="alert" />
   <h1 class="view-title">Job Records</h1>
   <div class="py-4 container-fluid">
    <div class="container">

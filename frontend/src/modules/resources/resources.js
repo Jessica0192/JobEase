@@ -116,12 +116,16 @@ export default {
             const fileUrl = URL.createObjectURL(blob)
             window.open(fileUrl, '_blank')
           } else {
-            alert("Issue occurred while trying to retrieve content-type from resource")
+            this.$refs.alert.showAlert('error',
+          'Issue occurred while trying to retrieve content-type from resource',
+          'Error')
           }
 
         }
         else {
-          alert('Sorry! This type of file cannot be displayed.\nPlease download the file to be able to view it!')
+          this.$refs.alert.showAlert('info',
+          'Sorry! This type of file cannot be displayed.\nPlease download the file to be able to view it!',
+          'Info')
         }
 
       },

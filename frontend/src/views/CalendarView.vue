@@ -1,4 +1,8 @@
 <template>
+  <vue-basic-alert
+   :duration="300"
+   :closeIn="2500"
+   ref="alert" />
   <div>
     <div class="google-btn-wrapper">
       <button v-if="!isAuthenticatedByGoogle" class="signInBtn" @click="signInGoogle">
@@ -27,7 +31,7 @@
         <div style="display: inline-block; margin-top: 10px;">
           <label for="title" style="margin-right: 10px;">Title:</label>
           <input id="event-title" v-model="eventTitle" type="text" class="form-control" :disabled="shouldDisableFormFields" />
-        </div>        
+        </div>
         <div style="display: inline-block;">
           <label for="startDate" style="margin-right: 10px;">Start Date:</label>
           <input type="date" v-model="eventStartDate" id="startDate" style="padding-left: 5px;" :disabled="shouldDisableFormFields"/>
@@ -43,7 +47,7 @@
         <div style="display: inline-block;">
           <label for="endTime" style="margin-right: 10px;">End Time:</label>
           <input type="time" v-model="eventEndTime" id="endTime" style="padding-left: 5px;" :disabled="shouldDisableFormFields">
-        </div>        
+        </div>
         <div style="display: inline-block; margin-top: 10px;">
           <label for="title" style="margin-right: 10px;">Location:</label>
           <input type="text" v-model="eventLocation" id="location" style="padding-left: 5px; width: 150px;" :disabled="shouldDisableFormFields"/>
@@ -59,7 +63,7 @@
         <div style="display: inline-block; margin-top: 30px; text-align: center;">
           <button class="addBtn" @click="addEvent" :disabled="shouldDisableFormFields">Save</button>
           <button class="removeBtn" @click="removeEvent(currentEventId)" :disabled="shouldDisableFormFields">Remove</button>
-        </div>        
+        </div>
       </div>
     </dialog>
   </div>
@@ -68,5 +72,5 @@
 <script src="../modules/calendar.js">
 </script>
 
-<style scoped src="../assets/css/calendar.css"> 
+<style scoped src="../assets/css/calendar.css">
 </style>

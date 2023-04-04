@@ -77,7 +77,7 @@ export default {
       },
       // This method is responsible for displaying the resources of the portfolio on the browser
       onResourceSelected(resource){
-        displaySelectedResource(resource)
+        displaySelectedResource(resource, this)
       },
       exportData() {
         this.export = JSON.stringify(this.data);
@@ -88,7 +88,7 @@ export default {
 
 // This method is responsible for displaying the resources of the portfolio on the browser
 // this method is also referenced from portfolioTab.js
-export async function displaySelectedResource(resource){
+export async function displaySelectedResource(resource, vm){
   let NameExtension = resource.resource_name.split('.').pop()
   if ( NameExtension.toString().toLowerCase() !== 'docx') {
     const response = await fileApi.displayFile (resource.id)
@@ -100,12 +100,16 @@ export async function displaySelectedResource(resource){
       const fileUrl = URL.createObjectURL(blob)
       window.open(fileUrl, '_blank')
     } else {
-      alert("Issue occurred while trying to retrieve content-type from resource")
+      vm.$refs.alert.showAlert('error',
+      'Issue occurred while trying to retrieve content-type from resource',
+      'Error')
     }
   }
   else {
-    alert('Sorry! This type of file cannot be displayed.\n' +
-        'Please download the file from the Resources tab to be able to view it!')
+    vm.$refs.alert.showAlert('info',
+      'Sorry! This type of file cannot be displayed.\n' +
+      'Please download the file from the Resources tab to be able to view it!',
+      'Info')
   }
 }
 

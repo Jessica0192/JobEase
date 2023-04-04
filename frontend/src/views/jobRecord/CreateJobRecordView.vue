@@ -1,4 +1,8 @@
 <template>
+  <vue-basic-alert
+     :duration="300"
+     :closeIn="2500"
+     ref="alert" />
   <div style="display: flex; justify-content: space-between;">
     <div style="display: flex; justify-content: start;">
       <font-awesome-icon class="btn btn-lg" style="margin-right: 10px"

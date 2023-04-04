@@ -26,6 +26,10 @@ The CSS styles are scoped to this component using the scoped attribute in the st
   :on-confirm="remove"
   @close-modal="openDeleteConfirmDialog = false; portfolioIdToDelete = null"
 />
+<vue-basic-alert
+ :duration="300"
+ :closeIn="2500"
+ ref="alert" />
 <div>
   <h1 class="view-title">Portfolio</h1>
   <div class="py-4 container-fluid">

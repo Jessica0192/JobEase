@@ -80,7 +80,9 @@ export default {
     if(selectedJob.portfolio) {
       downloadPortfolio(selectedJob.portfolio.resources, selectedJob.portfolio.portfolio_name)
     } else {
-      alert("There's no portfolio linked to this Job Record")
+      this.$refs.alert.showAlert('info',
+      'There\'s no portfolio linked to this Job Record',
+      'No linked portfolio')
     }
    }
  }

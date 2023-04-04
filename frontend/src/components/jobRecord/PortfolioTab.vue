@@ -1,5 +1,9 @@
 <template>
-<div class="container mt-4">
+  <vue-basic-alert
+ :duration="300"
+ :closeIn="2500"
+ ref="alert" />
+  <div class="container mt-4">
     <div class="row">
       <div >
         <!--     Portfolio Radio Button Options      -->
@@ -288,7 +292,7 @@ export default {
 
       // when resource is selected from list of resources inside Portfolio
       selectResource(resource){
-        displaySelectedResource(resource)
+        displaySelectedResource(resource, this)
       }
   }
 }

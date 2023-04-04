@@ -8,6 +8,10 @@
       :on-confirm="deleteJobRecord"
       @close-modal="openDeleteConfirmDialog = false"
   />
+  <vue-basic-alert
+     :duration="300"
+     :closeIn="2500"
+     ref="alert" />
   <div style="display: flex; justify-content: space-between;">
     <div style="display: flex; justify-content: start;">
       <font-awesome-icon class="btn btn-lg" style="margin-right: 10px"
@@ -24,6 +28,7 @@
           @click="saveJobRecord">Save</a>
     </div>
   </div>
+  <span style="color:darkred;font-size:4mm" v-if="jobMsg.failed">{{`* ${jobMsg.failed}`}}</span>
   <div class="container">
     <br>
      <!--tabs header-->

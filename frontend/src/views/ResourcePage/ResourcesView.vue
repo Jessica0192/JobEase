@@ -22,6 +22,10 @@ import { remove } from '@vue/shared';
     :on-confirm="remove"
     @close-modal="openDeleteConfirmDialog = false; fileIdToDelete = null"
   />
+  <vue-basic-alert
+   :duration="300"
+   :closeIn="3500"
+   ref="alert" />
   <h1 class="view-title">Resources</h1>
   <div class="py-4 container-fluid">
     <div class="card scrollable">

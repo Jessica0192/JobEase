@@ -1,4 +1,8 @@
 <template>
+  <vue-basic-alert
+   :duration="300"
+   :closeIn="3500"
+   ref="alert" />
   <div class="resourcePopup">
     <div class="popup-inner">
       <div class="popup-header">

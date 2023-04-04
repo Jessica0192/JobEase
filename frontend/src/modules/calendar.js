@@ -60,7 +60,7 @@ export default {
       }
       this.eventTitle = info.event.title;
       this.eventStartDate = info.event.startStr.substr(0, 10);
-      this.eventEndDate = (info.event.endStr || info.event.startStr).substr(0, 10);      
+      this.eventEndDate = (info.event.endStr || info.event.startStr).substr(0, 10);
       this.eventStartTime = info.event.start.toLocaleTimeString('en-US', {hour12: false});
       this.eventEndTime = (info.event.end || info.event.start).toLocaleTimeString('en-US', {hour12: false});
       this.eventLocation = info.event._def.extendedProps.location
@@ -72,7 +72,7 @@ export default {
       } else {
         this.shouldNotify = false
       }
-       
+
       // Set the showPopup property to true to open the dialog
       this.showPopup = true;
     },
@@ -95,14 +95,14 @@ export default {
       let calendarApi = this.$refs.myCalendar.getApi();
       let event = calendarApi.getEventById(eventId);
 
-      if (event) {       
+      if (event) {
         let index = -1
         for (let i=0; i< this.calendarOptions.events.length; i++) {
           if (this.calendarOptions.events[i].id == eventId) {
             index = i
             break
           }
-        }        
+        }
 
         if (index !== -1) {
           this.calendarOptions.events.splice(index, 1);
@@ -118,7 +118,7 @@ export default {
             break
           }
         }
-        
+
         this.showPopup = false;
       }
     },
@@ -128,9 +128,13 @@ export default {
         // Request permission if it hasn't been granted
         Notification.requestPermission().then(function(permission) {
           if (permission !== 'granted') {
-            alert('You need to grant notification permission to receive event reminders.');
+            this.$refs.alert.showAlert('info',
+              'You need to grant notification permission to receive event reminders.',
+              'Info')
           } else {
-            alert('Notification permission granted.');
+             this.$refs.alert.showAlert('info',
+              'Notification permission granted.',
+              'Info')
           }
         }.bind(this));
       }
@@ -159,7 +163,9 @@ export default {
                 message: 'Your event " ' + newEvent.title.toUpperCase() + ' at '+ eventTime + ' " is due soon! Do not miss it!'
               });
             } else {
-              alert('Notification permission denied.');
+              this.$refs.alert.showAlert('info',
+              'Notification permission denied.',
+              'Info')
             }
           }.bind(this));
         }.bind(this), notificationTime);
@@ -167,7 +173,9 @@ export default {
     },
     addEvent: async function() {
       if (!this.eventTitle) {
-        alert('Please enter a title for the event.');
+        this.$refs.alert.showAlert('warning',
+              'Please enter a title for the event.',
+              'Warning')
         return;
       }
 
@@ -177,7 +185,9 @@ export default {
 
       // Validate the start and end dates
       if (startDate > endDate) {
-        alert('The start date cannot be later than the end date.');
+        this.$refs.alert.showAlert('warning',
+              'The start date cannot be later than the end date.',
+              'Warning')
         return;
       }
 
@@ -220,14 +230,14 @@ export default {
           notification: this.shouldNotify ? 1 : 0
         };
 
-        
+
         await eventApi.createEvent(newEvent).then(respond => {
         newEvent.id = respond.data.id
         this.calendarOptions.events.push(newEvent);
         this.scheduleNotification(newEvent)
         this.showPopup = false})
       }
-      
+
       // this.showPopup = false;
     },
     async signInGoogle() {
@@ -240,8 +250,13 @@ export default {
     async revokeGoogleCredentials() {
       await eventApi.revokeGoogleCredentials().then(response => {
         if (response.status == 200){
+          window.onload = function() {
+            // code to be executed after the page has fully loaded
+            this.$refs.alert.showAlert('success',
+              'Successfully revoked Google credentials!',
+              'Success')
+          }
           window.location.reload()
-          alert("Successfully revoked Google credentials!")
         }
       })
     },

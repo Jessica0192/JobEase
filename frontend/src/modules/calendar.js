@@ -263,9 +263,13 @@ export default {
     async syncGoogleCalendar() {
       await eventApi.syncCalendar().then(response => {
         if (response.status == 200){
-          alert("Calendar synchronization succeeded")
+          this.$refs.alert.showAlert('success',
+              'Calendar synchronization succeeded',
+              'Success')
         } else {
-          alert("Calendar synchronization failed!")
+          this.$refs.alert.showAlert('error',
+              'Calendar synchronization failed!',
+              'Error')
         }
       })
     },

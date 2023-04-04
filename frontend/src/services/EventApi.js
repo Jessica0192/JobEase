@@ -23,6 +23,9 @@ export const eventApi = {
     revokeGoogleCredentials () {
         return service.delete(`${API.google('')}revoke`)
     },
+    syncCalendar () {
+        return service.get(`${API.google('')}sync`)
+    },
     isUserAuthenticatedByGoogle () {
         return service.get(`${API.google('')}isAuthenticated`)
     }

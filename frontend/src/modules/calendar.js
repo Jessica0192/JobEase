@@ -245,6 +245,15 @@ export default {
         }
       })
     },
+    async syncGoogleCalendar() {
+      await eventApi.syncCalendar().then(response => {
+        if (response.status == 200){
+          alert("Calendar synchronization succeeded")
+        } else {
+          alert("Calendar synchronization failed!")
+        }
+      })
+    },
     async isUserSignedInGoogle() {
       await eventApi.isUserAuthenticatedByGoogle().then(response => {
         if (response.status == 200){

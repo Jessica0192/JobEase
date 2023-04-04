@@ -7,6 +7,9 @@
       <button v-if="isAuthenticatedByGoogle" class="revokeBtn" @click="revokeGoogleCredentials">
         <i class="fab fa-google"></i> Sign Out
       </button>
+      <button v-if="isAuthenticatedByGoogle" class="syncBtn" @click="syncGoogleCalendar">
+        <i class="fa-solid fa-rotate"></i> Sync Calendar
+      </button>
     </div>
 
     <div v-if="notificationMessages.length">

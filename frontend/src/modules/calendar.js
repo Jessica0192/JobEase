@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     handleDateClick: function(arg) {
+      this.shouldDisableFormFields = false
       this.showPopup = true;
       this.eventTitle = '';
       this.eventStartDate = arg.dateStr;

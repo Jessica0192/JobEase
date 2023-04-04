@@ -123,9 +123,9 @@ export default {
 
         }
         else {
-          this.$refs.alert.showAlert('warning',
+          this.$refs.alert.showAlert('info',
           'Sorry! This type of file cannot be displayed.\nPlease download the file to be able to view it!',
-          'Warning')
+          'Info')
         }
 
       },

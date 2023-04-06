@@ -15,7 +15,7 @@
 
         <!-- Brand -->
         <a class="navbar-brand" href="/">
-            <img style="width: 150px; height: 45px" src="@/assets/logo-stacked.png">
+            <img style="width: 150px; height: 45px;" src="@/assets/logo-stacked.png">
         </a>
 
         <!-- Right links -->
@@ -38,9 +38,7 @@
                 v-if="showUserDropdown"
                 v-bind:class="{ show: showUserDropdown }"
               >
-                <li><a class="dropdown-item" href="#">My profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" @click="logout">Logout</a></li>
+                <li><a class="dropdown-item" @click="logout">Sign Out</a></li>
               </ul>
           </li>
         </ul>

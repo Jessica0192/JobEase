@@ -8,10 +8,10 @@
           <div class="row">
             <!--     TOP METRICS       -->
             <div class="col-lg-3 col-md-6 col-12" v-for="(metric, index) in metrics" :key="index">
-              <div class="mb-4 card">
+              <div class="mb-4 card" :style="{ backgroundColor: metric.backgroundColor, boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.2)' }">
                 <div class="p-3 card-body d-flex justify-content-between align-items-center flex-column">
-                  <p class="mb-0 text-sm text-uppercase align-self-start metric-title">{{metric.title}}</p>
-                  <h5 class="fw-bold text-center">{{metric.value}}</h5>
+                  <p class="mb-0 text-sm text-white text-uppercase align-self-start metric-title">{{metric.title}}</p>
+                  <h5 class="fw-bold text-white text-center">{{metric.value}}</h5>
                 </div>
               </div>
             </div>

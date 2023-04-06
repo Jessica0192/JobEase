@@ -31,7 +31,7 @@ The CSS styles are scoped to this component using the scoped attribute in the st
  :closeIn="2500"
  ref="alert" />
 <div>
-  <h1 class="view-title">Portfolio</h1>
+  <h1 class="view-title">Portfolios</h1>
   <div class="py-4 container-fluid">
     <div class="card scrollable">
       <div class="card-body">

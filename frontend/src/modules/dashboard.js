@@ -106,15 +106,18 @@ export default {
       this.metrics = [
         {
           title: "Total Job Records",
-          value: `${this.jobs.length}`
+          value: `${this.jobs.length}`,
+          backgroundColor: '#d98b6a'
         },
           {
           title: "Total Upcoming Events",
-          value: `${this.upcomingEvents.length}`
+          value: `${this.upcomingEvents.length}`,
+          backgroundColor: '#a9b3d6'
         },
           {
           title: "Total Portfolios",
-          value: `${this.portfoliosCount}`
+          value: `${this.portfoliosCount}`,
+          backgroundColor: '#e3b429'
         }
       ]
     },

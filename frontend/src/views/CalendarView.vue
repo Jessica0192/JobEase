@@ -22,7 +22,7 @@
         <li v-for="(messageObj, index) in notificationMessages" :key="index">{{ messageObj.message }}</li>
       </ul>
     </div>
-    <FullCalendar ref="myCalendar" :options="calendarOptions" />
+    <FullCalendar ref="myCalendar" :options="calendarOptions" style="background: white; border-radius: 5px; padding: 20px"/>
     <dialog v-if="showPopup" class="popup">
       <div class="popup-content">
         <div style="display: inline-block;">

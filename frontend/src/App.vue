@@ -1,21 +1,19 @@
 <template>
-<div>
-  <header>
-    <!-- Navbar -->
-      <TopNavBar ref="topNavBar"/>
-    <!-- Navbar -->
-  </header>
-  <main v-if="shouldShowSidebar">
-    <div>
-        <Sidebar ></Sidebar>
-    </div>
-  </main>
-  <main v-else style="margin-top: 70px; margin-left: 15px">
-    <div class="container pt-4">
-      <router-view/>
-    </div>
-  </main>
-</div>
+  <div>
+    <header>
+      <!-- Navbar -->
+      <TopNavBar ref="topNavBar" />
+      <!-- Navbar -->
+    </header>
+    <main v-if="shouldShowSidebar">
+      <div>
+        <Sidebar></Sidebar>
+      </div>
+    </main>
+    <main v-else>
+        <router-view />
+    </main>
+  </div>
 </template>
 
 <script>
@@ -43,4 +41,7 @@ export default {
   text-align: center;
 }
 
+main {
+  height: 100vh;
+}
 </style>

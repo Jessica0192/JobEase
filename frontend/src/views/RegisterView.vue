@@ -7,6 +7,7 @@
      <div class="register-page">
         <div>
            <div class="card register" v-bind:class="{ error: emptyFields }">
+              <div class="card-bg"></div>
               <h2>Sign Up</h2>
               <form class="form-group" data-url_root="/login" @submit.prevent="doRegister">
                 <input v-model="firstNameReg" id="firstName" type="text" class="form-control" placeholder="First Name" required>

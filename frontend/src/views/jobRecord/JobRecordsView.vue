@@ -53,7 +53,10 @@
             <MDBCardBody style="padding-top: 0px">
               <MDBCardTitle>{{ job.job_title }}</MDBCardTitle>
               <MDBCardTitle subtitle class="mb-2 text-muted">{{ job.status.status_name }}</MDBCardTitle>
-              <MDBCardText>
+              <MDBCardText style="overflow: hidden;
+                           text-overflow: ellipsis;
+                           display: -webkit-box;
+                           -webkit-line-clamp: 2; /* number of lines to show */">
                 {{ job.description }}
               </MDBCardText>
               <MDBCardLink class="cursor-pointer" @click="navigateToDetailPage(job.id)">Open Detail</MDBCardLink>

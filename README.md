@@ -126,7 +126,3 @@ Contributions to the JobEase project are welcome! To get started, fork this repo
 See `contributing.md` for ways to get started.
 
 Please adhere to this project's `code of conduct`.
-
-
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
